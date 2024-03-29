@@ -3,6 +3,7 @@ import { hydrateRoot } from 'react-dom/client'
 import { createInertiaApp } from '@inertiajs/react'
 import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 import { Layout } from '../components/layout/layout'
+import { User } from '~/types'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Kreative Club'
 
@@ -16,9 +17,11 @@ createInertiaApp({
   },
 
   setup({ el, App, props }) {
+    const user = props.initialPage.props.user as User
+
     hydrateRoot(
       el,
-      <Layout>
+      <Layout user={user}>
         <App {...props} />
       </Layout>
     )

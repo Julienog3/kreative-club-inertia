@@ -1,3 +1,4 @@
+import logger from '@adonisjs/core/services/logger'
 import { defineConfig } from '@adonisjs/inertia'
 
 export default defineConfig({
@@ -11,6 +12,16 @@ export default defineConfig({
    */
   sharedData: {
     errors: (ctx) => ctx.session?.flashMessages.get('errors'),
+    user: ({ auth }) => {
+      const user = auth.authenticateUsing(["web"])
+      logger.info(user)
+
+      if (!user) {
+        return null
+      }
+
+      return user 
+    },
   },
 
   /**

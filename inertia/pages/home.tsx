@@ -1,7 +1,8 @@
 import { Head } from '@inertiajs/react'
-import { css } from './../../styled-system/css'
-import { vstack, hstack } from './../../styled-system/patterns'
+import { css } from '~/styled-system/css'
+import { hstack, vstack } from '~/styled-system/patterns'
 
+// import { vstack, hstack } from './../../styled-system/patterns'
 export default function Home(props: { version: number }) {
   return (
     <>
@@ -45,7 +46,7 @@ export default function Home(props: { version: number }) {
               <p className={css({ textStyle: 'body', fontSize: '1.25rem' })}>Rejoindre le club</p>
             </Button> */}
           </div>
-          <img
+          {/* <img
             className={css({
               // position: "absolute",
               width: '40%',
@@ -53,7 +54,7 @@ export default function Home(props: { version: number }) {
             })}
             src="/images/mascot.png"
             alt=""
-          />
+          /> */}
         </div>
       </div>
     </>

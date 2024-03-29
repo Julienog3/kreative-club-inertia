@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { cva } from './../../../styled-system/css'
+import { cva } from '~/styled-system/css'
 
 export type State = 'danger' | 'success' | 'warning'
 

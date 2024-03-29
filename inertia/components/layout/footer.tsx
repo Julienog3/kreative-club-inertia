@@ -1,6 +1,6 @@
-import { css } from '../../../styled-system/css'
-import { hstack, vstack } from '../../../styled-system/patterns'
+import { hstack, vstack } from '~/styled-system/patterns'
 import Logo from './../../assets/logo.svg?react'
+import { css } from '~/styled-system/css'
 
 export function Footer() {
   return (

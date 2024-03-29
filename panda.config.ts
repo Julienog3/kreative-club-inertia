@@ -1,6 +1,6 @@
 import { defineConfig } from '@pandacss/dev'
-import { textStyles } from './styles/text-styles.js'
-import { layerStyles } from './styles/layer-styles.js'
+import { textStyles } from './inertia/styles/text-styles.js'
+import { layerStyles } from './inertia/styles/layer-styles.js'
 
 export default defineConfig({
   // Whether to use css reset
@@ -51,4 +51,5 @@ export default defineConfig({
 
   // The output directory for your css system
   outdir: 'styled-system',
+  // cwd: "inertia"
 })

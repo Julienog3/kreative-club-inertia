@@ -3,11 +3,20 @@
 import { PropsWithChildren } from 'react'
 import { Header } from './header'
 import { Footer } from './footer'
+import { AuthModal } from './../../components/modals/auth-modal/auth-modal'
+import { Snackbar } from '../ui/snackbar/snackbar'
+import { User } from '~/types'
 
-export function Layout({ children }: PropsWithChildren) {
+interface Props {
+  user?: User
+}
+
+export function Layout({ children, user }: Props & PropsWithChildren) {
   return (
     <>
-      <Header />
+      <AuthModal />
+      <Snackbar />
+      <Header user={user} />
       <main>{children}</main>
       <Footer />
     </>

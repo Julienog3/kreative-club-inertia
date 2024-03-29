@@ -13,19 +13,19 @@ export default class PortfolioFolder extends BaseModel {
   declare id: string
 
   @column()
-  title: string
+  declare title: string
 
   @column()
-  description: string
+  declare description: string
 
   @column()
-  userId: string
+  declare userId: string
 
   @belongsTo(() => User)
-  user: BelongsTo<typeof User>
+  declare user: BelongsTo<typeof User>
 
   @hasMany(() => PortfolioImage)
-  portfolioImages: HasMany<typeof PortfolioImage>
+  declare portfolioImages: HasMany<typeof PortfolioImage>
 
   // @hasMany(() => Category)
   // public categories: HasMany<typeof Category>
@@ -34,7 +34,7 @@ export default class PortfolioFolder extends BaseModel {
   declare createdAt: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  updatedAt: DateTime
+  declare updatedAt: DateTime
 
   @beforeCreate()
   protected static async createUUID(portfolioFolder: PortfolioFolder) {

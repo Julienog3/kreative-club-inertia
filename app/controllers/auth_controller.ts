@@ -8,7 +8,7 @@ export default class AuthController {
     const { email, password } = request.only(['email', 'password'])
 
     const user = await User.verifyCredentials(email, password)
-    logger.info('user', user)
+    // logger.info('user', user)
 
     await auth.use('web').login(user)
   }

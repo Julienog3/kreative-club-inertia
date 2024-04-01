@@ -4,17 +4,19 @@ import { registerUserValidator } from '#validators/auth'
 import logger from '@adonisjs/core/services/logger'
 
 export default class AuthController {
-  async login({ auth, request }: HttpContext) {
+  async login({ auth, request, response }: HttpContext) {
     const { email, password } = request.only(['email', 'password'])
 
     const user = await User.verifyCredentials(email, password)
     // logger.info('user', user)
 
     await auth.use('web').login(user)
+    return response.redirect().toRoute('/creatives')
   }
 
-  async logout({ auth }: HttpContext) {
+  async logout({ auth, response }: HttpContext) {
     await auth.use('web').logout()
+    return response.redirect().toRoute('/')
   }
 
   async register({ request }: HttpContext) {

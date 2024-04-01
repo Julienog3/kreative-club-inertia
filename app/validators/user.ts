@@ -5,7 +5,7 @@ export const editUserValidator = vine.compile(
     firstName: vine.string().optional(),
     lastName: vine.string().optional(),
     phoneNumber: vine.number().optional(),
-    categories: vine.array(vine.number()).optional(),
+    // categories: vine.array(vine.number()).optional(),
   })
 )
 

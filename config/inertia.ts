@@ -13,14 +13,15 @@ export default defineConfig({
   sharedData: {
     errors: (ctx) => ctx.session?.flashMessages.get('errors'),
     user: ({ auth }) => {
-      const user = auth.authenticateUsing(["web"])
-      logger.info(user)
+      return auth.user
+      // const user = auth.authenticateUsing(["web"])
+      // logger.info(user)
 
-      if (!user) {
-        return null
-      }
+      // if (!user) {
+      //   return null
+      // }
 
-      return user 
+      // return user 
     },
   },
 

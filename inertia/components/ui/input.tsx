@@ -5,7 +5,7 @@ import { vstack } from "~/styled-system/patterns";
 interface Props  {
   type?: React.HTMLInputTypeAttribute;
   label: string;
-  value: string;
+  value?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   required?: boolean;
   errorMessage?: string

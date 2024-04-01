@@ -20,6 +20,9 @@ interface Props {
 export function Header({ user }: Props) {
   const openModal = useStoreAuthModal((store) => store.openModal)
 
+  function onLogout() {
+    router.post('/auth/logout', {}, { onSuccess: () =>  router.reload({ only: ['user'] })})
+  } 
   
   let dropdownItems = [
     {
@@ -35,7 +38,7 @@ export function Header({ user }: Props) {
     {
       label: "Se déconnecter",
       icon: <DisconnectIcon />,
-      onClick: () => router.post('/auth/logout'),
+      onClick: () => onLogout(),
     },
   ];
 

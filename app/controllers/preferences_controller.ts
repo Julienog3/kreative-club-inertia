@@ -1,5 +1,7 @@
 import { editUserValidator } from '#validators/user'
+import { cuid } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
+import app from '@adonisjs/core/services/app'
 
 export default class PreferencesController {
   public async renderProfile({ inertia }: HttpContext) {
@@ -26,13 +28,21 @@ export default class PreferencesController {
     const user = await auth.getUserOrFail()
     const payload = await request.validateUsing(editUserValidator)
 
-    const { categories } = payload
+    const { avatar, categories, ...updatedUser } = payload
 
+    if (avatar) {
+      const fileUrl = `${cuid()}.${avatar.extname}`
+      await avatar.move(app.tmpPath('uploads', 'avatars'), {
+        name: fileUrl
+      })
+      await user.merge({ avatar: '/uploads/avatars/' + fileUrl })
+    }
+      
     if (categories) {
       await user.related('categories').sync(categories)
     }
     
-   await user.merge(payload).save()
+   await user.merge(updatedUser).save()
    return response.redirect().toRoute('preferences.profile')
   }
 }

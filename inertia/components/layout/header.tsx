@@ -2,7 +2,7 @@ import { Link, router } from '@inertiajs/react'
 import { Button } from './../ui/button'
 import Logo from './../../assets/logo.svg?react'
 import { AuthModalType } from './../modals/auth-modal/auth-modal'
-import { vstack } from '~/styled-system/patterns'
+import { center, hstack, vstack } from '~/styled-system/patterns'
 import { css } from '~/styled-system/css'
 import { useStoreAuthModal } from '../modals/auth-modal/auth-modal.store'
 import { User } from '~/types'
@@ -11,7 +11,6 @@ import DisconnectIcon from "~/assets/icons/arrow-right-start-on-rectangle.svg?re
 import HelpIcon from "~/assets/icons/lifebuoy.svg?react"
 import SettingsIcon from "~/assets/icons/cog-6-tooth.svg?react"
 import { Dropdown } from '../ui/dropdown'
-
 
 interface Props {
   user?: User
@@ -57,26 +56,51 @@ export function Header({ user }: Props) {
       <Link href="/">
         <Logo className={css({ width: '5rem' })} />
       </Link>
-      {user ? (
-        <>
-          <Dropdown items={dropdownItems}>
-            <HeaderProfile user={user} />
-          </Dropdown>
-        </>
-      ) : (
-        <>
-          <span
-            role="button"
-            className={css({ textStyle: "body", cursor: "pointer" })}
-            onClick={(): void => openModal(AuthModalType.LOGIN)}
+      <div className={hstack({ gap: "1rem" })}>
+        <Link href="/creatives">
+          <p className={css({ textStyle: "body" })}>Découvrir</p>
+        </Link>
+        <Link href="/messages">
+          <p className={css({ textStyle: "body" })}>Messagerie</p>
+        </Link>
+
+        <Link href="/bookmarks">
+          <button
+            className={center({
+              border: "2px solid black",
+              rounded: "10px",
+              padding: ".5rem",
+              h: "3.25rem",
+              w: "3.25rem",
+              backgroundColor: "gray",
+              cursor: "pointer",
+            })}
           >
-            Se connecter
-          </span>
-          <Button onClick={(): void => openModal(AuthModalType.SIGNUP)}>
-            Rejoindre le club
-          </Button>
-        </>
-      )}
+            Signets
+            {/* <IoBookmark /> */}
+          </button>
+        </Link>
+        {user ? (
+          <>
+            <Dropdown items={dropdownItems}>
+              <HeaderProfile user={user} />
+            </Dropdown>
+          </>
+        ) : (
+          <>
+            <span
+              role="button"
+              className={css({ textStyle: "body", cursor: "pointer" })}
+              onClick={(): void => openModal(AuthModalType.LOGIN)}
+            >
+              Se connecter
+            </span>
+            <Button onClick={(): void => openModal(AuthModalType.SIGNUP)}>
+              Rejoindre le club
+            </Button>
+          </>
+        )}
+      </div>
     </header>
   )
 }

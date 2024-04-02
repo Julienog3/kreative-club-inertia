@@ -1,12 +1,12 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { vstack } from "~/styled-system/patterns";
 import { css, cva } from "~/styled-system/css";
 
 interface DropzoneProps {
   label: string;
   value?: any
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
-  required: boolean
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  required?: boolean
 }
 
 const dropzone = cva({
@@ -29,8 +29,11 @@ export const Dropzone = ({ label, value, onChange, required }: DropzoneProps) =>
 
   const previewImage = (event: ChangeEvent<HTMLInputElement>): void => {
     if (!event.target.files) return;
+    onChange(event)
     setSelectedImage(event.target.files[0]);
   };
+
+
 
   return (
     <div className={vstack({ gap: ".5rem", alignItems: "start" })}>
@@ -76,8 +79,7 @@ export const Dropzone = ({ label, value, onChange, required }: DropzoneProps) =>
           type="file"
           className={dropzone()}
           value={value}
-          onChange={onChange}
-          // {...register(label, { ...options, onChange: (e) => prev iewImage(e) })}
+          onChange={e => previewImage(e)}
         />
       </label>
     </div>

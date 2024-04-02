@@ -17,17 +17,17 @@ export function HeaderProfile({ user }: Props) {
         backgroundColor: "gray",
       })}
     >
-      {/* <img
+      <img
         className={circle({
           w: "35px",
           h: "35px",
           objectFit: "cover",
           border: "solid 2px black",
         })}
-        src={import.meta.env.VITE_API_URL.slice(0, -1) + user?.avatar}
+        src={'http://localhost:3333' + user?.avatar}
         alt="avatar"
         loading="lazy"
-      /> */}
+      />
       <p
         className={css({
           textStyle: "body",

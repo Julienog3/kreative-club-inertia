@@ -19,7 +19,7 @@ export const ProfileCard = ({ user }: Props) => {
             h: "6rem",
             objectFit: "cover",
           })}
-          src={import.meta.env.BASE_URL + user?.avatar}
+          src={'http://localhost:3333' + user?.avatar}
           alt="avatar"
         />
         <div

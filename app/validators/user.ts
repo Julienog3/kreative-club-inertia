@@ -5,13 +5,8 @@ export const editUserValidator = vine.compile(
     firstName: vine.string().optional(),
     lastName: vine.string().optional(),
     phoneNumber: vine.number().optional(),
-    // categories: vine.array(vine.number()).optional(),
-  })
-)
-
-export const uploadUserAvatarValidator = vine.compile(
-  vine.object({
-    avatar: vine.file({ size: '2mb', extnames: ['jpg', 'png'] }),
+    avatar: vine.file({ size: '2mb', extnames: ['jpg', 'png'] }).optional(),
+    categories: vine.array(vine.number()).optional(),
   })
 )
 

@@ -22,7 +22,7 @@ const profileSchema = z.object({
 type ProfileInputs = z.infer<typeof profileSchema>
 
 export const ProfileForm = ({ user }: Props) => {
-  const { data, setData, errors, processing, reset, post } = useForm<ProfileInputs>({
+  const { data, setData, errors, processing, reset, put } = useForm<ProfileInputs>({
     firstName: user.firstName,
     lastName: user.lastName,
     avatar: user.avatar,
@@ -30,13 +30,9 @@ export const ProfileForm = ({ user }: Props) => {
   });
   const { addItem } = useSnackbarStore(store => store)
 
-  useEffect(() => {
-    console.log({ data })
-  }, [data])
-
   const submit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
-    post('/preferences/profile/edit',{
+    put('/preferences/profile/edit',{
       onSuccess: () => {
         addItem({ type: "success", message: "Votre profil a été correctement modifié."})
         router.reload({ only: ['user'] })

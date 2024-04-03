@@ -1,12 +1,14 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, column, manyToMany } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
 import hash from '@adonisjs/core/services/hash'
 import { randomUUID } from 'node:crypto'
 import { compose } from '@adonisjs/core/helpers'
 import { withAuthFinder } from '@adonisjs/auth'
 import {  DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import Category from '#models/category'
-import type { ManyToMany } from '@adonisjs/lucid/types/relations'
+import PortfolioImage from '#models/portfolio_image'
+import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
+import PortfolioFolder from '#models/portfolio_folder'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -64,6 +66,12 @@ export default class User extends compose(BaseModel, AuthFinder) {
     pivotRelatedForeignKey: 'creative_id',
   })
   declare bookmarks: ManyToMany<typeof User>
+
+  @hasMany(() => PortfolioImage)
+  declare portfolioImages: HasMany<typeof PortfolioImage>
+
+  @hasMany(() => PortfolioFolder)
+  declare portfolioFolders: HasMany<typeof PortfolioFolder>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

@@ -1,7 +1,13 @@
+
 export type State = "danger" | "success" | "warning";
 
-export type User = {
-  id: string
+export interface BaseModel {
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+}
+
+export interface User extends BaseModel {
   username: string
   firstName: string
   lastName: string
@@ -9,3 +15,5 @@ export type User = {
   phoneNumber: string
   avatar: string | null
 }
+
+export interface AuthenticatedPageProps extends Page<PageProps>{}

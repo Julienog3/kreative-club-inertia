@@ -14,6 +14,8 @@ import { middleware } from './kernel.js'
 import CreativesController from '#controllers/creatives_controller'
 import PreferencesController from '#controllers/preferences_controller'
 import app from '@adonisjs/core/services/app'
+import PortfolioImagesController from '#controllers/portfolio_images_controller'
+import PortfolioFoldersController from '#controllers/portfolio_folders_controller'
 
 const PATH_TRAVERSAL_REGEX = /(?:^|[\\/])\.\.(?:[\\/]|$)/
 
@@ -37,8 +39,29 @@ router.group(() => {
   router.get('/creative-profile', [PreferencesController, 'renderCreativeProfile'])
   router.get('/notifications', [PreferencesController, 'renderNotifications'])
   router.get('/security', [PreferencesController, 'renderSecurity'])
-  router.get('/portfolio', [PreferencesController, 'renderPortfolio'])
+  router.get('/portfolio', [PreferencesController, 'renderPortfolio']).as('preferences.portfolio')
+  router.get('/portfolio/folders/:id', [PreferencesController, 'renderPortfolioFolderDetails'])
 }).prefix('preferences').use(middleware.auth())
+
+router.group(async () => {
+    router.group(async () => {
+      router.get('/', [PortfolioImagesController, 'index'])
+      router.get(':portfolioImageId', [PortfolioImagesController, 'show'])
+      router.post('/', [PortfolioImagesController, 'store'])
+      router.delete(':portfolioImageId', [PortfolioImagesController, 'destroy'])
+      router.post(':portfolioImageId/illustration', [PortfolioImagesController, 'setIsIllustration'])
+    }).prefix('images')
+
+    router.group(async () => {
+      router.get('/', [PortfolioFoldersController, 'index'])
+      router.post('/', [PortfolioFoldersController, 'store'])
+      
+      router.delete(':portfolioFolderId', [PortfolioFoldersController, 'destroy'])
+    }).prefix('folders')
+
+    // router.post('enable', [UsersController, 'enablePortfolio'])
+    // router.get('illustration', [UsersController, 'getPortfolioIllustration'])
+  }).prefix('portfolio').use(middleware.auth())
 
 router.get('/uploads/*', ({ request, response }) => {
   const filePath = request.param('*').join(sep)

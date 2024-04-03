@@ -7,7 +7,7 @@ import { css } from "~/styled-system/css";
 import XMark from "~/assets/icons/x-mark.svg?react"
 import MinusCircle from "~/assets/icons/minus-circle.svg?react"
 import ExclamationTriangle from "~/assets/icons/exclamation-triangle.svg?react"
-import CheckCircle from "~/assets/icons/check-circle.svg?react"
+import Check from "~/assets/icons/check.svg?react"
 
 type SnackbarItemStyle = {
   opacity: SpringValue<number>;
@@ -38,7 +38,7 @@ const SnackbarItem = ({
   const icons = {
     danger: <MinusCircle />,
     warning: <ExclamationTriangle />,
-    success: <CheckCircle />,
+    success: <Check />,
   };
 
   const props: { width: SpringValue } = useSpring({

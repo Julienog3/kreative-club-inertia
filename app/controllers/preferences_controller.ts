@@ -1,7 +1,10 @@
+import PortfolioFolder from '#models/portfolio_folder'
+import PortfolioImage from '#models/portfolio_image'
 import { editUserValidator } from '#validators/user'
 import { cuid } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
+import logger from '@adonisjs/core/services/logger'
 
 export default class PreferencesController {
   public async renderProfile({ inertia }: HttpContext) {
@@ -20,11 +23,27 @@ export default class PreferencesController {
     return inertia.render('preferences/security')
   }
 
-  public async renderPortfolio({ inertia }: HttpContext) {
-    return inertia.render('preferences/portfolio')
+  public async renderPortfolio({ inertia, auth }: HttpContext) {
+    const user = await auth.getUserOrFail()
+
+    const portfolioFolders = await PortfolioFolder.query().where('userId', user.id).preload('portfolioImages')
+    const portfolioImages = await PortfolioImage.query().where((query) => {
+      query.where('userId', user.id).whereNull('portfolioFolderId')
+    })
+    
+    return inertia.render('preferences/portfolio', {
+      portfolioFolders,
+      portfolioImages
+    })
   }
 
-  public async editProfile({ auth, request, params, response }: HttpContext) {
+  public async renderPortfolioFolderDetails({ inertia, params }: HttpContext) {
+    const portfolioFolder = await PortfolioFolder.query().where('id', params.id).preload('portfolioImages').firstOrFail()
+
+    return await inertia.render('preferences/portfolio-folder-details', { portfolioFolder })
+  }
+
+  public async editProfile({ auth, request, response }: HttpContext) {
     const user = await auth.getUserOrFail()
     const payload = await request.validateUsing(editUserValidator)
 

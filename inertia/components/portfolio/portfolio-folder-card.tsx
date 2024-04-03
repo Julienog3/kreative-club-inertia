@@ -4,15 +4,12 @@ import { css } from "~/styled-system/css";
 import Card from "../ui/card";
 import { PortfolioFolder } from "~/types/portfolio";
 
-interface PortfolioFolderCardProps
-  extends React.BaseHTMLAttributes<HTMLDivElement> {
+interface Props extends React.BaseHTMLAttributes<HTMLDivElement> {
   portfolioFolder: PortfolioFolder;
 }
 
-export const PortfolioFolderCard = (
-  portfolioFolderCardProps: PortfolioFolderCardProps,
-) => {
-  const { portfolioFolder } = portfolioFolderCardProps;
+export const PortfolioFolderCard = (props: Props) => {
+  const { portfolioFolder } = props;
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
   const firstCardStyle = useSpring({
@@ -30,7 +27,7 @@ export const PortfolioFolderCard = (
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={css({ pos: "relative", w: "100%" })}
-      {...portfolioFolderCardProps}
+      {...props}
     >
       <Card
         css={{
@@ -43,7 +40,7 @@ export const PortfolioFolderCard = (
           flexDirection: "column",
           alignItems: "center",
           gap: "1rem",
-          zIndex: 999,
+          // zIndex: 999,
         }}
       >
         {portfolioFolder.portfolioImages!.length > 0 ? (
@@ -54,11 +51,7 @@ export const PortfolioFolderCard = (
                 h: "12rem",
                 w: "100%",
               })}
-              src={
-                import.meta.env.VITE_API_URL +
-                "uploads/portfolio/images/" +
-                portfolioFolder.portfolioImages![0]?.image
-              }
+              src={"/uploads/portfolio/images/" + portfolioFolder.portfolioImages![0]?.image}
               alt={portfolioFolder.portfolioImages![0].title}
             />
           </Card>

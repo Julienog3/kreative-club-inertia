@@ -15,12 +15,7 @@ type createPortfolioFolderInputs = z.infer<typeof createPortfolioFolderSchema>
 
 export const CreatePortfolioFolderForm = () => {
   const { data, setData, processing, post } = useForm<createPortfolioFolderInputs>();
-
-  // const queryClient = useQueryClient();
-  // const { user } = usePageContext();
-
-  // const createPortfolioFolder = useCreatePortfolioFolder(user.id);
-
+  
   const { closeModal } = useStoreModal((state) => state);
   const { addItem } = useSnackbarStore((state) => state)
 

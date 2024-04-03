@@ -16,8 +16,6 @@ interface Props {
 export default function PortfolioFolderDetails(props: Props) {
   const { portfolioFolder } = props
 
-  console.log({ portfolioFolder })
-
   function onDelete(id: string) {
     router.delete(`/portfolio/folders/${id}`)
   }

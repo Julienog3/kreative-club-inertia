@@ -26,14 +26,6 @@ export default function Portfolio(props: Props) {
     [portfolioImages, portfolioFolders],
   );
 
-  // const [selectedPortfolioFolderId, setSelectedPortfolioFolderId] =
-  //   useState<string>(); 
-
-  // const portfolioFolderSelected = useMemo(
-  //   () => portfolioFolders?.find(({ id }) => selectedPortfolioFolderId === id),
-  //   [selectedPortfolioFolderId],
-  // );
-
   return (
     <>
       <Head title="Portfolio" />
@@ -55,9 +47,6 @@ export default function Portfolio(props: Props) {
             <PortfolioList
               mode="edition"
               elements={portfolioElements}
-              // onPortfolioFolderSelect={(id) =>
-              //   setSelectedPortfolioFolderId(id)
-              // }
             />
           </div>
         </Card>

@@ -14,14 +14,12 @@ import { router } from "@inertiajs/react";
 interface Props {
   mode?: "preview" | "edition";
   elements: (PortfolioFolder | PortfolioImage)[];
-  onPortfolioFolderSelect?: (id: string) => void;
   portfolioFolderId?: string;
 }
 
 export function PortfolioList({
   mode = "preview",
   elements,
-  onPortfolioFolderSelect,
   portfolioFolderId,
 }: Props) {
   const { isShowed, closeModal, openModal } = useStoreModal((state) => state);

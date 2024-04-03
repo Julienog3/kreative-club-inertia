@@ -22,7 +22,6 @@ export default class PortfolioImagesController {
 
     const { portfolioFolderId } = request.qs()
 
-    logger.info(request.qs())
 
     if (image) {
       await image.move(app.tmpPath('uploads', 'portfolio', 'images'))

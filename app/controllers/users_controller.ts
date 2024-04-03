@@ -15,4 +15,19 @@ export default class UsersController {
     
     return await user.merge(payload).save()
   }
+
+  public async addBookmark({ auth, params }: HttpContext) {
+    const user: User = await auth.getUserOrFail()
+    await user.related('bookmarks').attach([params.creativeId])
+  }
+
+  public async removeBookmark({ auth, params }: HttpContext) {
+    const user: User = await auth.getUserOrFail()
+    await user.related('bookmarks').detach([params.creativeId])
+  }
+
+  public async showBookmarks({ auth }: HttpContext) {
+    const user: User = auth.getUserOrFail()
+    return await user.related('bookmarks').query().preload('categories')
+  }
 }

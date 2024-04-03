@@ -16,6 +16,7 @@ import PreferencesController from '#controllers/preferences_controller'
 import app from '@adonisjs/core/services/app'
 import PortfolioImagesController from '#controllers/portfolio_images_controller'
 import PortfolioFoldersController from '#controllers/portfolio_folders_controller'
+import UsersController from '#controllers/users_controller'
 
 const PATH_TRAVERSAL_REGEX = /(?:^|[\\/])\.\.(?:[\\/]|$)/
 
@@ -24,7 +25,7 @@ router.get('/', ({ inertia }) => inertia.render('home'))
 // router.on('/').renderInertia('home', { version: 6 })
 router.group(() => {
   router.get('/', [CreativesController, 'index'])
-  router.get(':id', [CreativesController, 'show'])
+  router.get(':slug', [CreativesController, 'show'])
 }).prefix('creatives')
 
 router.group(() => {
@@ -44,13 +45,13 @@ router.group(() => {
 }).prefix('preferences').use(middleware.auth())
 
 router.group(async () => {
-    router.group(async () => {
-      router.get('/', [PortfolioImagesController, 'index'])
-      router.get(':portfolioImageId', [PortfolioImagesController, 'show'])
-      router.post('/', [PortfolioImagesController, 'store'])
-      router.delete(':portfolioImageId', [PortfolioImagesController, 'destroy'])
-      router.post(':portfolioImageId/illustration', [PortfolioImagesController, 'setIsIllustration'])
-    }).prefix('images')
+  router.group(async () => {
+    router.get('/', [PortfolioImagesController, 'index'])
+    router.get(':portfolioImageId', [PortfolioImagesController, 'show'])
+    router.post('/', [PortfolioImagesController, 'store'])
+    router.delete(':portfolioImageId', [PortfolioImagesController, 'destroy'])
+    router.post(':portfolioImageId/illustration', [PortfolioImagesController, 'setIsIllustration'])
+  }).prefix('images')
 
     router.group(async () => {
       router.get('/', [PortfolioFoldersController, 'index'])
@@ -62,6 +63,14 @@ router.group(async () => {
     // router.post('enable', [UsersController, 'enablePortfolio'])
     // router.get('illustration', [UsersController, 'getPortfolioIllustration'])
   }).prefix('portfolio').use(middleware.auth())
+
+router.group(async () => {
+  router.get('/', [UsersController, 'showBookmarks'])
+  router.post(':creativeId', [UsersController, 'addBookmark'])
+  router.delete(':creativeId', [UsersController, 'removeBookmark'])
+})
+.prefix('bookmarks')
+.use(middleware.auth())
 
 router.get('/uploads/*', ({ request, response }) => {
   const filePath = request.param('*').join(sep)

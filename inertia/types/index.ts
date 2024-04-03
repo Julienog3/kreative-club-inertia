@@ -1,3 +1,5 @@
+import { Category } from "./category";
+import { PortfolioFolder, PortfolioImage } from "./portfolio";
 
 export type State = "danger" | "success" | "warning";
 
@@ -14,6 +16,7 @@ export interface User extends BaseModel {
   email: string
   phoneNumber: string
   avatar: string | null
+  categories?: Category[]
+  portfolioImages?: PortfolioImage[]
+  portfolioFolders?: PortfolioFolder[]
 }
-
-export interface AuthenticatedPageProps extends Page<PageProps>{}

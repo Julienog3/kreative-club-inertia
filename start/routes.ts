@@ -17,6 +17,7 @@ import app from '@adonisjs/core/services/app'
 import PortfolioImagesController from '#controllers/portfolio_images_controller'
 import PortfolioFoldersController from '#controllers/portfolio_folders_controller'
 import UsersController from '#controllers/users_controller'
+import BookmarksController from '#controllers/bookmarks_controller'
 
 const PATH_TRAVERSAL_REGEX = /(?:^|[\\/])\.\.(?:[\\/]|$)/
 
@@ -65,9 +66,8 @@ router.group(async () => {
   }).prefix('portfolio').use(middleware.auth())
 
 router.group(async () => {
-  router.get('/', [UsersController, 'showBookmarks'])
-  router.post(':creativeId', [UsersController, 'addBookmark'])
-  router.delete(':creativeId', [UsersController, 'removeBookmark'])
+  router.get('/', [BookmarksController, 'index'])
+  router.post(':creativeId', [BookmarksController, 'bookmark'])
 })
 .prefix('bookmarks')
 .use(middleware.auth())

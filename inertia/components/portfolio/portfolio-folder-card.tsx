@@ -40,7 +40,7 @@ export const PortfolioFolderCard = (props: Props) => {
           flexDirection: "column",
           alignItems: "center",
           gap: "1rem",
-          // zIndex: 999,
+          zIndex: 3,
         }}
       >
         {portfolioFolder.portfolioImages!.length > 0 ? (
@@ -65,7 +65,7 @@ export const PortfolioFolderCard = (props: Props) => {
         </div>
       </Card>
 
-      {/* <animated.span
+      <animated.span
         className={css({
           position: "absolute",
           border: "solid 2px #000",
@@ -88,7 +88,7 @@ export const PortfolioFolderCard = (props: Props) => {
           zIndex: 1,
         })}
         style={secondCardStyle}
-      /> */}
+      />
     </div>
   );
 };

@@ -1,21 +1,38 @@
-import { Link, router } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import { css } from "~/styled-system/css";
 import Card from "../ui/card";
 import { hstack, vstack } from "~/styled-system/patterns";
 import { Button } from "../ui/button";
-import Bookmark from "~/assets/icons/bookmark.svg?react"
+import BookmarkFilled from "~/assets/icons/bookmark-filled.svg?react"
+import BookmarkOutline from "~/assets/icons/bookmark-outline.svg?react"
 import { User } from "~/types";
 import Chip from "../ui/chip";
+import { useSnackbarStore } from "../ui/snackbar/snackbar.store";
+import { useEffect } from "react";
 
 interface Props extends User {}
 
 export function CreativeCard(props: Props) {
   const { username, avatar } = props
 
+  const { props: { user } } = usePage()
+  const { addItem } = useSnackbarStore(state => state)
+
+  useEffect(() => {
+    console.log(user)
+  }, [user])
+
+  // const isBookmarked = (user as User).bookmarks!.find(({ creativeId }) => creativeId === props.id)
+  const isBookmarked = false
+
   function handleAddBookmark(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     event.stopPropagation();
-    // router.post('/')
+    router.post(`/bookmarks/${props.id}`, {}, {
+      onSuccess: () => {
+        addItem({ type: "success", message: "Bookmarked"})
+      }
+    })
   };
 
   return (
@@ -35,7 +52,7 @@ export function CreativeCard(props: Props) {
               })}
             >
               <Button variant="danger" onClick={(e) => handleAddBookmark(e)}>
-                <Bookmark />
+                {isBookmarked ? <BookmarkFilled />: <BookmarkOutline />}
               </Button>
             </div>
             <img

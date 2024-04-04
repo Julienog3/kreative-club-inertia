@@ -6,18 +6,21 @@ import { Footer } from './footer'
 import { AuthModal } from './../../components/modals/auth-modal/auth-modal'
 import { Snackbar } from '../ui/snackbar/snackbar'
 import { User } from '~/types'
+import { css } from '~/styled-system/css'
 
-interface Props {
+interface Props extends PropsWithChildren {
   user?: User
 }
 
-export function Layout({ children, user }: Props & PropsWithChildren) {
+export function Layout({ children, user }: Props ) {
   return (
     <>
       <AuthModal />
       <Snackbar />
       <Header user={user} />
-      <main>{children}</main>
+      <main className={css({ backgroundColor: "background" })}>
+        {children}
+      </main>
       <Footer />
     </>
   )

@@ -19,4 +19,11 @@ export interface User extends BaseModel {
   categories?: Category[]
   portfolioImages?: PortfolioImage[]
   portfolioFolders?: PortfolioFolder[]
+  bookmarks?: Bookmark[]
+}
+
+interface Bookmark {
+  id: string
+  creativeId: string
+  userId: string
 }

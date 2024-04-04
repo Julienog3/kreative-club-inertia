@@ -11,7 +11,8 @@ import DisconnectIcon from "~/assets/icons/arrow-right-start-on-rectangle.svg?re
 import HelpIcon from "~/assets/icons/lifebuoy.svg?react"
 import SettingsIcon from "~/assets/icons/cog-6-tooth.svg?react"
 import { Dropdown } from '../ui/dropdown'
-
+import BookmarkOutline from '~/assets/icons/bookmark-outline.svg?react'
+ 
 interface Props {
   user?: User
 }
@@ -76,8 +77,7 @@ export function Header({ user }: Props) {
               cursor: "pointer",
             })}
           >
-            Signets
-            {/* <IoBookmark /> */}
+            <BookmarkOutline />
           </button>
         </Link>
         {user ? (

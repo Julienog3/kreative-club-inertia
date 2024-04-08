@@ -17,6 +17,7 @@ createInertiaApp({
   },
 
   setup({ el, App, props }) {
+    console.log(props.initialPage)
     const user = props.initialPage.props.user as User
 
     hydrateRoot(

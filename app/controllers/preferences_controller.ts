@@ -1,10 +1,10 @@
+import Category from '#models/category'
 import PortfolioFolder from '#models/portfolio_folder'
 import PortfolioImage from '#models/portfolio_image'
 import { editUserValidator } from '#validators/user'
 import { cuid } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
-import logger from '@adonisjs/core/services/logger'
 
 export default class PreferencesController {
   public async renderProfile({ inertia }: HttpContext) {
@@ -12,7 +12,8 @@ export default class PreferencesController {
   }
 
   public async renderCreativeProfile({ inertia }: HttpContext) {
-    return inertia.render('preferences/creative-profile')
+    const categories = await Category.query()
+    return inertia.render('preferences/creative-profile', { categories })
   }
 
   public async renderNotifications({ inertia }: HttpContext) {

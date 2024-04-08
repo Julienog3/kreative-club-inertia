@@ -1,4 +1,4 @@
-import { Head, router } from "@inertiajs/react";
+import { Head, router, usePage } from "@inertiajs/react";
 import { ProfileForm } from "~/components/forms/profile-form";
 import { PreferencesLayout } from "~/components/layout/preferences-layout";
 import { ProfileCard } from "~/components/profile-card";
@@ -8,11 +8,9 @@ import { css } from "~/styled-system/css";
 import { vstack } from "~/styled-system/patterns";
 import { User } from "~/types";
 
-interface Props {
-  user: User;
-}
+export default function Profile() {
+  const { props: { user }} = usePage()
 
-export default function Profile({ user }: Props) {
   return <>
     <Head title="Mon profil" />
     <PreferencesLayout>
@@ -26,8 +24,8 @@ export default function Profile({ user }: Props) {
           })}
         >
           <h2 className={css({ textStyle: "title" })}>Profil</h2>
-          <ProfileCard user={user} />
-          <ProfileForm user={user}/>
+          <ProfileCard user={user as User} />
+          <ProfileForm user={user as User}/>
         </div>
       </Card>
     </PreferencesLayout>

@@ -37,7 +37,7 @@ router.group(() => {
 
 router.group(() => {
   router.get('/profile', [PreferencesController, 'renderProfile']).as('preferences.profile')
-  router.post('/profile/edit', [PreferencesController, 'editProfile'])
+  router.put('/profile/edit', [PreferencesController, 'editProfile'])
   router.get('/creative-profile', [PreferencesController, 'renderCreativeProfile'])
   router.get('/notifications', [PreferencesController, 'renderNotifications'])
   router.get('/security', [PreferencesController, 'renderSecurity'])
@@ -69,6 +69,10 @@ router.group(async () => {
   router.get('/', [BookmarksController, 'index'])
   router.post(':creativeId', [BookmarksController, 'bookmark'])
 })
+.prefix('bookmarks')
+.use(middleware.auth())
+
+
 .prefix('bookmarks')
 .use(middleware.auth())
 

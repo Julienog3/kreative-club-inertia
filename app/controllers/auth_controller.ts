@@ -19,11 +19,11 @@ export default class AuthController {
     return response.redirect().toRoute('/')
   }
 
-  async register({ request }: HttpContext) {
+  async register({ request, response }: HttpContext) {
     const payload = await request.validateUsing(registerUserValidator)
-    const user = await User.create(payload)
+    await User.create(payload)
 
-    return user.preload('categories')
+    return response.redirect().toRoute('/creatives')
   }
 
   async getMe({ auth }: HttpContext) {

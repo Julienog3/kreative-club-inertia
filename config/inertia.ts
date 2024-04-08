@@ -12,17 +12,10 @@ export default defineConfig({
    */
   sharedData: {
     errors: (ctx) => ctx.session?.flashMessages.get('errors'),
-    user: ({ auth }) => {
+    user: async ({ auth }) => {
       return auth.user
-      // const user = auth.authenticateUsing(["web"])
-      // logger.info(user)
-
-      // if (!user) {
-      //   return null
-      // }
-
-      // return user 
     },
+    auth: async ({ auth }) => auth
   },
 
   /**

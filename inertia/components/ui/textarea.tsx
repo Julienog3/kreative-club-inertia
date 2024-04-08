@@ -1,18 +1,20 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { css } from "~/styled-system/css";
 import { vstack } from "~/styled-system/patterns";
 
-interface Props extends React.HTMLProps<HTMLInputElement>  {
+interface Props extends React.HTMLProps<HTMLTextAreaElement>  {
   type?: React.HTMLInputTypeAttribute;
   label: string;
   value?: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
   required?: boolean;
   errorMessage?: string
 }
 
-const Input = (props: Props): JSX.Element => {
-  const { type, required, label, errorMessage, value, onChange, ...rest } = props
+export function TextArea(props: Props) {
+  const { label, required, value, onChange, errorMessage, ...rest } = props
+
+  
 
   return (
     <div className={vstack({ gap: 1, alignItems: "left" })}>
@@ -22,16 +24,14 @@ const Input = (props: Props): JSX.Element => {
           <span className={css({ color: "purple", ml: ".25rem" })}>*</span>
         )}
       </label>
-      <input
+      <textarea
         className={css({
           padding: ".5rem",
           border: "#000 solid 2px",
           rounded: ".5rem",
           textStyle: "body",
         })}
-        autoComplete={type === "password" ? "new-password" : ""}
         required={required}
-        type={type}
         value={value}
         onChange={onChange}
         {...rest}
@@ -46,6 +46,4 @@ const Input = (props: Props): JSX.Element => {
       )}
     </div>
   );
-};
-
-export default Input;
+}

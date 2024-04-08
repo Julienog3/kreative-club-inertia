@@ -8,10 +8,9 @@ export default class AuthController {
     const { email, password } = request.only(['email', 'password'])
 
     const user = await User.verifyCredentials(email, password)
-    // logger.info('user', user)
 
     await auth.use('web').login(user)
-    return response.redirect().toRoute('/creatives')
+    return response.redirect().back()
   }
 
   async logout({ auth, response }: HttpContext) {

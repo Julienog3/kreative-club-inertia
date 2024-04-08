@@ -4,7 +4,7 @@ import { grid, gridItem, hstack } from "~/styled-system/patterns";
 import { User } from "~/types";
 import Input from "../ui/input";
 import { Button } from "../ui/button";
-import { FormEventHandler, useEffect } from "react";
+import { FormEventHandler } from "react";
 import { Dropzone } from "../ui/dropzone";
 import { useSnackbarStore } from "../ui/snackbar/snackbar.store";
 interface Props {
@@ -22,6 +22,8 @@ const profileSchema = z.object({
 type ProfileInputs = z.infer<typeof profileSchema>
 
 export const ProfileForm = ({ user }: Props) => {
+  console.log({ user })
+
   const { data, setData, errors, processing, reset, put } = useForm<ProfileInputs>({
     firstName: user.firstName,
     lastName: user.lastName,

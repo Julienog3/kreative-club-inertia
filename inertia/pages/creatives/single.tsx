@@ -6,7 +6,6 @@ import Chip from "~/components/ui/chip";
 import { css } from "~/styled-system/css";
 import { grid, gridItem, hstack, vstack } from "~/styled-system/patterns";
 import { User } from "~/types";
-import { PortfolioFolder, PortfolioImage } from "~/types/portfolio";
 
 interface Props {
   creative: User,
@@ -80,10 +79,7 @@ export default function Single(props: Props) {
             <div>
               <h3 className={css({ textStyle: "subtitle" })}>A propos</h3>
               <p className={css({ textStyle: "body" })}>
-                Nullam convallis lorem et leo elementum tempor. Curabitur a est
-                risus. Proin eleifend elit luctus lorem porta, sit amet
-                vulputate diam varius. Donec ultrices viverra urna, rhoncus
-                consequat purus tristique in.
+                {creative.description}
               </p>
               {creative.categories && (
                 <>

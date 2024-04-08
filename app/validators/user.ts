@@ -7,6 +7,8 @@ export const editUserValidator = vine.compile(
     phoneNumber: vine.number().optional(),
     avatar: vine.file({ size: '2mb', extnames: ['jpg', 'png'] }).optional(),
     categories: vine.array(vine.number()).optional(),
+    portfolioEnabled: vine.boolean().optional(),
+    description: vine.string().optional()
   })
 )
 

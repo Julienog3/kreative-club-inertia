@@ -53,6 +53,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare portfolioEnabled: boolean
 
+  @column()
+  declare description: string | null
+
   @manyToMany(() => Category, {
     pivotTable: 'user_categories'
   })

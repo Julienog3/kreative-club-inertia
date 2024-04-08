@@ -6,7 +6,6 @@ import {  sva } from '~/styled-system/css'
 const switchRecipe = sva({
   slots: ['root', 'thumb'],
   base: {
-
     root: {
       display: 'inline-flex',
       h: '24px',
@@ -14,8 +13,8 @@ const switchRecipe = sva({
       flexShrink: 0,
       cursor: 'pointer',
       alignItems: 'center',
-      rounded: 'full',
-      border: '2px solid transparent',
+      rounded: "999px",
+      border: '2px solid black',
       transition: 'colors',
 
       _focusVisible: {
@@ -29,11 +28,11 @@ const switchRecipe = sva({
       },
 
       '&[data-state=checked]': {
-        bg: 'primary',
+        bg: 'GrayText',
       },
 
       '&[data-state=unchecked]': {
-        bg: 'input',
+        bg: 'ButtonFace',
       },
     },
     thumb: {
@@ -41,7 +40,7 @@ const switchRecipe = sva({
       display: 'block',
       h: '5px',
       w: '5px',
-      rounded: 'full',
+      rounded: "999px",
       bg: 'black',
       shadow: 'lg',
       transition: 'transform',

@@ -63,6 +63,6 @@ export default class PreferencesController {
     }
     
    await user.merge(updatedUser).save()
-   return response.redirect().toRoute('preferences.profile')
+   return response.redirect().back()
   }
 }

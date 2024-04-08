@@ -21,7 +21,7 @@ export function Header({ user }: Props) {
   const openModal = useStoreAuthModal((store) => store.openModal)
 
   function onLogout() {
-    router.post('/auth/logout', {}, { onSuccess: () =>  router.reload({ only: ['user'] })})
+    router.post('/auth/logout', {}, { onSuccess: () => router.reload({ only: ['user'] })})
   } 
   
   let dropdownItems = [

@@ -8,7 +8,7 @@ import BookmarkOutline from "~/assets/icons/bookmark-outline.svg?react"
 import { User } from "~/types";
 import Chip from "../ui/chip";
 import { useSnackbarStore } from "../ui/snackbar/snackbar.store";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 interface Props extends User {}
 
@@ -18,12 +18,15 @@ export function CreativeCard(props: Props) {
   const { props: { user } } = usePage()
   const { addItem } = useSnackbarStore(state => state)
 
-  useEffect(() => {
-    console.log(user)
-  }, [user])
+  console.log({ props })
+
+  const portfolioIllustration = useMemo(() => props.portfolioImages?.find((image) => image.isIllustration)?.image, [])
+
+  console.log(props.portfolioImages)
 
   // const isBookmarked = (user as User).bookmarks!.find(({ creativeId }) => creativeId === props.id)
   const isBookmarked = false
+
 
   function handleAddBookmark(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
@@ -65,7 +68,7 @@ export function CreativeCard(props: Props) {
                 objectFit: "cover",
                 zIndex: "3",
               })}
-              // src={getIllustrationUrl()}
+              src={portfolioIllustration ?? ''}
               alt=""
             />
           </div>
@@ -78,8 +81,7 @@ export function CreativeCard(props: Props) {
               </div>
             )}
             <p className={css({ textStyle: "body" })}>
-              Nullam convallis lorem et leo elementum tempor. Curabitur a est
-              risus.
+              {props.description}
             </p>
             <span
               className={css({ w: "100%", h: "2px", background: "black" })}

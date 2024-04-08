@@ -1,4 +1,5 @@
 import { Head } from '@inertiajs/react'
+import { Layout } from '~/components/layout/layout'
 import { css } from '~/styled-system/css'
 import { hstack, vstack } from '~/styled-system/patterns'
 

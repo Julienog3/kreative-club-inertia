@@ -20,6 +20,8 @@ export interface User extends BaseModel {
   portfolioImages?: PortfolioImage[]
   portfolioFolders?: PortfolioFolder[]
   bookmarks?: Bookmark[]
+  portfolioEnabled?: boolean
+  description?: string
 }
 
 interface Bookmark {

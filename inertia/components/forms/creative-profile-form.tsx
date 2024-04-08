@@ -1,4 +1,4 @@
-import { router, useForm } from "@inertiajs/react";
+import { router, useForm, usePage } from "@inertiajs/react";
 import { z } from "zod";
 import { grid, gridItem, hstack } from "~/styled-system/patterns";
 import Input from "../ui/input";
@@ -8,6 +8,8 @@ import { useSnackbarStore } from "../ui/snackbar/snackbar.store";
 import { TextArea } from "../ui/textarea";
 import { Category } from "~/types/category";
 import { Switch } from "../ui/switch";
+import { css } from "~/styled-system/css";
+import { User } from "~/types";
 
 const profileSchema = z.object({
   description: z.string().optional(),
@@ -22,14 +24,11 @@ interface Props {
 }
 
 export function CreativeProfileForm(props: Props) {
+  const { props: { user }} = usePage()
   const { categories } = props
-  const { data, setData, errors, processing, reset, put } = useForm<ProfileInputs>({ portfolioEnabled: false });
+  const { data, setData, errors, processing, reset, put } = useForm<ProfileInputs>(user as ProfileInputs);
   const { addItem } = useSnackbarStore(store => store)
   // const { props: { user } } = usePage()
-
-  useEffect(() => {
-    console.log(data.portfolioEnabled)
-  }, [data.portfolioEnabled])
 
   const submit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
@@ -68,7 +67,7 @@ export function CreativeProfileForm(props: Props) {
           </datalist>}
         </div>
         <div className={gridItem()}>
-          test
+          <p className={css({ textStyle: "body" })}>Activer le portfolio</p>
           <Switch checked={data.portfolioEnabled} onCheckedChange={() => setData('portfolioEnabled', !data.portfolioEnabled)} />
         </div>
         <div className={hstack()}>

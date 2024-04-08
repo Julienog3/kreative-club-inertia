@@ -1,9 +1,11 @@
+import PortfolioImage from '#models/portfolio_image'
 import User from '#models/user'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class CreativesController {
   public async index({ inertia }: HttpContext) {
-    const creatives = await User.query().where('portfolioEnabled', true).preload('categories')
+    const creatives = await User.query().where('portfolioEnabled', true).preload('categories').preload('portfolioImages')
+    
     return inertia.render('creatives/list', { creatives })
   }
 

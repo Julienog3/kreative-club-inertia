@@ -1,7 +1,6 @@
 import ReactDOMServer from 'react-dom/server'
 import { createInertiaApp } from '@inertiajs/react'
 import { Layout } from '~/components/layout/layout'
-import { User } from '~/types'
 
 export default function render(page: any) {
   return createInertiaApp({
@@ -9,11 +8,12 @@ export default function render(page: any) {
     render: ReactDOMServer.renderToString,
     resolve: (name) => {
       const pages = import.meta.glob('../pages/**/*.tsx', { eager: true })
-      return pages[`../pages/${name}.tsx`]
+      let page = pages[`../pages/${name}.tsx`]
+      page.default.layout = page.default.layout || (page => <Layout children={page} />)
+      return page
     },
     setup: ({ App, props }) => {
-      const user = props.initialPage.props.user as User
-      return (<Layout user={user}><App {...props} /></Layout>)
+      return (<App {...props} />)
     },
   })
 }

@@ -13,18 +13,17 @@ createInertiaApp({
   title: (title) => `${title} - ${appName}`,
 
   resolve: (name) => {
-    return resolvePageComponent(`../pages/${name}.tsx`, import.meta.glob('../pages/**/*.tsx'))
+    const pages = import.meta.glob('../pages/**/*.tsx', { eager: true })
+    let page = pages[`../pages/${name}.tsx`]
+    page.default.layout = page.default.layout || (page => <Layout children={page} />)
+    // return resolvePageComponent(`../pages/${name}.tsx`, )
+    return page
   },
 
   setup({ el, App, props }) {
-    console.log(props.initialPage)
-    const user = props.initialPage.props.user as User
-
     hydrateRoot(
       el,
-      <Layout user={user}>
-        <App {...props} />
-      </Layout>
+      <App {...props} />
     )
   },
 })

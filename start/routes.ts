@@ -16,7 +16,6 @@ import PreferencesController from '#controllers/preferences_controller'
 import app from '@adonisjs/core/services/app'
 import PortfolioImagesController from '#controllers/portfolio_images_controller'
 import PortfolioFoldersController from '#controllers/portfolio_folders_controller'
-import UsersController from '#controllers/users_controller'
 import BookmarksController from '#controllers/bookmarks_controller'
 
 const PATH_TRAVERSAL_REGEX = /(?:^|[\\/])\.\.(?:[\\/]|$)/
@@ -51,19 +50,15 @@ router.group(async () => {
     router.get(':portfolioImageId', [PortfolioImagesController, 'show'])
     router.post('/', [PortfolioImagesController, 'store'])
     router.delete(':portfolioImageId', [PortfolioImagesController, 'destroy'])
-    router.post(':portfolioImageId/illustration', [PortfolioImagesController, 'setIsIllustration'])
+    router.patch(':portfolioImageId', [PortfolioImagesController, 'update'])
   }).prefix('images')
 
-    router.group(async () => {
-      router.get('/', [PortfolioFoldersController, 'index'])
-      router.post('/', [PortfolioFoldersController, 'store'])
-      
-      router.delete(':portfolioFolderId', [PortfolioFoldersController, 'destroy'])
-    }).prefix('folders')
-
-    // router.post('enable', [UsersController, 'enablePortfolio'])
-    // router.get('illustration', [UsersController, 'getPortfolioIllustration'])
-  }).prefix('portfolio').use(middleware.auth())
+  router.group(async () => {
+    router.get('/', [PortfolioFoldersController, 'index'])
+    router.post('/', [PortfolioFoldersController, 'store'])
+    router.delete(':portfolioFolderId', [PortfolioFoldersController, 'destroy'])
+  }).prefix('folders')
+}).prefix('portfolio').use(middleware.auth())
 
 router.group(async () => {
   router.get('/', [BookmarksController, 'index'])

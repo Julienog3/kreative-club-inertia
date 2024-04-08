@@ -51,7 +51,7 @@ export const PortfolioFolderCard = (props: Props) => {
                 h: "12rem",
                 w: "100%",
               })}
-              src={"/uploads/portfolio/images/" + portfolioFolder.portfolioImages![0]?.image}
+              src={portfolioFolder.portfolioImages![0]?.image}
               alt={portfolioFolder.portfolioImages![0].title}
             />
           </Card>

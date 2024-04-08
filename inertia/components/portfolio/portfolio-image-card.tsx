@@ -1,14 +1,3 @@
-// import Button from "#root/src/components/utils/Button/Button";
-// import Card from "#root/src/components/utils/Card/Card";
-// import { css } from "#root/styled-system/css";
-// import { PortfolioImage } from "#root/types/portfolio";
-// import { useState } from "react";
-// import { RiDeleteBin5Fill } from "@react-icons/all-files/ri/RiDeleteBin5Fill";
-// import { useDeletePortfolioImage } from "#root/src/api/portfolio/deletePortfolioImage";
-// import { FaImage } from "@react-icons/all-files/fa/FaImage";
-// import { usePageContext } from "vike-react/usePageContext";
-// import { usePortfolioFolderIllustration } from "#root/src/api/portfolio/setPortfolioIllustration";
-
 import { router, usePage } from "@inertiajs/react";
 import { PortfolioImage } from "~/types/portfolio";
 import Card from "../ui/card";
@@ -43,7 +32,14 @@ export function PortfolioImageCard({
     })
   }
 
-  // const { user } = usePageContext();
+  function setIllustration(id :string) {
+    router.patch(`/portfolio/images/${id}`, { isIllustration: !portfolioImage.isIllustration }, {
+      preserveScroll: true,
+      onSuccess: () => {
+        addItem({ type: "success", message: "L'image a correctement été modifié."})
+      }
+    })
+  }
 
   // const setIllustrationPortfolioFolder = usePortfolioFolderIllustration(
   //   user.id,
@@ -76,9 +72,7 @@ export function PortfolioImageCard({
             <animated.div style={buttonStyle}>
               <Button
                 variant="warning"
-                onClick={() => {}
-                  // setIllustrationPortfolioFolder.mutate(portfolioImage.id)
-                }
+                onClick={() => setIllustration(portfolioImage.id)}
               >
                 <Image />
               </Button>
@@ -100,11 +94,7 @@ export function PortfolioImageCard({
           h: "100%",
           w: "100%",
         })}
-        src={
-          "http://localhost:3333/" +
-          "uploads/portfolio/images/" +
-          portfolioImage?.image
-        }
+        src={'http://localhost:3333' + portfolioImage?.image}
         alt={portfolioImage.title}
       />
     </Card>

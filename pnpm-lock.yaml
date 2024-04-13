@@ -44,6 +44,9 @@ dependencies:
   '@react-spring/web':
     specifier: ^9.7.3
     version: 9.7.3(react-dom@18.2.0)(react@18.2.0)
+  '@tanstack/react-table':
+    specifier: ^8.15.3
+    version: 8.15.3(react-dom@18.2.0)(react@18.2.0)
   '@vinejs/vine':
     specifier: ^1.8.0
     version: 1.8.0
@@ -100,6 +103,9 @@ devDependencies:
   '@swc/core':
     specifier: ^1.4.8
     version: 1.4.11
+  '@tuyau/utils':
+    specifier: ^0.0.1
+    version: 0.0.1
   '@types/luxon':
     specifier: ^3.4.2
     version: 3.4.2
@@ -2376,6 +2382,23 @@ packages:
       '@swc/counter': 0.1.3
     dev: true
 
+  /@tanstack/react-table@8.15.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-aocQ4WpWiAh7R+yxNp+DGQYXeVACh5lv2kk96DjYgFiHDCB0cOFoYMT/pM6eDOzeMXR9AvPoLeumTgq8/0qX+w==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      '@tanstack/table-core': 8.15.3
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@tanstack/table-core@8.15.3:
+    resolution: {integrity: sha512-wOgV0HfEvuMOv8RlqdR9MdNNqq0uyvQtP39QOvGlggHvIObOE4exS+D5LGO8LZ3LUXxId2IlUKcHDHaGujWhUg==}
+    engines: {node: '>=12'}
+    dev: false
+
   /@tokenizer/token@0.3.0:
     resolution: {integrity: sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==}
 
@@ -2401,6 +2424,10 @@ packages:
 
   /@tsconfig/node16@1.0.4:
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
+    dev: true
+
+  /@tuyau/utils@0.0.1:
+    resolution: {integrity: sha512-Vi2uT9yuy0jZkaW0c1nMgja266DcIoF+/UK0HGMlTH/FUrmKiQLtu64PKBKZtibkezN4nlw3po4SZKvH37SklA==}
     dev: true
 
   /@types/babel__core@7.20.5:

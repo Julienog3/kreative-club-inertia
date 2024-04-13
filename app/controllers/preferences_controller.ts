@@ -48,11 +48,11 @@ export default class PreferencesController {
     const user = await auth.getUserOrFail()
     const payload = await request.validateUsing(editUserValidator)
 
-    const { avatar, categories, ...updatedUser } = payload
+    const { avatarFile, categories, ...updatedUser } = payload
 
-    if (avatar) {
-      const fileUrl = `${cuid()}.${avatar.extname}`
-      await avatar.move(app.tmpPath('uploads', 'avatars'), {
+    if (avatarFile) {
+      const fileUrl = `${cuid()}.${avatarFile.extname}`
+        await avatarFile.move(app.tmpPath('uploads', 'avatars'), {
         name: fileUrl
       })
       await user.merge({ avatar: '/uploads/avatars/' + fileUrl })

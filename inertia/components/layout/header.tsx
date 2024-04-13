@@ -10,8 +10,12 @@ import { HeaderProfile } from './header-profile'
 import DisconnectIcon from "~/assets/icons/arrow-right-start-on-rectangle.svg?react"
 import HelpIcon from "~/assets/icons/lifebuoy.svg?react"
 import SettingsIcon from "~/assets/icons/cog-6-tooth.svg?react"
-import { Dropdown } from '../ui/dropdown'
+import Inbox from '~/assets/icons/inbox.svg?react'
+import Group from '~/assets/icons/group.svg?react'
 import BookmarkOutline from '~/assets/icons/bookmark-outline.svg?react'
+import { Menu } from '../ui/menu'
+import Chip from '../ui/chip'
+
  
 interface Props {
   user?: User
@@ -31,6 +35,12 @@ export function Header({ user }: Props) {
       link: "/preferences/profile",
     },
     {
+      label: "Admin",
+      icon: <SettingsIcon />,
+      link: "/admin",
+
+    },
+    {
       label: "Support",
       icon: <HelpIcon />,
       link: "/profile",
@@ -45,6 +55,8 @@ export function Header({ user }: Props) {
   return (
     <header
       className={vstack({
+        position: "sticky",
+        top: 0,
         width: '100%',
         height: '5rem',
         paddingX: '1rem',
@@ -52,39 +64,74 @@ export function Header({ user }: Props) {
         flexDirection: 'row',
         backgroundColor: '#fff',
         borderBottom: 'solid #000 2px',
+        zIndex: 10
       })}
     >
       <Link href="/">
         <Logo className={css({ width: '5rem' })} />
       </Link>
-      <div className={hstack({ gap: "1rem" })}>
-        <Link href="/creatives">
-          <p className={css({ textStyle: "body" })}>Découvrir</p>
-        </Link>
-        <Link href="/messages">
-          <p className={css({ textStyle: "body" })}>Messagerie</p>
-        </Link>
-
-        <Link href="/bookmarks">
-          <button
-            className={center({
-              border: "2px solid black",
+      <nav className={hstack({ gap: "2rem" })}>
+        <ul className={hstack({ gap: ".5rem" })}>
+          <li 
+            className={css({
               rounded: "10px",
               padding: ".5rem",
-              h: "3.25rem",
-              w: "3.25rem",
-              backgroundColor: "gray",
               cursor: "pointer",
+              transition: "all .5s",
+              _hover: {
+                backgroundColor: "background",
+              }
             })}
           >
-            <BookmarkOutline />
-          </button>
-        </Link>
+            <Link href="/creatives" className={hstack({ gap: ".5rem" })}>
+              <Group />
+              <p className={css({ textStyle: "body"})}>Découvrir</p>
+            </Link>
+          </li>
+          <li 
+            className={css({
+              rounded: "10px",
+              padding: ".5rem",
+              cursor: "pointer",
+              transition: "all .5s",
+              _hover: {
+                backgroundColor: "background",
+              }
+            })}
+          >
+            <Link href="/messages" className={hstack({ gap: ".5rem" })}>
+              <Inbox className={css({ w: "2rem" })} />
+              <p className={css({ textStyle: "body"})}>Messagerie</p>
+            </Link>
+          </li>
+          <li 
+            className={css({
+              rounded: "10px",
+              padding: ".5rem",
+              cursor: "pointer",
+              transition: "all .5s",
+              stroke: "background",
+              _hover: {
+                backgroundColor: "background",
+              }
+            })}
+          >
+            <Link href="/bookmarks" className={hstack({ gap: ".5rem" })}>
+              <BookmarkOutline className={css({ w: "2rem" })} />
+              <p className={css({ textStyle: "body"})}>Mes signets</p>
+            </Link>
+          </li>
+        </ul>
         {user ? (
           <>
-            <Dropdown items={dropdownItems}>
+            {user.role === 'admin' && 
+              <Link href="/admin/general">
+                <Chip variant='success'>Admin</Chip>
+              </Link>
+            }
+            <Menu items={dropdownItems}>
               <HeaderProfile user={user} />
-            </Dropdown>
+            </Menu>
           </>
         ) : (
           <>
@@ -100,7 +147,7 @@ export function Header({ user }: Props) {
             </Button>
           </>
         )}
-      </div>
+      </nav>
     </header>
   )
 }

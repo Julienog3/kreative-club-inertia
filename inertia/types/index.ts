@@ -9,6 +9,8 @@ export interface BaseModel {
   id: string;
 }
 
+type Role = 'user' | 'admin'
+
 export interface User extends BaseModel {
   username: string
   firstName: string
@@ -22,6 +24,7 @@ export interface User extends BaseModel {
   bookmarks?: Bookmark[]
   portfolioEnabled?: boolean
   description?: string
+  role: Role
 }
 
 interface Bookmark {
@@ -29,3 +32,18 @@ interface Bookmark {
   creativeId: string
   userId: string
 }
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Serialize } from '@tuyau/utils/types';
+import AdminController from "../../app/controllers/admin_controller"
+
+type InferPageProps<Controller, Method extends keyof Controller> = Controller[Method] extends (
+  ...args: any[]
+) => any ? Serialize<Exclude<Awaited<ReturnType<AdminController['users']>>, string | void>> : never;
+
+export type ControllerProps<
+  Controller,
+  Method extends keyof Controller,
+> = InferPageProps<Controller, Method>;
+
+/* eslint-enable @typescript-eslint/no-explicit-any */

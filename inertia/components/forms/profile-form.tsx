@@ -15,7 +15,7 @@ const profileSchema = z.object({
   firstName: z.string().optional(),
   lastName: z.string().optional(),
   phoneNumber: z.string().optional(),
-  avatar: z.any().optional(),
+  avatarFile: z.any().optional(),
   // categories: z.number().array().optional(),
 });
 
@@ -27,7 +27,7 @@ export const ProfileForm = ({ user }: Props) => {
   const { data, setData, errors, processing, reset, put } = useForm<ProfileInputs>({
     firstName: user.firstName,
     lastName: user.lastName,
-    avatar: user.avatar,
+    avatarFile: undefined,
     phoneNumber: user.phoneNumber
   });
   const { addItem } = useSnackbarStore(store => store)
@@ -40,7 +40,6 @@ export const ProfileForm = ({ user }: Props) => {
         router.reload({ only: ['user'] })
       },
       onError: (err) => {
-        console.log({err})
         addItem({ type: "danger", message: "Une erreur est survene lors de la modification de votre profil."})
       },
       forceFormData: true,
@@ -80,7 +79,7 @@ export const ProfileForm = ({ user }: Props) => {
           />
         </div>
         <div className={gridItem({ colSpan: 2 })}>
-          <Dropzone label="avatar" onChange={e => setData('avatar', e.target.files![0])} />
+          <Dropzone label="avatar" onChange={e => setData('avatarFile', e.target.files![0])} />
         </div>
         <div className={hstack()}>
           <Button type="submit" disabled={processing}>Enregistrer</Button>

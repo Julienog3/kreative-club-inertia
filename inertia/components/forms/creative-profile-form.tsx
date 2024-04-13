@@ -38,7 +38,6 @@ export function CreativeProfileForm(props: Props) {
         router.reload({ only: ['user'] })
       },
       onError: (err) => {
-        console.log({err})
         addItem({ type: "danger", message: "Une erreur est survene lors de la modification de votre profil."})
       },
       forceFormData: true,

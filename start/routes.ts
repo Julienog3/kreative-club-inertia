@@ -17,6 +17,7 @@ import app from '@adonisjs/core/services/app'
 import PortfolioImagesController from '#controllers/portfolio_images_controller'
 import PortfolioFoldersController from '#controllers/portfolio_folders_controller'
 import BookmarksController from '#controllers/bookmarks_controller'
+import AdminController from '#controllers/admin_controller'
 
 const PATH_TRAVERSAL_REGEX = /(?:^|[\\/])\.\.(?:[\\/]|$)/
 
@@ -43,6 +44,11 @@ router.group(() => {
   router.get('/portfolio', [PreferencesController, 'renderPortfolio']).as('preferences.portfolio')
   router.get('/portfolio/folders/:id', [PreferencesController, 'renderPortfolioFolderDetails'])
 }).prefix('preferences').use(middleware.auth())
+
+router.group(() => {
+  router.get('/general', [AdminController, 'general'])
+  router.get('/users', [AdminController, 'users'])
+}).prefix('admin').use(middleware.auth())
 
 router.group(async () => {
   router.group(async () => {

@@ -1,4 +1,4 @@
-import { Head, useForm } from '@inertiajs/react'
+import { Head, Link, useForm } from '@inertiajs/react'
 import Chip from '~/components/ui/chip';
 import { grid, gridItem, hstack, vstack } from '~/styled-system/patterns';
 import HomeIcon from '~/assets/icons/home.svg?react'
@@ -27,25 +27,29 @@ export default function List(props: Props) {
   }
 
   return (
-    <div
-      className={vstack({
-        alignItems: "start",
-        minHeight: "100vh",
-        width: "100%",
-        maxWidth: "breakpoint-xl",
-        margin: "0 auto",
-        p: "1rem",
-      })}
-    >
-      <div className={hstack({ mb: "2.5rem" })}>
-        <Chip>
-          <HomeIcon /> Accueil
-        </Chip>
-        <Chip>Tous les créatifs</Chip>
+    <>
+      <div className={vstack({ bgColor: "yellow", w: "100%", p: "2rem", alignItems: "start", borderBottom: "2px solid black" })}>
+        <div 
+          className={vstack({
+            alignItems: "start",
+            width: "100%",
+            maxWidth: "breakpoint-xl",
+            margin: "0 auto",
+            p: "1rem",
+          })}
+          >
+          <div className={hstack({ mb: "2.5rem" })}>
+            <Link href='/'>
+              <Chip>
+                <HomeIcon /> Retourner à l'accueil
+              </Chip>
+            </Link>
+          </div>
+          <h2 className={css({ textStyle: "title", mb: "1.5rem" })}>
+            Tous les créatifs
+          </h2>
+        </div>
       </div>
-      <h2 className={css({ textStyle: "title", mb: "1.5rem" })}>
-        Tous les créatifs
-      </h2>
       <div className={vstack()}>
           <form
             onSubmit={submit}
@@ -60,14 +64,23 @@ export default function List(props: Props) {
             </div>
           </form>
       </div>
-      <ul className={grid({ columns: 3, h: "100%", gap: "1.5rem" })}>
-        {creatives &&
-          creatives.map((creative) => (
-            <li key={creative.id}>
-              <CreativeCard {...creative} />
-            </li>
-          ))}
-      </ul>
-    </div>
+      <div className={vstack({
+        alignItems: "start",
+        minHeight: "100vh",
+        width: "100%",
+        maxWidth: "breakpoint-xl",
+        margin: "0 auto",
+        p: "1rem",
+      })}>
+        <ul className={grid({ columns: 3, h: "100%", gap: "1.5rem" })}>
+          {creatives &&
+            creatives.map((creative) => (
+              <li key={creative.id}>
+                <CreativeCard {...creative} />
+              </li>
+            ))}
+        </ul>
+      </div>
+    </>
   );
 }

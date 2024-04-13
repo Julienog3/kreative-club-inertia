@@ -18,11 +18,7 @@ export function CreativeCard(props: Props) {
   const { props: { user } } = usePage()
   const { addItem } = useSnackbarStore(state => state)
 
-  console.log({ props })
-
   const portfolioIllustration = useMemo(() => props.portfolioImages?.find((image) => image.isIllustration)?.image, [])
-
-  console.log(props.portfolioImages)
 
   // const isBookmarked = (user as User).bookmarks!.find(({ creativeId }) => creativeId === props.id)
   const isBookmarked = false
@@ -49,7 +45,7 @@ export function CreativeCard(props: Props) {
             <div
               className={css({
                 position: "absolute",
-                zIndex: 999,
+                zIndex: 5,
                 top: "1rem",
                 right: "1rem",
               })}

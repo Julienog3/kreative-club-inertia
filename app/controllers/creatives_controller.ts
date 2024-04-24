@@ -3,9 +3,14 @@ import User from '#models/user'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class CreativesController {
-  public async index({ inertia }: HttpContext) {
-    const creatives = await User.query().where('portfolioEnabled', true).preload('categories').preload('portfolioImages')
+  public async index({ inertia, request }: HttpContext) {
+    let creatives = await User.query().where('portfolioEnabled', true).preload('categories').preload('portfolioImages')
+    const { categories, name } = request.qs()
     
+    if (name) {
+      creatives = await User.query().where('portfolioEnabled', true)
+    }
+
     return inertia.render('creatives/list', { creatives })
   }
 

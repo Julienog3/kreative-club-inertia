@@ -6,12 +6,16 @@ import { css } from '~/styled-system/css';
 import { User } from '~/types';
 import { CreativeCard } from '~/components/creatives/creative-card';
 import { z } from 'zod';
+import Input from '~/components/ui/input';
+import { Button } from '~/components/ui/button';
+import { FormEventHandler } from 'react';
 
 interface Props {
   creatives: User[]
 }
 
 const filterCreativesSchema = z.object({
+  name: z.string(),
   categories: z.number().array().optional(),
 });
 
@@ -20,10 +24,11 @@ type filterCreativesInputs = z.infer<typeof filterCreativesSchema>
 export default function List(props: Props) {
   const { creatives } = props
 
-  const { data, setData } = useForm<filterCreativesInputs>({ categories: [] })
+  const { data, setData } = useForm<filterCreativesInputs>()
 
-  function submit() {
-    
+  const submit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault()
+    console.log({ data })
   }
 
   return (
@@ -48,6 +53,14 @@ export default function List(props: Props) {
           <h2 className={css({ textStyle: "title", mb: "1.5rem" })}>
             Tous les créatifs
           </h2>
+          <form onSubmit={submit}>
+            <Input 
+              label='Rechercher un créatif'
+              value={data.name}
+              onChange={(e) => setData('name',e.target.value)}  
+            />
+            <Button type='submit'>Rechercher</Button>
+          </form>
         </div>
       </div>
       <div className={vstack()}>

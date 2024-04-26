@@ -33,7 +33,7 @@ export function PortfolioImageCard({
   }
 
   function setIllustration(id :string) {
-    router.patch(`/portfolio/images/${id}`, { isIllustration: !portfolioImage.isIllustration }, {
+    router.post(`/creatives/thumbnail/${id}`, {}, {
       preserveScroll: true,
       onSuccess: () => {
         addItem({ type: "success", message: "L'image a correctement été modifié."})

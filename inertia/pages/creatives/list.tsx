@@ -1,4 +1,4 @@
-import { Head, Link, useForm } from '@inertiajs/react'
+import { Head, Link, router, useForm } from '@inertiajs/react'
 import Chip from '~/components/ui/chip';
 import { grid, gridItem, hstack, vstack } from '~/styled-system/patterns';
 import HomeIcon from '~/assets/icons/home.svg?react'
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const filterCreativesSchema = z.object({
-  name: z.string(),
+  username: z.string(),
   categories: z.number().array().optional(),
 });
 
@@ -24,11 +24,20 @@ type filterCreativesInputs = z.infer<typeof filterCreativesSchema>
 export default function List(props: Props) {
   const { creatives } = props
 
+  console.log({ creatives })
+
   const { data, setData } = useForm<filterCreativesInputs>()
 
   const submit: FormEventHandler<HTMLFormElement> = (e) => {
+    const { username } = data
+    const url = new URL('http://localhost:3333/creatives')
+
+    if (username) {
+      url.searchParams.append('username', username)
+    }
+
     e.preventDefault()
-    console.log({ data })
+    router.visit(url.href, { only: ['creatives'],})
   }
 
   return (
@@ -56,8 +65,8 @@ export default function List(props: Props) {
           <form onSubmit={submit}>
             <Input 
               label='Rechercher un créatif'
-              value={data.name}
-              onChange={(e) => setData('name',e.target.value)}  
+              value={data.username}
+              onChange={(e) => setData('username',e.target.value)}  
             />
             <Button type='submit'>Rechercher</Button>
           </form>

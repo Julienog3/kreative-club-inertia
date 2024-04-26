@@ -10,7 +10,7 @@ export const createPortfolioImageValidator = vine.compile(
 export const updatePortfolioImageValidator = vine.compile(
   vine.object({
     title: vine.string().optional(),
-    isIllustration: vine.boolean().optional()
+    // isIllustration: vine.boolean().optional()
   })
 ) 
 

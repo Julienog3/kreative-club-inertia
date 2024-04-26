@@ -1,6 +1,6 @@
 import factory from '@adonisjs/lucid/factories'
 import User from '#models/user'
-import { CategoryFactory } from './category_factory.js'
+import { CategoryFactory } from '#database/factories/category_factory'
 
 export const UserFactory = factory
   .define(User, async ({ faker }) => {
@@ -13,7 +13,9 @@ export const UserFactory = factory
       password: faker.internet.password(),
       portfolioEnabled: true,
       avatar: faker.image.avatar(),
-      description: faker.lorem.paragraph()
+      description: faker.lorem.paragraph(),
+      
     }
   })
+  .relation('categories', () => CategoryFactory) // 👈
   .build()

@@ -11,7 +11,7 @@ import { sep, normalize } from 'node:path'
 import AuthController from '#controllers/auth_controller'
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
-import CreativesController from '#controllers/creatives_controller'
+import UsersController from '#controllers/users_controller'
 import PreferencesController from '#controllers/preferences_controller'
 import app from '@adonisjs/core/services/app'
 import PortfolioImagesController from '#controllers/portfolio_images_controller'
@@ -25,8 +25,9 @@ router.get('/', ({ inertia }) => inertia.render('home'))
 
 // router.on('/').renderInertia('home', { version: 6 })
 router.group(() => {
-  router.get('/', [CreativesController, 'index'])
-  router.get(':slug', [CreativesController, 'show'])
+  router.get('/', [UsersController, 'index'])
+  router.get(':slug', [UsersController, 'show'])
+  router.post('/thumbnail/:id', [UsersController, 'setPortfolioImageAsThumbnail']).use(middleware.auth())
 }).prefix('creatives')
 
 router.group(() => {
@@ -70,10 +71,6 @@ router.group(async () => {
   router.get('/', [BookmarksController, 'index'])
   router.post(':creativeId', [BookmarksController, 'bookmark'])
 })
-.prefix('bookmarks')
-.use(middleware.auth())
-
-
 .prefix('bookmarks')
 .use(middleware.auth())
 

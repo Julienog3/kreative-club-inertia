@@ -39,7 +39,6 @@ export default class PortfolioImagesController {
   public async update({ auth, params, request, response }: HttpContext) {
     // const user = auth.getUserOrFail()
     const payload = await request.validateUsing(updatePortfolioImageValidator)
-    logger.info(payload)
 
     const portfolioImage = await PortfolioImage.findOrFail(params.portfolioImageId)
 
@@ -53,4 +52,5 @@ export default class PortfolioImagesController {
     await portfolioImage.delete()
     return response.redirect().toRoute('preferences.portfolio')
   }
+
 }

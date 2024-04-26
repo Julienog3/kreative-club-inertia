@@ -8,17 +8,17 @@ import BookmarkOutline from "~/assets/icons/bookmark-outline.svg?react"
 import { User } from "~/types";
 import Chip from "../ui/chip";
 import { useSnackbarStore } from "../ui/snackbar/snackbar.store";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 
 interface Props extends User {}
 
 export function CreativeCard(props: Props) {
-  const { username, avatar } = props
+  const { username, avatar, portfolioImageAsThumbnail } = props
 
   const { props: { user } } = usePage()
   const { addItem } = useSnackbarStore(state => state)
 
-  const portfolioIllustration = useMemo(() => props.portfolioImages?.find((image) => image.isIllustration)?.image, [])
+  useEffect(() => {console.log((user as User))}, [])
 
   // const isBookmarked = (user as User).bookmarks!.find(({ creativeId }) => creativeId === props.id)
   const isBookmarked = false
@@ -30,7 +30,8 @@ export function CreativeCard(props: Props) {
     router.post(`/bookmarks/${props.id}`, {}, {
       onSuccess: () => {
         addItem({ type: "success", message: "Bookmarked"})
-      }
+      },
+      only: ['creatives']
     })
   };
 
@@ -54,7 +55,7 @@ export function CreativeCard(props: Props) {
                 {isBookmarked ? <BookmarkFilled />: <BookmarkOutline />}
               </Button>
             </div>
-            <img
+            {portfolioImageAsThumbnail && <img
               className={css({
                 position: "relative",
                 borderRadius: "15px",
@@ -64,9 +65,9 @@ export function CreativeCard(props: Props) {
                 objectFit: "cover",
                 zIndex: "3",
               })}
-              src={portfolioIllustration ?? ''}
+              src={portfolioImageAsThumbnail.image ?? ''}
               alt=""
-            />
+            />}
           </div>
           <div className={vstack({ alignItems: "start" })}>
             {props.categories && props.categories.length > 0 && (

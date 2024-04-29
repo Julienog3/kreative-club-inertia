@@ -23,13 +23,23 @@ export function LoginForm() {
   const submit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
     post('/auth/login', {
-      onSuccess: () => {
+      
+      onSuccess: (res) => {
+        console.log(res)
         router.reload({ only: ['user'] })
         addItem({
           type: "success",
           message: "Connecté",
         });
         closeModal()
+      },
+      onError: () => {
+        router.reload({ only: ['user'] })
+        addItem({
+          type: "danger",
+          message: "Fail",
+        });
+        // closeModal()
       } 
     })
   }

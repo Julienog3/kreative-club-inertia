@@ -2,7 +2,7 @@ import { Link, router } from '@inertiajs/react'
 import { Button } from './../ui/button'
 import Logo from './../../assets/logo.svg?react'
 import { AuthModalType } from './../modals/auth-modal/auth-modal'
-import { center, hstack, vstack } from '~/styled-system/patterns'
+import { hstack, vstack } from '~/styled-system/patterns'
 import { css } from '~/styled-system/css'
 import { useStoreAuthModal } from '../modals/auth-modal/auth-modal.store'
 import { User } from '~/types'
@@ -16,7 +16,6 @@ import BookmarkOutline from '~/assets/icons/bookmark-outline.svg?react'
 import { Menu } from '../ui/menu'
 import Chip from '../ui/chip'
 
- 
 interface Props {
   user?: User
 }
@@ -88,39 +87,41 @@ export function Header({ user }: Props) {
               <p className={css({ textStyle: "body"})}>Découvrir</p>
             </Link>
           </li>
-          <li 
-            className={css({
-              rounded: "10px",
-              padding: ".5rem",
-              cursor: "pointer",
-              transition: "all .5s",
-              _hover: {
-                backgroundColor: "background",
-              }
-            })}
-          >
-            <Link href="/messages" className={hstack({ gap: ".5rem" })}>
-              <Inbox className={css({ w: "2rem" })} />
-              <p className={css({ textStyle: "body"})}>Messagerie</p>
-            </Link>
-          </li>
-          <li 
-            className={css({
-              rounded: "10px",
-              padding: ".5rem",
-              cursor: "pointer",
-              transition: "all .5s",
-              stroke: "background",
-              _hover: {
-                backgroundColor: "background",
-              }
-            })}
-          >
-            <Link href="/bookmarks" className={hstack({ gap: ".5rem" })}>
-              <BookmarkOutline className={css({ w: "2rem" })} />
-              <p className={css({ textStyle: "body"})}>Mes signets</p>
-            </Link>
-          </li>
+          {user && <>
+            <li 
+              className={css({
+                rounded: "10px",
+                padding: ".5rem",
+                cursor: "pointer",
+                transition: "all .5s",
+                _hover: {
+                  backgroundColor: "background",
+                }
+              })}
+            >
+              <Link href="/messages" className={hstack({ gap: ".5rem" })}>
+                <Inbox className={css({ w: "2rem" })} />
+                <p className={css({ textStyle: "body"})}>Messagerie</p>
+              </Link>
+            </li>
+            <li 
+              className={css({
+                rounded: "10px",
+                padding: ".5rem",
+                cursor: "pointer",
+                transition: "all .5s",
+                stroke: "background",
+                _hover: {
+                  backgroundColor: "background",
+                }
+              })}
+            >
+              <Link href="/bookmarks" className={hstack({ gap: ".5rem" })}>
+                <BookmarkOutline className={css({ w: "2rem" })} />
+                <p className={css({ textStyle: "body"})}>Mes signets</p>
+              </Link>
+            </li>
+          </>}
         </ul>
         {user ? (
           <>

@@ -13,16 +13,9 @@ import { useEffect } from "react";
 interface Props extends User {}
 
 export function CreativeCard(props: Props) {
-  const { username, avatar, portfolioImageAsThumbnail } = props
+  const { username, avatar, portfolioImageAsThumbnail, isBookmarked } = props
 
-  const { props: { user } } = usePage()
   const { addItem } = useSnackbarStore(state => state)
-
-  useEffect(() => {console.log((user as User))}, [])
-
-  // const isBookmarked = (user as User).bookmarks!.find(({ creativeId }) => creativeId === props.id)
-  const isBookmarked = false
-
 
   function handleAddBookmark(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
@@ -31,7 +24,8 @@ export function CreativeCard(props: Props) {
       onSuccess: () => {
         addItem({ type: "success", message: "Bookmarked"})
       },
-      only: ['creatives']
+      preserveScroll: true,
+      only: ['creatives', 'bookmarks']
     })
   };
 
@@ -65,11 +59,11 @@ export function CreativeCard(props: Props) {
                 objectFit: "cover",
                 zIndex: "3",
               })}
-              src={portfolioImageAsThumbnail.image ?? ''}
+              src={portfolioImageAsThumbnail[0]?.image ?? ''}
               alt=""
             />}
           </div>
-          <div className={vstack({ alignItems: "start" })}>
+          <div className={vstack({ alignItems: "start", w: "100%" })}>
             {props.categories && props.categories.length > 0 && (
               <div className={hstack({ gap: ".25rem", flexWrap: "wrap" })}>
                 {props.categories.map(({ id, title }) => (

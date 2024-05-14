@@ -29,7 +29,6 @@ export function PortfolioList({
     useState(false);
 
   const onPortfolioFolderClick = (portfolioFolder: PortfolioFolder) => {
-    console.log('onPortfolioFolderClick', mode)
     if (mode === "edition") {
       router.visit(`/preferences/portfolio/folders/${portfolioFolder.id}`)
     }

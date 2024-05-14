@@ -1,4 +1,4 @@
-import { Head, Link, router, useForm } from '@inertiajs/react'
+import { Head, Link, router, useForm, usePage } from '@inertiajs/react'
 import Chip from '~/components/ui/chip';
 import { grid, gridItem, hstack, vstack } from '~/styled-system/patterns';
 import HomeIcon from '~/assets/icons/home.svg?react'
@@ -23,10 +23,10 @@ type filterCreativesInputs = z.infer<typeof filterCreativesSchema>
 
 export default function List(props: Props) {
   const { creatives } = props
-
-  console.log({ creatives })
-
   const { data, setData } = useForm<filterCreativesInputs>()
+  const { props: { user }} = usePage()
+
+  console.log({ creatives, user })
 
   const submit: FormEventHandler<HTMLFormElement> = (e) => {
     const { username } = data

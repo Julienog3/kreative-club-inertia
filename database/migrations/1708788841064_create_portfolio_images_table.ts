@@ -18,6 +18,7 @@ export default class extends BaseSchema {
         .references('portfolio_folders.id')
         .onDelete('CASCADE')
         .nullable()
+      table.boolean('is_illustration').defaultTo(false)
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })
     })

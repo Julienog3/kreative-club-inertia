@@ -3,8 +3,15 @@ import type { HttpContext } from '@adonisjs/core/http'
 export default class BookmarksController {
   public async index({ auth, inertia }: HttpContext) {
     const user = await auth.getUserOrFail()
-    const bookmarks = await user.related('bookmarks').query()
-    return inertia.render('bookmarks', { bookmarks })
+    await user.load('bookmarks')
+
+    const bookmarks = await user.related('bookmarks').query().preload('portfolioImageAsThumbnail')
+    const serializedBookmarks = bookmarks.map((bookmark) => ({
+      isBookmarked: !!(user.bookmarks.find(({ id }) => id === bookmark.id)),
+     ...bookmark.serialize()
+    }))
+    
+    return inertia.render('bookmarks', { bookmarks: serializedBookmarks })
   }
 
   public async bookmark({ auth, response, params }: HttpContext) {

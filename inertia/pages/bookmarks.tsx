@@ -13,6 +13,8 @@ interface Props {
 export default function Bookmarks(props: Props) {
   const { bookmarks } = props
 
+  console.log({ bookmarks })
+
   function submit(e) {
   
   }

@@ -22,6 +22,5 @@ export default class PortfolioFoldersController {
     const portfolioFolder = await PortfolioFolder.findOrFail(params.portfolioFolderId)
     await portfolioFolder.delete()
     return response.redirect().toRoute('preferences.portfolio')
-
   }
 }

@@ -21,11 +21,12 @@ export interface User extends BaseModel {
   categories?: Category[]
   portfolioImages?: PortfolioImage[]
   portfolioFolders?: PortfolioFolder[]
-  portfolioImageAsThumbnail: PortfolioImage,
-  bookmarks?: Bookmark[]
+  portfolioImageAsThumbnail: PortfolioImage[],
+  bookmarks: Bookmark[]
   portfolioEnabled?: boolean
   description?: string
-  role: Role
+  role: Role,
+  isBookmarked?: boolean
 }
 
 interface Bookmark {

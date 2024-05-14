@@ -22,8 +22,6 @@ const profileSchema = z.object({
 type ProfileInputs = z.infer<typeof profileSchema>
 
 export const ProfileForm = ({ user }: Props) => {
-  console.log({ user })
-
   const { data, setData, errors, processing, reset, put } = useForm<ProfileInputs>({
     firstName: user.firstName,
     lastName: user.lastName,

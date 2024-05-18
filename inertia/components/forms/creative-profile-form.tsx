@@ -1,15 +1,15 @@
 import { router, useForm, usePage } from "@inertiajs/react";
 import { z } from "zod";
-import { grid, gridItem, hstack } from "~/styled-system/patterns";
+import { grid, gridItem, hstack, vstack } from "~/styled-system/patterns";
 import Input from "../ui/input";
 import { Button } from "../ui/button";
-import { FormEventHandler, useEffect } from "react";
+import { FormEventHandler } from "react";
 import { useSnackbarStore } from "../ui/snackbar/snackbar.store";
 import { TextArea } from "../ui/textarea";
 import { Category } from "~/types/category";
 import { Switch } from "../ui/switch";
 import { css } from "~/styled-system/css";
-import { User } from "~/types";
+import { Combobox } from "../ui/combobox";
 
 const profileSchema = z.object({
   description: z.string().optional(),
@@ -28,7 +28,6 @@ export function CreativeProfileForm(props: Props) {
   const { categories } = props
   const { data, setData, errors, processing, reset, put } = useForm<ProfileInputs>(user as ProfileInputs);
   const { addItem } = useSnackbarStore(store => store)
-  // const { props: { user } } = usePage()
 
   const submit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
@@ -37,7 +36,7 @@ export function CreativeProfileForm(props: Props) {
         addItem({ type: "success", message: "Votre profil a été correctement modifié."})
         router.reload({ only: ['user'] })
       },
-      onError: (err) => {
+      onError: () => {
         addItem({ type: "danger", message: "Une erreur est survene lors de la modification de votre profil."})
       },
       forceFormData: true,
@@ -47,9 +46,9 @@ export function CreativeProfileForm(props: Props) {
   return (
       <form
         onSubmit={submit}
-        className={grid({ gap: "1rem", columns: 2, w: "100%" })}
+        className={vstack({ alignItems: 'left' })}
       >
-        <div className={gridItem()}>
+        <div>
           <TextArea 
             type="text"
             label="Description"
@@ -59,13 +58,14 @@ export function CreativeProfileForm(props: Props) {
             placeholder="10 mots minimum..."
           />
         </div>
-        <div className={gridItem()}>
-          <Input label="Catégories"  list="categories" placeholder="ouais"/>
+        <div>
+          {/* <Input label="Catégories"  list="categories" placeholder="ouais"/>
           {categories && <datalist id="categories">
             {categories.map(({ id, title }) => <option key={id} value={title}/>)}
-          </datalist>}
+          </datalist>} */}
+          {categories && <Combobox label="Catégories" name="categories" value={data.categories} onValueChange={(details => setData('categories', details))}/>}
         </div>
-        <div className={gridItem()}>
+        <div>
           <p className={css({ textStyle: "body" })}>Activer le portfolio</p>
           <Switch checked={data.portfolioEnabled} onCheckedChange={() => setData('portfolioEnabled', !data.portfolioEnabled)} />
         </div>

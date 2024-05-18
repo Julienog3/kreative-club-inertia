@@ -32,6 +32,12 @@ dependencies:
   '@adonisjs/static':
     specifier: ^1.1.1
     version: 1.1.1(@adonisjs/core@6.3.1)
+  '@adonisjs/transmit':
+    specifier: ^1.0.0
+    version: 1.0.0(@adonisjs/core@6.3.1)
+  '@adonisjs/transmit-client':
+    specifier: ^1.0.0
+    version: 1.0.0
   '@adonisjs/vite':
     specifier: ^3.0.0-8
     version: 3.0.0-9(@adonisjs/core@6.3.1)(@adonisjs/shield@8.1.1)(edge.js@6.0.2)(vite@5.2.6)
@@ -623,6 +629,26 @@ packages:
       - supports-color
     dev: false
 
+  /@adonisjs/transmit-client@1.0.0:
+    resolution: {integrity: sha512-S8P4ouxoDRpHA6iEu13OxzVuG9aV6eObxBYFlsAouIDmqoiUjcgDWUJrtI26nediV2nGvaAuK98ObIEy1UWGFg==}
+    engines: {node: '>=18.16.0'}
+    dev: false
+
+  /@adonisjs/transmit@1.0.0(@adonisjs/core@6.3.1):
+    resolution: {integrity: sha512-+aGRm4YusucnEmSQh8mESX4OkCVIfaShDZivNSaXIUOWWrm26a/jnssuzoQAVQNMD0YSrqcMTN0EeV76n7O7Xg==}
+    engines: {node: '>=20.11.1'}
+    peerDependencies:
+      '@adonisjs/core': ^6.2.0
+    dependencies:
+      '@adonisjs/core': 6.3.1(@adonisjs/assembler@7.2.3)(@vinejs/vine@1.8.0)(edge.js@6.0.2)
+      '@boringnode/bus': 0.5.0
+      '@poppinss/matchit': 3.1.2
+      '@poppinss/utils': 6.7.3
+      emittery: 1.0.3
+    transitivePeerDependencies:
+      - ioredis
+    dev: false
+
   /@adonisjs/tsconfig@1.3.0:
     resolution: {integrity: sha512-+nOykDG44b4JSAdsrTdh5HuZqJpr6F+dHpfNYgHfYsFJIEtZo8plHilZAM7iabCRN5R49SPv5p8Ixcp47Rr50g==}
     dev: true
@@ -1016,6 +1042,20 @@ packages:
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
     dev: true
+
+  /@boringnode/bus@0.5.0:
+    resolution: {integrity: sha512-b0jtcAv/IgDrFz10kNJJT5+pyNTdSNxsPCudbnDe4PQ6KzfMQRQQolqFe0uotlmsVmWCBxUN5MyV06vdQ4MeRQ==}
+    engines: {node: '>=20.11.1'}
+    peerDependencies:
+      ioredis: ^5.0.0
+    peerDependenciesMeta:
+      ioredis:
+        optional: true
+    dependencies:
+      '@paralleldrive/cuid2': 2.2.2
+      '@poppinss/utils': 6.7.3
+      object-hash: 3.0.0
+    dev: false
 
   /@clack/core@0.3.4:
     resolution: {integrity: sha512-H4hxZDXgHtWTwV3RAVenqcC4VbJZNegbBjlPvzOzCouXtS2y3sDvlO3IsbrPNWuLWPPlYVYPghQdSF64683Ldw==}
@@ -5703,6 +5743,11 @@ packages:
 
   /nprogress@0.2.0:
     resolution: {integrity: sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==}
+    dev: false
+
+  /object-hash@3.0.0:
+    resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
+    engines: {node: '>= 6'}
     dev: false
 
   /object-inspect@1.13.1:

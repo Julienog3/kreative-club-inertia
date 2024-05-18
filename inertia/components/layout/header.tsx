@@ -99,7 +99,7 @@ export function Header({ user }: Props) {
                 }
               })}
             >
-              <Link href="/messages" className={hstack({ gap: ".5rem" })}>
+              <Link href="/inbox" className={hstack({ gap: ".5rem" })}>
                 <Inbox className={css({ w: "2rem" })} />
                 <p className={css({ textStyle: "body"})}>Messagerie</p>
               </Link>

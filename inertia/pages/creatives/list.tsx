@@ -24,9 +24,6 @@ type filterCreativesInputs = z.infer<typeof filterCreativesSchema>
 export default function List(props: Props) {
   const { creatives } = props
   const { data, setData } = useForm<filterCreativesInputs>()
-  const { props: { user }} = usePage()
-
-  console.log({ creatives, user })
 
   const submit: FormEventHandler<HTMLFormElement> = (e) => {
     const { username } = data
@@ -37,7 +34,7 @@ export default function List(props: Props) {
     }
 
     e.preventDefault()
-    router.visit(url.href, { only: ['creatives'],})
+    router.visit(url.href, { only: ['creatives'] })
   }
 
   return (

@@ -1,6 +1,6 @@
 import * as SwitchPrimitive from '@radix-ui/react-switch'
 import React from 'react'
-import {  sva } from '~/styled-system/css'
+import { sva } from '~/styled-system/css'
 
 
 const switchRecipe = sva({

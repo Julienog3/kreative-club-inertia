@@ -18,6 +18,9 @@ import PortfolioImagesController from '#controllers/portfolio_images_controller'
 import PortfolioFoldersController from '#controllers/portfolio_folders_controller'
 import BookmarksController from '#controllers/bookmarks_controller'
 import AdminController from '#controllers/admin_controller'
+import InboxController from '#controllers/inbox_controller'
+import ChatsController from '#controllers/chats_controller'
+import OrdersController from '#controllers/orders_controller'
 
 const PATH_TRAVERSAL_REGEX = /(?:^|[\\/])\.\.(?:[\\/]|$)/
 
@@ -73,6 +76,15 @@ router.group(async () => {
 })
 .prefix('bookmarks')
 .use(middleware.auth())
+
+router.group(async () => {
+  router.post('/', [OrdersController, 'store'])
+})
+.prefix('orders')
+.use(middleware.auth())
+
+router.get('/inbox', [InboxController, 'index']).use(middleware.auth())
+router.post('/messages', [ChatsController, 'store']).use(middleware.auth())
 
 router.get('/uploads/*', ({ request, response }) => {
   const filePath = request.param('*').join(sep)

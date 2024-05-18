@@ -7,9 +7,7 @@ const appName = import.meta.env.VITE_APP_NAME || 'Kreative Club'
 
 createInertiaApp({
   progress: { color: '#5468FF' },
-
   title: (title) => `${title} - ${appName}`,
-
   resolve: (name) => {
     const pages = import.meta.glob('../pages/**/*.tsx', { eager: true })
     let page = pages[`../pages/${name}.tsx`]

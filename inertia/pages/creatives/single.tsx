@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import React, { useMemo } from "react";
 import { PortfolioList } from "~/components/portfolio/portfolio-list";
 import { Button } from "~/components/ui/button";
@@ -16,9 +16,16 @@ interface Props {
 
 export default function Single(props: Props) {
   const { creative } = props
+  const { props: { user }} = usePage()
 
-  function handleBookmark(): void {
-    
+  // function handleBookmark(): void {}
+
+  async function createOrder(): Promise<void> {
+    await router.post('/orders', {
+      sellerId: creative.id,
+      customerId: (user as User).id,
+      step: 'not-started'
+    })
   }
 
   const portfolioElements = useMemo(
@@ -124,10 +131,12 @@ export default function Single(props: Props) {
                 )}
               </div>
               <div className={hstack({ mt: "1rem" })}>
-                <Button onClick={() => handleBookmark()}>
+                {/* <Button onClick={() => handleBookmark()}>
                   Bookmark
+                </Button> */}
+                <Button variant="success" onClick={() => createOrder()}>
+                  Commander
                 </Button>
-                <Button variant="success">Envoyer</Button>
               </div>
             </Card>
           </div>

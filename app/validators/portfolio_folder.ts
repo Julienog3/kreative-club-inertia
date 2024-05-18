@@ -8,7 +8,7 @@ export const createPortfolioFolderValidator = vine.compile(
 )
 
 export const setIllustrationImageValidator = vine.compile(
-    vine.object({
-      portfolioImageId: vine.string().uuid()
-    })
-  )
+  vine.object({
+    portfolioImageId: vine.string().uuid()
+  })
+)

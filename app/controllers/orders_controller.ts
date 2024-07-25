@@ -12,7 +12,7 @@ export default class OrdersController {
     const user = await auth.getUserOrFail()
     const payload = await request.validateUsing(createOrderValidator)
 
-    await this.orderService.create(payload)
+    await user.related('purchases').create(payload)
     return response.redirect().back()
   }
 }

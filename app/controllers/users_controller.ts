@@ -13,7 +13,7 @@ export default class UsersController {
     await auth.check()
 
     let creatives = await this.userService.allCreatives()
-    const {  username } = request.qs()
+    const { username } = request.qs()
     
     if (username) {
       creatives = await User.query()

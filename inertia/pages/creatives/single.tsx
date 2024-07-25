@@ -134,7 +134,7 @@ export default function Single(props: Props) {
                 {/* <Button onClick={() => handleBookmark()}>
                   Bookmark
                 </Button> */}
-                <Button variant="success" onClick={() => createOrder()}>
+                <Button variant="success" onClick={createOrder}>
                   Commander
                 </Button>
               </div>

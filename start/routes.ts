@@ -83,7 +83,13 @@ router.group(async () => {
 .prefix('orders')
 .use(middleware.auth())
 
-router.get('/inbox', [InboxController, 'index']).use(middleware.auth())
+router.group(async () => {
+  router.get('/', [InboxController, 'index'])
+  router.get('/:recipientId', [InboxController, 'show'])
+})
+.prefix('inbox')
+.use(middleware.auth())
+
 router.post('/messages', [ChatsController, 'store']).use(middleware.auth())
 
 router.get('/uploads/*', ({ request, response }) => {

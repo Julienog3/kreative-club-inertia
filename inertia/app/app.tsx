@@ -1,6 +1,8 @@
+/// <reference path="../../adonisrc.ts" />
+
 import '../css/app.css'
 import { hydrateRoot } from 'react-dom/client'
-import { createInertiaApp } from '@inertiajs/react'
+import { createInertiaApp, router } from '@inertiajs/react'
 import { Layout } from '../components/layout/layout'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Kreative Club'

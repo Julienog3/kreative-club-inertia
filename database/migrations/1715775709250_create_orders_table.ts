@@ -7,12 +7,12 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.uuid('id').primary()
       table
-        .string('customer_id')
+        .uuid('customer_id')
         .references('users.id')
         .onDelete('CASCADE')
         .notNullable()
       table
-        .string('seller_id')
+        .uuid('seller_id')
         .references('users.id')
         .onDelete('CASCADE')
         .notNullable()

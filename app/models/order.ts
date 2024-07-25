@@ -1,15 +1,10 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, column, hasOne } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, belongsTo, column, hasOne } from '@adonisjs/lucid/orm'
 import { randomUUID } from 'crypto'
 import User from '#models/user'
-import type { HasOne } from '@adonisjs/lucid/types/relations'
+import type { BelongsTo, HasOne } from '@adonisjs/lucid/types/relations'
 
-export enum Step {
-  NotStarted = 'not-started',
-  InProgress = 'in-progress',
-  Done = 'done',
-
-}
+export type Step =  'not-started' | 'in-progress' | 'done'
 
 export default class Order extends BaseModel {
   public static selfAssignPrimaryKey = true
@@ -17,17 +12,27 @@ export default class Order extends BaseModel {
   @column({ isPrimary: true })
   declare id: string
 
-  @hasOne(() => User)
-  declare customer: HasOne<typeof User>
+  @column()
+  declare customerId: string
+  
+  @belongsTo(() => User, {
+    foreignKey: 'customerId'
+  })
+  declare customer: BelongsTo<typeof User>
 
-  @hasOne(() => User)
-  declare seller: HasOne<typeof User>
+  @column()
+  declare sellerId: string
+
+  @belongsTo(() => User, {
+    foreignKey: 'sellerId'
+  })
+  declare seller: BelongsTo<typeof User>
 
   @column()
   declare step: Step
 
   @column.dateTime()
-  declare paidAt: DateTime
+  declare paidAt?: DateTime
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

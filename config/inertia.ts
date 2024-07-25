@@ -20,7 +20,7 @@ export default defineConfig({
    */
   ssr: {
     enabled: true,
-    pages: ['creatives/list'],
+    pages: ['home'],
     entrypoint: 'inertia/app/ssr.tsx'
   }
 })

@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, column, computed, hasMany, hasOne, manyToMany } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, column, hasMany, manyToMany } from '@adonisjs/lucid/orm'
 import hash from '@adonisjs/core/services/hash'
 import { randomUUID } from 'node:crypto'
 import { compose } from '@adonisjs/core/helpers'
@@ -10,6 +10,7 @@ import PortfolioImage from '#models/portfolio_image'
 import type { HasMany, HasOne, ManyToMany } from '@adonisjs/lucid/types/relations'
 import PortfolioFolder from '#models/portfolio_folder'
 import logger from '@adonisjs/core/services/logger'
+import Order from '#models/order'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -56,6 +57,16 @@ export default class User extends compose(BaseModel, AuthFinder) {
   
   @column()
   declare description: string | null
+
+  @hasMany(() => Order, {
+    foreignKey: 'customerId'
+  })
+  declare purchases: HasMany<typeof Order>
+
+  @hasMany(() => Order, {
+    foreignKey: 'sellerId'
+  })
+  declare sales: HasMany<typeof Order>
 
   @manyToMany(() => Category, {
     pivotTable: 'user_categories'

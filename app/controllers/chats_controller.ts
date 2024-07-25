@@ -10,7 +10,7 @@ export default class ChatsController {
     if (!message || !username) {
       return response.redirect().back()
     }
-    transmit.broadcast('globale', { message })
+    transmit.broadcast(`messages/${username}`, { message })
     return response.redirect().back()
   }
 }

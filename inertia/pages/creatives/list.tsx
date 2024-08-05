@@ -39,7 +39,7 @@ export default function List(props: Props) {
 
   return (
     <>
-      <div className={vstack({ bgColor: "yellow", w: "100%", p: "2rem", alignItems: "start", borderBottom: "2px solid black" })}>
+      <div className={vstack({ bgColor: "yellow", w: "100%", p: "2rem", alignItems: "start", borderBottom: "2px solid black", bgImage: 'url(/images/grid.png)', })}>
         <div 
           className={vstack({
             alignItems: "start",

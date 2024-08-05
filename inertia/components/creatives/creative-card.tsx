@@ -8,7 +8,6 @@ import BookmarkOutline from "~/assets/icons/bookmark-outline.svg?react"
 import { User } from "~/types";
 import Chip from "../ui/chip";
 import { useSnackbarStore } from "../ui/snackbar/snackbar.store";
-import { useEffect } from "react";
 
 interface Props extends User {}
 

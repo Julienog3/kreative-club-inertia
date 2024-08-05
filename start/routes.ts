@@ -29,7 +29,11 @@ router.get('/', ({ inertia }) => inertia.render('home'))
 // router.on('/').renderInertia('home', { version: 6 })
 router.group(() => {
   router.get('/', [UsersController, 'index'])
-  router.get(':slug', [UsersController, 'show'])
+  router.get(':slug', async ({ response, params }) => {
+    response.redirect().toRoute('creatives.portfolio', { slug: params.slug })
+  })
+  router.get(':slug/portfolio', [UsersController, 'portfolio']).as('creatives.portfolio')
+  router.get(':slug/reviews', [UsersController, 'reviews'])
   router.post('/thumbnail/:id', [UsersController, 'setPortfolioImageAsThumbnail']).use(middleware.auth())
 }).prefix('creatives')
 

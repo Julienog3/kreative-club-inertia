@@ -1,13 +1,3 @@
-// import { useCategories } from "#root/src/api/categories/getCategories";
-// import { css } from "#root/styled-system/css";
-// import { hstack, vstack } from "#root/styled-system/patterns";
-// import { ChangeEvent, forwardRef, useEffect, useState } from "react";
-// import { Category } from "#root/types/category";
-// import Chip from "../Chip/Chip";
-// import { ControllerRenderProps, FieldValues } from "react-hook-form";
-// import { IoIosArrowDown } from "@react-icons/all-files/io/IoIosArrowDown";
-// import { IoIosArrowUp } from "@react-icons/all-files/io/IoIosArrowUp";
-
 import { forwardRef, useEffect, useState } from "react";
 import { css } from "~/styled-system/css";
 import { hstack, vstack } from "~/styled-system/patterns";

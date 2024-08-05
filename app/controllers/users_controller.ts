@@ -46,6 +46,16 @@ export default class UsersController {
     return inertia.render('creatives/single', { creative })
   }
 
+  public async portfolio({ inertia, params }: HttpContext) {
+    const creative = await this.userService.findCreativeBySlug(params.slug)
+    return inertia.render('creatives/portfolio', { creative })
+  }
+
+  public async reviews({ inertia, params }: HttpContext) {
+    const creative = await this.userService.findCreativeBySlug(params.slug)
+    return inertia.render('creatives/reviews', { creative })
+  }
+
   public async setPortfolioImageAsThumbnail({ bouncer, auth, params, response }: HttpContext) {
     const user = await auth.getUserOrFail()
     const portfolioImage = await PortfolioImage.findOrFail(params.id)

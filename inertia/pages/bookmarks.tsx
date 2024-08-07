@@ -1,10 +1,14 @@
 import { Head } from "@inertiajs/react"
 import { CreativeCard } from "~/components/creatives/creative-card"
-import Chip from "~/components/ui/chip"
 import { css } from "~/styled-system/css"
-import { grid, gridItem, hstack, vstack } from "~/styled-system/patterns"
+import { grid, hstack, vstack } from "~/styled-system/patterns"
 import { User } from "~/types"
-import HomeIcon from "~/assets/icons/home.svg?react"
+import { Select } from "~/components/ui/select"
+import { Breadcrumb } from "~/components/ui/breadcrumb"
+import { Button } from "~/components/ui/button"
+import { PageHeader } from "~/components/layout/page-header"
+import { BookmarksFilterForm } from "~/components/bookmarks/bookmarks-filter-form"
+import { BookmarksList } from "~/components/bookmarks/bookmarks-list"
 
 interface Props {
   bookmarks: User[]
@@ -13,12 +17,24 @@ interface Props {
 export default function Bookmarks(props: Props) {
   const { bookmarks } = props
 
-  function submit(e) {}
-
   return (
     <>
       <Head title="Mes signets" />
-      <div
+      <PageHeader color="red">
+        <Breadcrumb />
+        <div className={hstack({ w: "100%", justifyContent: 'space-between' })}>
+          <div className={vstack({ gap: '.25rem', alignItems: 'start' })}>
+            <h2 className={css({ textStyle: "title" })}>
+              Mes signets
+            </h2>
+            <p className={css({ textStyle: "body" })}>
+              Retrouvez l'ensemble des créatifs qui vous ont tapé dans l'oeil.
+            </p>
+          </div>
+          <BookmarksFilterForm />
+        </div>
+      </PageHeader>
+      <section
         className={vstack({
           alignItems: "start",
           minHeight: "100vh",
@@ -28,38 +44,8 @@ export default function Bookmarks(props: Props) {
           p: "1rem",
         })}
       >
-        <div className={hstack({ mb: "2.5rem" })}>
-          <Chip>
-            <HomeIcon /> Accueil
-          </Chip>
-          <Chip>Mes signets</Chip>
-        </div>
-        <h2 className={css({ textStyle: "title", mb: "1.5rem" })}>
-          Mes signets
-        </h2>
-        <div className={vstack()}>
-            <form
-              onSubmit={submit}
-              className={grid({ gap: "1rem", columns: 2, w: "100%" })}
-            >
-              <div className={gridItem({ colSpan: 2 })}>
-                {/* <Controller
-                  control={control}
-                  name="categories"
-                  render={({ field }) => <Autocomplete {...field} />}
-                /> */}
-              </div>
-            </form>
-        </div>
-        <ul className={grid({ columns: 3, h: "100%", gap: "1.5rem" })}>
-          {bookmarks &&
-            bookmarks.map((bookmark) => (
-              <li key={bookmark.id}>
-                <CreativeCard {...bookmark} />
-              </li>
-            ))}
-        </ul>
-      </div>
+        <BookmarksList bookmarks={bookmarks} />
+      </section>
     </>  
   )
 }

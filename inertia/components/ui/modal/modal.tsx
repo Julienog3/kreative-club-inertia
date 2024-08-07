@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react";
 import { SpringValue, animated } from "@react-spring/web";
 import { Button } from "../button";
 import { createPortal } from "react-dom";
-import Logo from './../../../assets/icons/x-mark.svg?react'
+import CloseIcon from './../../../assets/icons/x-mark.svg?react'
 import { center, hstack, vstack } from "~/styled-system/patterns";
 import { css } from "~/styled-system/css";
 
@@ -76,7 +76,7 @@ export function Modal({
         >
           <h2 className={css({ textStyle: "subtitle" })}>{title}</h2>
           <Button variant="danger" onClick={onClose}>
-            <Logo />
+            <CloseIcon />
           </Button>
         </div>
         <div className={vstack()}>{children}</div>

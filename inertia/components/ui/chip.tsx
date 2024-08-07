@@ -20,6 +20,7 @@ const chip = cva({
     rounded: "999px",
     color: "black",
     whiteSpace: "nowrap",
+    background: 'white'
   },
   variants: {},
 });

@@ -1,6 +1,7 @@
 import React from "react";
 import { css } from "~/styled-system/css";
 import { vstack } from "~/styled-system/patterns";
+import { Field as ArkField } from "@ark-ui/react"
 
 interface Props extends React.HTMLProps<HTMLTextAreaElement>  {
   type?: React.HTMLInputTypeAttribute;
@@ -8,23 +9,19 @@ interface Props extends React.HTMLProps<HTMLTextAreaElement>  {
   value?: string;
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
   required?: boolean;
+  invalid?: boolean
   errorMessage?: string
 }
 
 export function TextArea(props: Props) {
-  const { label, required, value, onChange, errorMessage, ...rest } = props
-
-  
+  const { label, required, value, onChange, errorMessage, invalid,...rest } = props  
 
   return (
-    <div className={vstack({ gap: 1, alignItems: "left" })}>
-      <label className={css({ textStyle: "body" })}>
+    <ArkField.Root invalid={invalid} className={vstack({ gap: 1, alignItems: "left" })}>
+      <ArkField.Label className={css({ textStyle: "body" })}>
         {label}
-        {required && (
-          <span className={css({ color: "purple", ml: ".25rem" })}>*</span>
-        )}
-      </label>
-      <textarea
+      </ArkField.Label>
+      <ArkField.Textarea
         className={css({
           padding: ".5rem",
           border: "#000 solid 2px",
@@ -36,14 +33,9 @@ export function TextArea(props: Props) {
         onChange={onChange}
         {...rest}
       />
-      {errorMessage && (
-        <p
-          role="alert"
-          className={css({ textStyle: "body", color: "red.400" })}
-        >
-          {errorMessage}
-        </p>
-      )}
-    </div>
+      <ArkField.ErrorText className={css({ textStyle: "body", color: "red" })}>
+        {errorMessage}
+      </ArkField.ErrorText>
+    </ArkField.Root>
   );
 }

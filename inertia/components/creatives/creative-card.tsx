@@ -28,6 +28,8 @@ export function CreativeCard(props: Props) {
     })
   };
 
+  const hasThumbnail = !!portfolioImageAsThumbnail[0]
+
   return (
     <Link
       href={`/creatives/${username}`}
@@ -48,19 +50,32 @@ export function CreativeCard(props: Props) {
                 {isBookmarked ? <BookmarkFilled />: <BookmarkOutline />}
               </Button>
             </div>
-            {portfolioImageAsThumbnail && <img
-              className={css({
+            {hasThumbnail 
+              ? <img
+                className={css({
+                  position: "relative",
+                  borderRadius: "15px",
+                  border: "solid 2px #000",
+                  w: "100%",
+                  h: "14rem",
+                  objectFit: "cover",
+                  zIndex: "2",
+                })}
+                src={portfolioImageAsThumbnail[0]?.image ?? ''}
+                alt=""
+              />
+              : <span className={css({
+                display: "block",
                 position: "relative",
+                background: "gray",
                 borderRadius: "15px",
                 border: "solid 2px #000",
                 w: "100%",
                 h: "14rem",
                 objectFit: "cover",
-                zIndex: "3",
-              })}
-              src={portfolioImageAsThumbnail[0]?.image ?? ''}
-              alt=""
-            />}
+                zIndex: "2",
+              })}/>
+            }
           </div>
           <div className={vstack({ alignItems: "start", w: "100%" })}>
             {props.categories && props.categories.length > 0 && (

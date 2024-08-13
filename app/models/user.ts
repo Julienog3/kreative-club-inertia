@@ -9,7 +9,6 @@ import Category from '#models/category'
 import PortfolioImage from '#models/portfolio_image'
 import type { HasMany, HasOne, ManyToMany } from '@adonisjs/lucid/types/relations'
 import PortfolioFolder from '#models/portfolio_folder'
-import logger from '@adonisjs/core/services/logger'
 import Order from '#models/order'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {

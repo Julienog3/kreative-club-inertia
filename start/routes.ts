@@ -83,14 +83,14 @@ router.group(async () => {
 .use(middleware.auth())
 
 router.group(async () => {
-  router.post('/', [OrdersController, 'store'])
+  router.post('/', [OrdersController, 'store']).as('orders.store')
 })
 .prefix('orders')
 .use(middleware.auth())
 
 router.group(async () => {
   router.get('/', [InboxController, 'index'])
-  router.get('/:recipientId', [InboxController, 'show'])
+  router.get('/:recipientId', [InboxController, 'show']).as('inbox.show')
 })
 .prefix('inbox')
 .use(middleware.auth())

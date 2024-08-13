@@ -6,12 +6,12 @@ interface Props {
   name: string
   label: string
   items: Item[]
-  value: string[]
+  value: Item[]
   onChange: (valueChanged: Item[]) => void
   placeholder?: string
 }
 
-type Item = { label: string; value: string; disabled?: boolean }
+type Item = { label: string; value: unknown; disabled?: boolean }
 
 const selectRecipe = sva({
   slots: ['root', 'trigger', 'content', 'itemGroup', 'item'],
@@ -59,7 +59,6 @@ export function Select(props: Props) {
       name={name} 
       className={classes.root} 
       items={items}
-      value={props.value}
       onValueChange={(e) => onChange(e.items)}
     >
       <ArkSelect.Label>{label}</ArkSelect.Label>
@@ -73,8 +72,8 @@ export function Select(props: Props) {
         <ArkSelect.Positioner>
           <ArkSelect.Content className={classes.content}>
             <ArkSelect.ItemGroup id={label} className={classes.itemGroup}>
-              {items.map((item) => (
-                <ArkSelect.Item key={item.value} item={item} className={classes.item}>
+              {items.map((item, index) => (
+                <ArkSelect.Item key={index} item={item} className={classes.item}>
                   <ArkSelect.ItemIndicator>✓</ArkSelect.ItemIndicator>
                   <ArkSelect.ItemText>{item.label}</ArkSelect.ItemText>
                 </ArkSelect.Item>

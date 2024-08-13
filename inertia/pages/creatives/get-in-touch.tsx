@@ -42,7 +42,7 @@ export default function GetIntTouch(props: Props) {
             </div>
           </header>
           <section className={vstack({ alignItems: "left", p: "1rem" })}>
-            <GetInTouchForm categories={categories} />
+            <GetInTouchForm creativeId={creative.id} categories={categories} />
           </section>
         </Card>
       </section>

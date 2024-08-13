@@ -8,19 +8,23 @@ import { z } from "zod"
 import { RadioGroup } from "~/components/ui/radio-group"
 import { Select } from "~/components/ui/select"
 import { Category } from "~/types/category"
+import { useMemo } from "react"
+import { router, usePage } from "@inertiajs/react"
+import { User } from "~/types"
 
 interface Props {
+  creativeId: string
   categories: Category[]
 }
 
 const delayList = [
   {
     label: 'Au plus vite !',
-    value: 'soon'
+    value: 'asap'
   },
   {
     label: 'Dans le mois',
-    value: 'month'
+    value: 'in-the-month'
   },
   {
     label: 'Prenez votre temps',
@@ -28,28 +32,48 @@ const delayList = [
   },
 ]
 
+interface OrderRequestForm {
+  type: string,
+  delay: string,
+  categories: never[],
+  description: string,
+}
+
 export function GetInTouchForm(props: Props) {
-  const { categories } = props
+  const { categories, creativeId } = props
+   const { props: { user }} = usePage()
+
+  async function createOrder(payload: OrderRequestForm): Promise<void> {
+    const { categories, ...rest } = payload
+    const categoriesIds = categories.map(({ value }) => value)
+
+    await router.post('/orders', {
+      sellerId: creativeId,
+      customerId: (user as User).id,
+      categories: categoriesIds,
+      ...rest
+    })
+  }
 
   const form = useForm({
     validatorAdapter: zodValidator(),
     defaultValues: {
-      project: '',
+      type: '',
       delay: '',
       categories: [],
       description: ''
     },
-    onSubmit: ({ value }) => {
-      console.log(value)
+    onSubmit: async ({ value }) => {
+      await createOrder(value)
     }
   })
 
-  const categoriesFormatted = categories.map((category) => {
+  const categoriesFormatted = useMemo(() => categories.map((category) => {
     return {
       label: category.title,
-      value: category.id.toString()
+      value: category.id
     }
-  })
+  }), [categories]) 
 
   return (
     <form 
@@ -60,7 +84,7 @@ export function GetInTouchForm(props: Props) {
       }} 
       className={vstack({ alignItems: "start", gap: "1rem" })}>
       <form.Field
-        name="project"
+        name="type"
         children={(field) => (
           <Input 
             name={field.name}

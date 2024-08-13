@@ -4,6 +4,7 @@ import { hstack, vstack } from "~/styled-system/patterns";
 import { css } from "~/styled-system/css";
 import Chip from "../ui/chip";
 import { Button } from "../ui/button";
+import { router } from "@inertiajs/react";
 
 interface Props {
   creative: User
@@ -11,6 +12,10 @@ interface Props {
 
 export function CreativeDetailsCard(props: Props) {
   const { creative } = props
+
+  function getInTouchCreative() {
+    router.visit(`/creatives/${creative.username}/get-in-touch`)
+  }
 
   return (
     <Card css={{ p: "1rem" }} withShadow>
@@ -44,7 +49,7 @@ export function CreativeDetailsCard(props: Props) {
             <h3 className={css({ textStyle: "h3", mb: ".5rem"  })}>
               Compétences
             </h3>
-            <ul className={hstack()}>
+            <ul className={hstack({ flexWrap: 'wrap'})}>
               {creative.categories.map((category) => {
                 return (
                   <li key={category.id}>
@@ -60,7 +65,7 @@ export function CreativeDetailsCard(props: Props) {
         {/* <Button onClick={() => handleBookmark()}>
           Bookmark
         </Button> */}
-        <Button variant="success">
+        <Button onClick={() => getInTouchCreative()} variant="success">
           Commander
         </Button>
       </footer>

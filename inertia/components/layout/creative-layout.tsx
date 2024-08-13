@@ -1,12 +1,13 @@
-import { Link } from "@inertiajs/react";
 import React, { PropsWithChildren } from "react";
-import Chip from "~/components/ui/chip";
 import { css } from "~/styled-system/css";
 import {  hstack, vstack } from "~/styled-system/patterns";
 import { User } from "~/types";
-import HomeIcon from '~/assets/icons/home.svg?react'
 import { CreativeDetailsCard } from "~/components/creatives/creative-details-card";
 import { CreativeTabs } from "~/components/creatives/creative-tabs";
+import { Breadcrumb } from "../ui/breadcrumb";
+import GroupIcon from '~/assets/icons/group.svg?react'
+import { PageHeader } from "./page-header";
+
 
 interface Props extends PropsWithChildren {
   creative: User,
@@ -26,40 +27,25 @@ const tabs = [
 export default function CreativeLayout(props: Props) {
   const { creative, children } = props
 
+  const breadcumbItems = [
+    {
+      label: 'Tous les créatifs',
+      to: '/creatives',
+      icon: <GroupIcon />
+    }
+  ]
+
   return (
     <>
-      <div className={vstack({ 
-        bgColor: "lightblue", 
-        w: "100%", p: "1rem", 
-        alignItems: "start", 
-        borderBottom: "2px solid black",
-        bgImage: 'url(/images/grid.png)',
-        bgPosition: 'center' 
-      })}>
-        <div 
-          className={vstack({
-            alignItems: "start",
-            width: "100%",
-            maxWidth: "breakpoint-xl",
-            margin: "0 auto",
-            p: "1rem",
-          })}
-          >
-          <div className={hstack({ mb: "2.5rem" })}>
-            <Link href='/'>
-              <Chip>
-                <HomeIcon /> Retourner à l'accueil
-              </Chip>
-            </Link>
-          </div>
-          <div className={vstack({ gap: '.25rem', alignItems: 'start' })}>
-            <h2 className={css({ textStyle: "title" })}>
-              Détails d'un créatif
-            </h2>
-            <p className={css({ textStyle: "body" })}>L’ensemble des créations de votre créatif</p>
-          </div>
-        </div>
+    <PageHeader color="lightblue">
+      <Breadcrumb elements={breadcumbItems} />
+      <div className={vstack({ gap: '.25rem', alignItems: 'start' })}>
+        <h2 className={css({ textStyle: "title" })}>
+          Détails d'un créatif
+        </h2>
+        <p className={css({ textStyle: "body" })}>L’ensemble des créations de votre créatif</p>
       </div>
+    </PageHeader>
       <div
         className={vstack({
           alignItems: "start",
@@ -70,7 +56,7 @@ export default function CreativeLayout(props: Props) {
           p: "1rem",
         })}
       >
-        <div className={hstack({ gap: "1rem", w: "100%", h: "100%", p: "1rem", alignItems: "start" })}>
+        <div className={hstack({ gap: "2rem", w: "100%", h: "100%", p: "1rem", alignItems: "start" })}>
           <div className={vstack({ w: "100%", h: "100%", alignItems:"start", gap: "0" })}>
             <CreativeTabs tabs={tabs} />
             <section className={css({ 
@@ -85,7 +71,7 @@ export default function CreativeLayout(props: Props) {
               {children}
             </section>
           </div>
-          <div className={css({ pos: "relative", top: "-8rem", w: "1/3" })}>
+          <div className={css({ pos: "relative", top: "-8rem", w: "1/2" })}>
             <CreativeDetailsCard creative={creative}/>
           </div>
         </div>

@@ -56,7 +56,7 @@ export function CreativeTabs(props: Props) {
                   className={css({ w: "100%", h: "100%" })} 
                   href={tab.to} 
                   only={['creative']} 
-                  preserveState
+                  preserveScroll
                 >
                   {tab.label}
                 </Link>

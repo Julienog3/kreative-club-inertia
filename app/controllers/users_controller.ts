@@ -1,13 +1,14 @@
 import { editPortfolioImage } from '#abilities/main'
 import PortfolioImage from '#models/portfolio_image'
 import User from '#models/user'
+import CategoryService from '#services/category_service'
 import UserService from '#services/user_service'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 
 @inject()
 export default class UsersController {
-  constructor(protected userService: UserService) {}
+  constructor(protected userService: UserService, protected categoryService: CategoryService) {}
 
   public async index({ inertia, request, auth }: HttpContext) {
     await auth.check()
@@ -54,6 +55,13 @@ export default class UsersController {
   public async reviews({ inertia, params }: HttpContext) {
     const creative = await this.userService.findCreativeBySlug(params.slug)
     return inertia.render('creatives/reviews', { creative })
+  }
+
+  public async getInTouch({ inertia, params }: HttpContext) {
+    const creative = await this.userService.findCreativeBySlug(params.slug)
+    const categories = await this.categoryService.getAllCategories()
+
+    return inertia.render('creatives/get-in-touch', { creative, categories })
   }
 
   public async setPortfolioImageAsThumbnail({ bouncer, auth, params, response }: HttpContext) {

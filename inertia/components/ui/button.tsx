@@ -16,7 +16,7 @@ const button = cva({
     textStyle: 'body',
     padding: '.5rem',
     transition: 'background',
-    rounded: '.5rem',
+    rounded: '5px',
     color: 'black',
     alignItems: 'center',
     gap: '.5rem',

@@ -4,7 +4,7 @@ import { vstack } from "~/styled-system/patterns";
 
 interface Props extends React.HTMLProps<HTMLInputElement>  {
   type?: React.HTMLInputTypeAttribute;
-  label: string;
+  label?: string;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   required?: boolean;
@@ -16,12 +16,12 @@ const Input = (props: Props): JSX.Element => {
 
   return (
     <div className={vstack({ gap: 1, alignItems: "left" })}>
-      <label className={css({ textStyle: "body" })}>
+      {label && <label className={css({ textStyle: "body" })}>
         {label}
         {required && (
           <span className={css({ color: "purple", ml: ".25rem" })}>*</span>
         )}
-      </label>
+      </label>}
       <input
         className={css({
           padding: ".5rem",

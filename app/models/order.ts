@@ -1,8 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, belongsTo, column, hasOne } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, belongsTo, column, hasMany, hasOne } from '@adonisjs/lucid/orm'
 import { randomUUID } from 'crypto'
 import User from '#models/user'
-import type { BelongsTo, HasOne } from '@adonisjs/lucid/types/relations'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import Message from '#models/message'
 
 export type Step =  'not-started' | 'in-progress' | 'done'
 
@@ -33,6 +34,9 @@ export default class Order extends BaseModel {
 
   @column.dateTime()
   declare paidAt?: DateTime
+
+  @hasMany(() => Message)
+  declare messages: HasMany<typeof Message>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

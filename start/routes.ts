@@ -90,7 +90,7 @@ router.group(async () => {
 
 router.group(async () => {
   router.get('/', [InboxController, 'index'])
-  router.get('/:recipientId', [InboxController, 'show']).as('inbox.show')
+  router.get('/:orderId', [InboxController, 'show']).as('inbox.show')
 })
 .prefix('inbox')
 .use(middleware.auth())

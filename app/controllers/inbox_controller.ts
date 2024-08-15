@@ -1,4 +1,4 @@
-import User from '#models/user'
+import Order from '#models/order'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class InboxController {
@@ -12,11 +12,26 @@ export default class InboxController {
 
   public async show({ auth, inertia, params }: HttpContext) {
     const user = await auth.getUserOrFail()
-    const recipient = await User.findByOrFail('username', params.recipientId)
+    const order = await Order
+      .query()
+      .where('id', params.orderId)
+      .preload('customer')
+      .preload('seller')
+      .preload('messages', (messagesQuery) => {
+        messagesQuery.preload('user')
+      })
+      .firstOrFail()
 
-    const purchases = await user.related('purchases').query().preload('customer').preload('seller')
-    const sales = await user.related('sales').query().preload('customer').preload('seller')
+    const purchases = await user.related('purchases')
+      .query()
+      .preload('customer')
+      .preload('seller')
 
-    return await inertia.render('messages/single', { purchases, sales, recipient })
+    const sales = await user.related('sales')
+      .query()
+      .preload('customer')
+      .preload('seller')
+
+    return await inertia.render('messages/single', { purchases, sales, order })
   }
 }

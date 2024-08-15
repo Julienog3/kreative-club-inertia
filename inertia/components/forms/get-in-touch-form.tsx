@@ -41,7 +41,7 @@ interface OrderRequestForm {
 
 export function GetInTouchForm(props: Props) {
   const { categories, creativeId } = props
-   const { props: { user }} = usePage()
+  const { props: { user }} = usePage()
 
   async function createOrder(payload: OrderRequestForm): Promise<void> {
     const { categories, ...rest } = payload

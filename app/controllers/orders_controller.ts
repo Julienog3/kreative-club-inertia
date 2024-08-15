@@ -20,8 +20,6 @@ export default class OrdersController {
     const orderRequest = await OrderRequest.create({ ...requestPayload, orderId: order.id })
     orderRequest.related('categories').attach(categories)
 
-    const { username } = await User.findOrFail(orderPayload.sellerId)
-
-    return response.redirect().toRoute('inbox.show', { recipientId: username })
+    return response.redirect().toRoute('inbox.show', { orderId: order.id })
   }
 }

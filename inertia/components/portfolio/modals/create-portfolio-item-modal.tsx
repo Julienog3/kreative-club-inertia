@@ -1,13 +1,18 @@
 
 import { useTransition } from "@react-spring/web";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CreatePortfolioFolderForm } from "../create-portfolio-folder-form";
 import { CreatePortfolioImageForm } from "../create-portfolio-image-form";
 import { Modal, modalTransitionConfig } from "~/components/ui/modal/modal";
-import { Button } from "~/components/ui/button";
-import { hstack } from "~/styled-system/patterns";
+import { RadioGroup } from "~/components/ui/radio-group";
 
 type PortfolioType = "folder" | "image";
+
+const typesList = [
+  { label: 'Projet avec plusieurs éléments', value: 'folder' }, 
+  { label: 'Elément individuel', value: 'image' }
+]
+
 interface CreatePortfolioItemModalProps {
   isShowed: boolean;
   closeModal: () => void;
@@ -34,10 +39,6 @@ export const CreatePortfolioItemModal = ({
     }
   };
 
-  const selectType = (type: PortfolioType) => {
-    setCreatePortfolioType(type);
-  };
-
   return (
     <>
       {modalTransition((style, isOpened) => (
@@ -49,17 +50,19 @@ export const CreatePortfolioItemModal = ({
                   ? "Ajouter une image"
                   : "Ajouter un dossier"
               }
+              description="Tempus iaculis urna id volutpat lacus."
               style={{ ...style }}
               onClose={() => {
                 closeModal();
               }}
             >
-              {!portfolioFolderId && (
-                <div className={hstack()}>
-                  <Button onClick={() => selectType("image")}>Image</Button>
-                  <Button onClick={() => selectType("folder")}>Dossier</Button>
-                </div>
-              )}
+              {!portfolioFolderId && <RadioGroup
+                name="type"
+                label="Type d'élement"
+                elements={typesList}
+                onChange={({ value }) => setCreatePortfolioType(value as PortfolioType)}
+                value={createPortfolioType}
+              />}
               {renderModalForm()}
             </Modal>
           )}

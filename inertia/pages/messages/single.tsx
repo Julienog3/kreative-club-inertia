@@ -3,6 +3,7 @@ import { User } from "~/types";
 import { MessagesLayout } from "~/components/layout/messages-layout";
 import { Order } from "~/types/order";
 import { Chat } from "~/components/chat/chat";
+import { Layout } from "~/components/layout/layout";
 
 interface Props {
   purchases: Order[],
@@ -11,9 +12,7 @@ interface Props {
 }
 
 export default function Inbox(props: Props) {
-  const { props: { user } } = usePage()
   const { purchases, sales, order } = props
-
   const orders = [...purchases, ...sales]
 
   return (
@@ -25,3 +24,5 @@ export default function Inbox(props: Props) {
     </>
   )
 }
+
+Inbox.layout = page => <Layout children={page} />

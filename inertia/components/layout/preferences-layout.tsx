@@ -1,8 +1,12 @@
 import React from "react";
-import { grid, gridItem, vstack } from "~/styled-system/patterns";
+import { grid, gridItem, hstack, vstack } from "~/styled-system/patterns";
 import List from "../ui/list";
 import { Link } from "@inertiajs/react";
 import { css } from "~/styled-system/css";
+import { Breadcrumb } from "../ui/breadcrumb";
+import ChevronRight from '~/assets/icons/chevron-right.svg?react'
+
+import { ConfirmContextProvider } from "./confirm-context";
 
 interface PreferencesLayoutProps {
   children: React.ReactNode;
@@ -20,9 +24,12 @@ export function PreferencesLayout({
         width: "100%",
         maxWidth: "breakpoint-xl",
         margin: "0 auto",
+        alignItems: "start",
+        py: "2rem"
       })}
     >
-      <div className={grid({ columns: 4, gap: "1rem", w: "100%", p: "1rem" })}>
+      <Breadcrumb />
+      <div className={grid({ columns: 4, gap: "1rem", w: "100%" })}>
         <div
           className={vstack({
             width: "100%",
@@ -43,7 +50,10 @@ export function PreferencesLayout({
                 })}
                 href="/preferences/profile"
               >
-                Mon profil
+                <span className={hstack({ justifyContent: "space-between" })}>
+                  Mon profil
+                  <ChevronRight />
+                </span>
               </Link>
             </List.Item>
             <List.Item>
@@ -56,7 +66,10 @@ export function PreferencesLayout({
                 })}
                 href="/preferences/security"
               >
-                Sécurité
+                <span className={hstack({ justifyContent: "space-between" })}>
+                  Sécurité
+                  <ChevronRight />
+                </span>
               </Link>
             </List.Item>
             <List.Item>
@@ -69,7 +82,10 @@ export function PreferencesLayout({
                 })}
                 href="/preferences/notifications"
               >
-                Notifications
+                <span className={hstack({ justifyContent: "space-between" })}>
+                  Notifications
+                  <ChevronRight />
+                </span>
               </Link>
             </List.Item>
           </List>
@@ -85,7 +101,10 @@ export function PreferencesLayout({
                 })}
                 href="/preferences/creative-profile"
               >
-                Mon profil créatif
+                <span className={hstack({ justifyContent: "space-between" })}>
+                  Mon profil créatif
+                  <ChevronRight />
+                </span>
               </Link>
             </List.Item>
             <List.Item>
@@ -98,12 +117,15 @@ export function PreferencesLayout({
                 })}
                 href="/preferences/portfolio"
               >
-                Mon portfolio
+                <span className={hstack({ justifyContent: "space-between" })}>
+                  Mon portfolio
+                  <ChevronRight />
+                </span>
               </Link>
             </List.Item>
           </List>
         </div>
-        <div className={gridItem({ colSpan: 3 })}>{children}</div>
+        <section className={gridItem({ colSpan: 3 })}>{children}</section>
       </div>
     </div>
   );

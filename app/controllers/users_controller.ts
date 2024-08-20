@@ -1,8 +1,10 @@
-import { editPortfolioImage } from '#abilities/main'
+import { deleteUser, editPortfolioImage, updateUser } from '#abilities/main'
+import PortfolioFolder from '#models/portfolio_folder'
 import PortfolioImage from '#models/portfolio_image'
 import User from '#models/user'
 import CategoryService from '#services/category_service'
 import UserService from '#services/user_service'
+import { updateUserValidator } from '#validators/user'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 
@@ -49,7 +51,13 @@ export default class UsersController {
 
   public async portfolio({ inertia, params }: HttpContext) {
     const creative = await this.userService.findCreativeBySlug(params.slug)
-    return inertia.render('creatives/portfolio', { creative })
+
+    const portfolioFolders = await PortfolioFolder.query().where('userId', creative.id).preload('portfolioImages')
+    const portfolioImages = await PortfolioImage.query().where((query) => {
+      query.where('userId', creative.id).whereNull('portfolioFolderId')
+    })
+
+    return inertia.render('creatives/portfolio', { creative, portfolioFolders, portfolioImages })
   }
 
   public async reviews({ inertia, params }: HttpContext) {
@@ -81,4 +89,21 @@ export default class UsersController {
     return await response.redirect().back()
   }
 
+  public async update({ bouncer, params, response, request }: HttpContext) {
+    const payload = await request.validateUsing(updateUserValidator)
+
+    if (await bouncer.allows(updateUser, params.id)) {
+      this.userService.updateUser(params.id, payload)
+    }
+
+    return response.redirect().back()
+  }
+
+  public async destroy({ bouncer, params, response }: HttpContext) {
+    if (await bouncer.allows(deleteUser, params.id)) {
+      this.userService.removeUser(params.id)
+    }
+
+    return await response.redirect().toRoute('home')
+  }
 }

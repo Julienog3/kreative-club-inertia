@@ -1,19 +1,12 @@
-import { router, useForm, usePage } from "@inertiajs/react";
-import { set, z } from "zod";
+import { router } from "@inertiajs/react";
 import { useStoreModal } from "../ui/modal/modal.store";
-import { FormEventHandler } from "react";
 import { hstack, vstack } from "~/styled-system/patterns";
 import Input from "../ui/input";
 import { Dropzone } from "../ui/dropzone";
 import { Button } from "../ui/button";
 import { useSnackbarStore } from "../ui/snackbar/snackbar.store";
-
-const createPortfolioSchema = z.object({
-  title: z.string().min(4),
-  image: z.any(),
-});
-
-type createPortfolioInputs = z.infer<typeof createPortfolioSchema>
+import { useForm } from "@tanstack/react-form";
+import { zodValidator } from "@tanstack/zod-form-adapter";
 
 interface Props {
   portfolioFolderId?: string;
@@ -22,43 +15,92 @@ interface Props {
 export const CreatePortfolioImageForm = ({
   portfolioFolderId,
 }: Props) => {
-  const { data, setData, post } = useForm<createPortfolioInputs>()
-
-
-  const { props: { user } } = usePage();
   const { addItem } = useSnackbarStore((state) => state)
   const { closeModal } = useStoreModal((state) => state);
 
-  const submit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault()
-    let baseUrl = '/portfolio/images' 
+  const form = useForm({
+    validatorAdapter: zodValidator(),
+    defaultValues: {
+      title: '',
+      image: undefined
+    },
+    onSubmit: async ({ value }) => {
+      await createPortfolioImage(value)
+    }
+  }) 
+
+  async function createPortfolioImage(value: any) {
+    const baseUrl = new URL('/portfolio/images', 'http://localhost:3333/')
+
+    const formData = new FormData();
+    formData.append('title', value.title)
+    formData.append('image', value.image)
 
     if (portfolioFolderId) {
-      baseUrl += `?portfolioFolderId=${portfolioFolderId}`
+      baseUrl.searchParams.append('portfolioFolderId', portfolioFolderId)
     }
 
-    post(baseUrl , { 
+    await router.post(baseUrl , formData, { 
       onSuccess: () => {
         closeModal()
         router.reload()
         addItem({ type: "success", message: "L'image a correctement été ajouté à votre portfolio" })
       }, 
-      onError: (err) => console.log(err), 
-      forceFormData: true
+      onError: (err) => console.log(err),
+      forceFormData: true, 
     })
-  };
+  }
 
   return (
       <form
         className={vstack({ gap: "1rem", w: "100%", alignItems: "start" })}
-        onSubmit={submit}
+        onSubmit={(e): void => {
+          e.preventDefault()
+          e.stopPropagation()
+          form.handleSubmit()
+        }}
       >
-        <Input label="title" value={data.title} onChange={e => setData('title', e.target.value)} required />
-        <Dropzone onChange={e => setData('image', e.target.files![0])} label="image" required />
-        <div className={hstack({ justifyContent: "end", w: "100%" })}>
-          <Button disabled>Annuler</Button>
-          <Button type="submit">Ajouter</Button>
-        </div>
+        <form.Field 
+          name="title"
+          children={(field) => (
+            <Input 
+              name={field.name}
+              label="Nom de l'élément" 
+              placeholder="Ex: Dessin d'une tortue"
+              value={field.state.value} 
+              onChange={(e) => field.handleChange(e.target.value)}
+              controlProps={{ width: "30rem" }} 
+              required 
+            />
+          )}
+        />
+        <form.Field 
+          name="image"
+          children={(field) => (
+            <Dropzone 
+              name={field.name}
+              label="Illustration"
+              maxFiles={1}
+              value={field.state.value}
+              onChange={(e) => {
+                if (!e.target.files?.length) return 
+                // @ts-expect-error
+                field.handleChange(e.target.files![0])
+              }}
+              required
+              // errorMessage={field.state.meta.errors.join(', ')} 
+            />
+          )}
+        />
+        <form.Subscribe 
+          selector={(state) => [state.canSubmit]}
+          children={([canSubmit]) => (
+            <div className={hstack({ justifyContent: "end", w: "100%" })}>
+              <Button disabled={!canSubmit} type="submit">Ajouter</Button>
+              <Button variant="ghost" onClick={closeModal}>Annuler</Button>
+            </div>
+          )}
+        />
       </form>
   );
 };

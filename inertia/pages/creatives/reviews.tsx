@@ -10,13 +10,14 @@ import HomeIcon from '~/assets/icons/home.svg?react'
 import { CreativeDetailsCard } from "~/components/creatives/creative-details-card";
 import { CreativeTabs } from "~/components/creatives/creative-tabs";
 import CreativeLayout from "../../components/layout/creative-layout";
+import { Layout } from "~/components/layout/layout";
 
 
 interface Props {
   creative: User,
 }
 
-export default function CreativePortfolio(props: Props) {
+export default function Reviews(props: Props) {
   const { creative } = props
   const { props: { user } } = usePage()
 
@@ -33,4 +34,6 @@ export default function CreativePortfolio(props: Props) {
     </>
   );
 }
+
+Reviews.layout = page => <Layout children={page} />
 

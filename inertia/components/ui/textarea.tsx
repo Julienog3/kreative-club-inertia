@@ -14,10 +14,10 @@ interface Props extends React.HTMLProps<HTMLTextAreaElement>  {
 }
 
 export function TextArea(props: Props) {
-  const { label, required, value, onChange, errorMessage, invalid,...rest } = props  
+  const { label, required, value, onChange, errorMessage, invalid, ...rest } = props  
 
   return (
-    <ArkField.Root invalid={invalid} className={vstack({ gap: 1, alignItems: "left" })}>
+    <ArkField.Root invalid={invalid} className={vstack({ gap: ".5rem", alignItems: "left", w: "30rem" })}>
       <ArkField.Label className={css({ textStyle: "body" })}>
         {label}
       </ArkField.Label>
@@ -27,6 +27,7 @@ export function TextArea(props: Props) {
           border: "#000 solid 2px",
           rounded: ".5rem",
           textStyle: "body",
+          minH: "15rem"
         })}
         required={required}
         value={value}

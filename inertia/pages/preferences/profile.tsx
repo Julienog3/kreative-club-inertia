@@ -1,11 +1,10 @@
-import { Head, router, usePage } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 import { ProfileForm } from "~/components/forms/profile-form";
+import { Layout } from "~/components/layout/layout";
 import { PreferencesLayout } from "~/components/layout/preferences-layout";
-import { ProfileCard } from "~/components/profile-card";
-import { Button } from "~/components/ui/button";
 import Card from "~/components/ui/card";
 import { css } from "~/styled-system/css";
-import { vstack } from "~/styled-system/patterns";
+import { hstack, vstack } from "~/styled-system/patterns";
 import { User } from "~/types";
 
 export default function Profile() {
@@ -14,20 +13,26 @@ export default function Profile() {
   return <>
     <Head title="Mon profil" />
     <PreferencesLayout>
-      <Card css={{ width: "100%", height: "100%", p: ".5rem" }}>
-        <div
-          className={vstack({
+      <Card css={{ width: "100%", height: "100%" }} withShadow>
+        <header
+          className={hstack({
             w: "100%",
-            alignItems: "flex-start",
             p: "1rem",
-            height: "100%",
+            justifyContent: "space-between",
+            borderBottom: "solid 2px black"
           })}
         >
-          <h2 className={css({ textStyle: "title" })}>Profil</h2>
-          <ProfileCard user={user as User} />
-          <ProfileForm user={user as User}/>
-        </div>
+          <div className={vstack({ alignItems: "start", gap: "0" })}>
+            <h2 className={css({ textStyle: "subtitle" })}>Mon profil</h2>
+            <p className={css({ textStyle: "body" })}>Tempus iaculis urna id volutpat lacus.</p>
+          </div>
+        </header>
+        <section className={css({ p: "1rem" })}>
+          <ProfileForm id="profile-form" user={user as User}/>
+        </section>
       </Card>
     </PreferencesLayout>
   </>
 }
+
+Profile.layout = (page: React.ReactNode) => <Layout children={page} />

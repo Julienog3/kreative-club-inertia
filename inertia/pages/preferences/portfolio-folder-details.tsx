@@ -8,6 +8,9 @@ import { hstack, vstack } from "~/styled-system/patterns";
 import { PortfolioFolder } from "~/types/portfolio";
 import Pencil from "~/assets/icons/pencil.svg?react"
 import Bin from "~/assets/icons/bin.svg?react"
+import { Layout } from "~/components/layout/layout";
+import ChevronRight from '~/assets/icons/chevron-right.svg?react'
+import { ConfirmContextProvider, useConfirm } from "~/components/layout/confirm-context";
 
 interface Props {
   portfolioFolder: PortfolioFolder
@@ -16,40 +19,57 @@ interface Props {
 export default function PortfolioFolderDetails(props: Props) {
   const { portfolioFolder } = props
 
-  function onDelete(id: string) {
-    router.delete(`/portfolio/folders/${id}`)
+  const { confirm } = useConfirm()
+
+  async function deletePortfolioFolder(id: string) {
+    if (await confirm({
+      title: 'bah putain',
+      description: 'c\'est cool'
+    })) {
+      router.delete(`/portfolio/folders/${id}`)
+    }
   }
 
   return (
     <>
       <Head title="Portfolio" />
       <PreferencesLayout>
-        <Card>
-          <div
+        <Card withShadow>
+          <header
+            className={hstack({
+              w: "100%",
+              p: "1rem",
+              justifyContent: "space-between",
+              borderBottom: "solid 2px black"
+            })}
+          >
+            <div className={vstack({ alignItems: "start", gap: "0" })}>
+              <h2 className={css({ textStyle: "subtitle" })}>Portfolio</h2>
+              <p className={css({ textStyle: "body" })}>Tempus iaculis urna id volutpat lacus.</p>
+            </div>
+          </header>
+          <section
             className={vstack({
               w: "100%",
               alignItems: "flex-start",
               p: "1rem",
               height: "100%",
+              gap: "0"
             })}
           >
-            <div
-              className={vstack({
-                height: "100%",
-                alignItems: "start",
-                w: "100%",
-              })}
-            >
               <div
                 className={hstack({
                   justifyContent: "space-between",
                   alignItems: "start",
                   w: "100%",
-                  mb: "1rem",
                 })}
               >
                 <div>
-                  <Link href="/preferences/portfolio">Retour au portfolio</Link>
+                  <div className={hstack({ textStyle: "body", mb: "1rem", gap: ".25rem" })}>
+                    <Link href="/preferences/portfolio">Portfolio</Link>
+                    <ChevronRight className={css({ w: "1.25rem", h: "1.25rem" })} />
+                    <p className={css({ color: "purple" })}>{portfolioFolder.title}</p>
+                  </div>
                   <h2 className={css({ textStyle: "subtitle" })}>
                     Projet &quot;{portfolioFolder.title}&quot;
                   </h2>
@@ -59,7 +79,7 @@ export default function PortfolioFolderDetails(props: Props) {
                     <Pencil />
                     Modifier
                   </Button>
-                  <Button onClick={() => onDelete(portfolioFolder.id)} variant="danger">
+                  <Button onClick={() => deletePortfolioFolder(portfolioFolder.id)} variant="danger">
                     <Bin />
                     Supprimer
                   </Button>
@@ -75,10 +95,15 @@ export default function PortfolioFolderDetails(props: Props) {
                   portfolioFolderId={portfolioFolder.id}
                 />
               )}
-            </div>
-          </div>
+          </section>
         </Card>
       </PreferencesLayout>
     </>
   )
 }
+
+PortfolioFolderDetails.layout = (page: React.ReactNode) => (
+  <ConfirmContextProvider>
+    <Layout children={page} />
+  </ConfirmContextProvider>
+)

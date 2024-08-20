@@ -47,7 +47,7 @@ export const Menu = (props: Props) => {
       <ArkMenu.Positioner>
         <ArkMenu.Content className={styles.content}>
           {items.map(({ label, link, icon, onClick }) => (
-            <ArkMenu.Item className={styles.item} id={label}>
+            <ArkMenu.Item key={label} className={styles.item} id={label} value="">
               {link ? (
                 <Link
                   className={hstack({

@@ -100,6 +100,7 @@ export function GetInTouchForm(props: Props) {
         children={(field) => (
           <Select 
             name={field.name} 
+            multiple
             label="Catégorie du besoin" 
             items={categoriesFormatted}
             value={field.state.value}

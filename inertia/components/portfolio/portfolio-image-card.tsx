@@ -41,10 +41,6 @@ export function PortfolioImageCard({
     })
   }
 
-  // const setIllustrationPortfolioFolder = usePortfolioFolderIllustration(
-  //   user.id,
-  // );
-
   const [isCardHovered, setIsCardHovered] = useState<boolean>(false);
 
   const buttonStyle = useSpring({
@@ -54,7 +50,7 @@ export function PortfolioImageCard({
 
   return (
     <Card
-      css={{ h: "18rem", pos: "relative", cursor: "pointer", w: "100%" }}
+      css={{ pos: "relative", h: "18rem", cursor: "pointer", w: "100%", backgroundColor: "white" }}
       onMouseEnter={() => setIsCardHovered(true)}
       onMouseLeave={() => setIsCardHovered(false)}
     >
@@ -91,8 +87,8 @@ export function PortfolioImageCard({
       <img
         className={css({
           objectFit: "cover",
-          h: "100%",
           w: "100%",
+          h: "18rem"
         })}
         src={'http://localhost:3333' + portfolioImage?.image}
         alt={portfolioImage.title}

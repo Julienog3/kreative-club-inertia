@@ -1,6 +1,6 @@
-import { Link, router, usePage } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { css } from "~/styled-system/css";
-import Card from "../ui/card";
+import Card from "~/components/ui/card";
 import { hstack, vstack } from "~/styled-system/patterns";
 import { Button } from "../ui/button";
 import BookmarkFilled from "~/assets/icons/bookmark-filled.svg?react"
@@ -8,6 +8,8 @@ import BookmarkOutline from "~/assets/icons/bookmark-outline.svg?react"
 import { User } from "~/types";
 import Chip from "../ui/chip";
 import { useSnackbarStore } from "../ui/snackbar/snackbar.store";
+import { useState } from "react";
+import { useSpring, animated } from "@react-spring/web";
 
 interface Props extends User {}
 
@@ -28,6 +30,13 @@ export function CreativeCard(props: Props) {
     })
   };
 
+  const [isCardHovered, setIsCardHovered] = useState<boolean>(false);
+
+  const buttonStyle = useSpring({
+    opacity: isCardHovered ? "1" : "0",
+    transform: isCardHovered ? "scale(1)" : "scale(0)",
+  });
+
   const hasThumbnail = !!portfolioImageAsThumbnail[0]
 
   return (
@@ -35,10 +44,16 @@ export function CreativeCard(props: Props) {
       href={`/creatives/${username}`}
       className={css({ borderRadius: "13px" })}
     >
-      <Card css={{ p: "1rem" }}>
+      <Card 
+        css={{ p: "1rem" }}
+        onMouseEnter={() => setIsCardHovered(true)}
+        onMouseLeave={() => setIsCardHovered(false)}
+
+      >
         <div className={vstack({ alignItems: "start" })}>
           <div className={css({ position: "relative", width: "100%" })}>
-            <div
+            <animated.div
+              style={buttonStyle}
               className={css({
                 position: "absolute",
                 zIndex: 5,
@@ -49,7 +64,7 @@ export function CreativeCard(props: Props) {
               <Button variant="danger" onClick={(e) => handleAddBookmark(e)}>
                 {isBookmarked ? <BookmarkFilled />: <BookmarkOutline />}
               </Button>
-            </div>
+            </animated.div>
             {hasThumbnail 
               ? <img
                 className={css({

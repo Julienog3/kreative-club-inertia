@@ -1,5 +1,6 @@
 import { Head } from "@inertiajs/react";
 import { GetInTouchForm } from "~/components/forms/get-in-touch-form";
+import { Layout } from "~/components/layout/layout";
 import { PageHeader } from "~/components/layout/page-header";
 import { Breadcrumb } from "~/components/ui/breadcrumb";
 import Card from "~/components/ui/card";
@@ -13,7 +14,7 @@ interface Props {
   categories: Category[]
 }
 
-export default function GetIntTouch(props: Props) {
+export default function GetInTouch(props: Props) {
   const { creative, categories } = props
 
   return (
@@ -49,3 +50,5 @@ export default function GetIntTouch(props: Props) {
     </>
   )
 }
+
+GetInTouch.layout = page => <Layout children={page} />

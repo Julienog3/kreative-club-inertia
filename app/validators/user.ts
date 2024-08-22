@@ -1,6 +1,6 @@
 import vine from '@vinejs/vine'
 
-export const editUserValidator = vine.compile(
+export const updateUserValidator = vine.compile(
   vine.object({
     firstName: vine.string().optional(),
     lastName: vine.string().optional(),

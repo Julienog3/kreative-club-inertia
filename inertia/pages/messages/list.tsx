@@ -1,17 +1,10 @@
-import { Head, Link, router, usePage } from "@inertiajs/react";
-import Chip from "~/components/ui/chip";
+import { Head } from "@inertiajs/react";
 import { css } from "~/styled-system/css";
-import { grid, gridItem, hstack, vstack } from "~/styled-system/patterns";
-import HomeIcon from "~/assets/icons/home.svg?react"
-import { useEffect, useState } from "react";
-import { User } from "~/types";
-import { Button } from "~/components/ui/button";
+import { vstack } from "~/styled-system/patterns";
 import Card from "~/components/ui/card";
-import { Transmit } from "@adonisjs/transmit-client";
-import List from "~/components/ui/list";
-import { Breadcrumb } from "~/components/ui/breadcrumb";
 import { MessagesLayout } from "~/components/layout/messages-layout";
 import { Order } from "~/types/order";
+import { Layout } from "~/components/layout/layout";
 
 interface Props {
   purchases: Order[]
@@ -19,10 +12,7 @@ interface Props {
 }
 
 export default function Inbox(props: Props) {
-  const [value, setValue] = useState<string>()
-  const { props: { user } } = usePage()
   const { purchases, sales } = props
-
   const orders = [...purchases, ...sales]
 
   return (
@@ -38,3 +28,5 @@ export default function Inbox(props: Props) {
     </>
   )
 }
+
+Inbox.layout = page => <Layout children={page} />

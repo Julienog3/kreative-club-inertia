@@ -6,11 +6,12 @@ import { css, cva } from "~/styled-system/css";
 const card = cva({
   base: {
     layerStyle: "container",
+    position: "relative",
     overflow: "hidden",
-    // transition: "all .5s",
-    // _hover: {
-    //   boxShadow: "5px 5px 0px black",
-    // },
+    backgroundColor: "white",
+    zIndex: 1,
+    transition: "all .5s",
+
   },
   variants: {
     shadow: {
@@ -29,12 +30,12 @@ interface CardProps extends React.BaseHTMLAttributes<HTMLDivElement> {
 }
 
 const Card = (props: CardProps): JSX.Element => {
-  const { withShadow = false, css: cssProp = {}, children } = props;
+  const { withShadow = false, css: cssProp = {}, children, ...rest } = props;
 
   const className = css(card.raw({ shadow: withShadow }), cssProp);
 
   return (
-    <article className={className} {...props}>
+    <article className={className} {...rest}>
       {children}
     </article>
   );

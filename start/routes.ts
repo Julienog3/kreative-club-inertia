@@ -21,10 +21,11 @@ import AdminController from '#controllers/admin_controller'
 import InboxController from '#controllers/inbox_controller'
 import ChatsController from '#controllers/chats_controller'
 import OrdersController from '#controllers/orders_controller'
+import SecurityController from '#controllers/preferences/security_controller'
 
 const PATH_TRAVERSAL_REGEX = /(?:^|[\\/])\.\.(?:[\\/]|$)/
 
-router.get('/', ({ inertia }) => inertia.render('home'))
+router.get('/', ({ inertia }) => inertia.render('home')).as('home')
 
 // router.on('/').renderInertia('home', { version: 6 })
 router.group(() => {
@@ -46,10 +47,10 @@ router.group(() => {
 
 router.group(() => {
   router.get('/profile', [PreferencesController, 'renderProfile']).as('preferences.profile')
-  router.put('/profile/edit', [PreferencesController, 'editProfile'])
+  // router.put('/profile/edit', [PreferencesController, 'editProfile'])
   router.get('/creative-profile', [PreferencesController, 'renderCreativeProfile'])
   router.get('/notifications', [PreferencesController, 'renderNotifications'])
-  router.get('/security', [PreferencesController, 'renderSecurity'])
+  router.get('/security', [SecurityController, 'render'])
   router.get('/portfolio', [PreferencesController, 'renderPortfolio']).as('preferences.portfolio')
   router.get('/portfolio/folders/:id', [PreferencesController, 'renderPortfolioFolderDetails'])
 }).prefix('preferences').use(middleware.auth())
@@ -58,6 +59,11 @@ router.group(() => {
   router.get('/general', [AdminController, 'general'])
   router.get('/users', [AdminController, 'users'])
 }).prefix('admin').use(middleware.auth())
+
+router.group(() => {
+  router.put(':id', [UsersController, 'update'])
+  router.delete(':id', [UsersController, 'destroy'])
+}).prefix('users').use(middleware.auth())
 
 router.group(async () => {
   router.group(async () => {

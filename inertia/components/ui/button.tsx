@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { cva } from '~/styled-system/css'
 
-export type State = 'danger' | 'success' | 'warning'
+export type State = 'danger' | 'success' | 'warning' | 'ghost'
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: State
@@ -25,11 +25,16 @@ const button = cva({
     size: {
       small: {},
       medium: {},
-      large: {},
+      large: {
+        padding: '1rem',
+      },
     },
     color: {
       primary: {
         backgroundColor: 'purple',
+      },
+      ghost: {
+        backgroundColor: 'white'
       },
       danger: {
         backgroundColor: 'danger',

@@ -6,8 +6,9 @@ import CloseIcon from './../../../assets/icons/x-mark.svg?react'
 import { center, hstack, vstack } from "~/styled-system/patterns";
 import { css } from "~/styled-system/css";
 
-interface Props {
+interface Props extends PropsWithChildren {
   title: string;
+  description?: string;
   style: ModalStyle;
   onClose: () => void;
 }
@@ -35,12 +36,9 @@ export const modalTransitionConfig = {
   },
 };
 
-export function Modal({
-  title,
-  style,
-  onClose,
-  children,
-}: Props & PropsWithChildren) {
+export function Modal(props: Props) {
+  const { title, description, style, onClose, children } = props
+
   return createPortal(
     <animated.div
       style={{ opacity: style.opacity }}
@@ -63,23 +61,29 @@ export function Modal({
           borderRadius: "13px",
           bgColor: "#fff",
           padding: "1.5rem",
-          minW: "400px",
+          minW: "600px",
           maxW: "1000px",
         })}
       >
-        <div
+        <header
           className={hstack({
             justifyContent: "space-between",
             alignItems: "center",
             mb: "1rem",
           })}
         >
-          <h2 className={css({ textStyle: "subtitle" })}>{title}</h2>
+          <div className={vstack({
+            alignItems: "start",
+            gap: ".25rem"
+          })}>
+            <h2 className={css({ textStyle: "h3" })}>{title}</h2>
+            <p className={css({ textStyle: "body" })}>{description}</p>
+          </div>
           <Button variant="danger" onClick={onClose}>
             <CloseIcon />
           </Button>
-        </div>
-        <div className={vstack()}>{children}</div>
+        </header>
+        <div className={vstack({ alignItems: "start" })}>{children}</div>
       </animated.div>
     </animated.div>,
     document.body,

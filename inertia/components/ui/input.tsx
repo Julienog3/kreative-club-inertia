@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { css } from "~/styled-system/css";
-import { vstack } from "~/styled-system/patterns";
+import React from "react";
+import { css, sva } from "~/styled-system/css";
+import { SystemStyleObject } from "~/styled-system/types";
 
 interface Props extends React.HTMLProps<HTMLInputElement>  {
   type?: React.HTMLInputTypeAttribute;
@@ -9,26 +9,35 @@ interface Props extends React.HTMLProps<HTMLInputElement>  {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   required?: boolean;
   errorMessage?: string
+  rootProps?: SystemStyleObject;
+  controlProps?: SystemStyleObject;
+  labelProps?: SystemStyleObject;
 }
 
+const inputRecipe = sva({
+  slots: ['root', 'control', 'label'],
+  base: {
+    root: { display: 'flex', flexDir: 'column', gap: '.5rem', textStyle: 'body' },
+    control: { padding: '.65rem', border: '#000 solid 2px', rounded: '.5rem' },
+    label: {}
+  }
+})
+
 const Input = (props: Props): JSX.Element => {
-  const { type, required, label, errorMessage, value, onChange, ...rest } = props
+  const { type, required, label, errorMessage, value, onChange,rootProps, labelProps, controlProps, ...rest } = props
+  
+  const styles = inputRecipe.raw()
 
   return (
-    <div className={vstack({ gap: 1, alignItems: "left" })}>
-      {label && <label className={css({ textStyle: "body" })}>
+    <div className={css(styles.root, rootProps)}>
+      {label && <label className={css(styles.label, labelProps)}>
         {label}
         {required && (
           <span className={css({ color: "purple", ml: ".25rem" })}>*</span>
         )}
       </label>}
       <input
-        className={css({
-          padding: ".5rem",
-          border: "#000 solid 2px",
-          rounded: ".5rem",
-          textStyle: "body",
-        })}
+        className={css(styles.control, controlProps)}
         autoComplete={type === "password" ? "new-password" : ""}
         required={required}
         type={type}
@@ -39,7 +48,7 @@ const Input = (props: Props): JSX.Element => {
       {errorMessage && (
         <p
           role="alert"
-          className={css({ textStyle: "body", color: "red.400" })}
+          className={css({ textStyle: "body", color: "red" })}
         >
           {errorMessage}
         </p>

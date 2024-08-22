@@ -81,6 +81,7 @@ export function PortfolioList({
           md: { gridTemplateColumns: 2 },
           lg: { gridTemplateColumns: 3 },
           gap: "1rem",
+          width: "100%"
         })}
       >
         {mode === "edition" && (

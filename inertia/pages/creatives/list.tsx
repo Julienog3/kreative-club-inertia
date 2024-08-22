@@ -1,7 +1,5 @@
-import { Head, Link, router, useForm, usePage } from '@inertiajs/react'
-import Chip from '~/components/ui/chip';
-import { grid, gridItem, hstack, vstack } from '~/styled-system/patterns';
-import HomeIcon from '~/assets/icons/home.svg?react'
+import { router, useForm, usePage } from '@inertiajs/react'
+import { grid, gridItem, vstack } from '~/styled-system/patterns';
 import { css } from '~/styled-system/css';
 import { User } from '~/types';
 import { CreativeCard } from '~/components/creatives/creative-card';
@@ -9,6 +7,9 @@ import { z } from 'zod';
 import Input from '~/components/ui/input';
 import { Button } from '~/components/ui/button';
 import { FormEventHandler } from 'react';
+import { PageHeader } from '~/components/layout/page-header';
+import { Breadcrumb } from '~/components/ui/breadcrumb';
+import { Layout } from '~/components/layout/layout';
 
 interface Props {
   creatives: User[]
@@ -39,7 +40,13 @@ export default function List(props: Props) {
 
   return (
     <>
-      <div className={vstack({ bgColor: "yellow", w: "100%", p: "2rem", alignItems: "start", borderBottom: "2px solid black", bgImage: 'url(/images/grid.png)', })}>
+      <PageHeader color="yellow">
+        <Breadcrumb />
+        <h2 className={css({ textStyle: "title", mb: "1.5rem" })}>
+          Tous les créatifs
+        </h2>
+      </PageHeader>
+      {/* <div className={vstack({ bgColor: "yellow", w: "100%", p: "2rem", alignItems: "start", borderBottom: "2px solid black", bgImage: 'url(/images/grid.png)', })}>
         <div 
           className={vstack({
             alignItems: "start",
@@ -68,7 +75,7 @@ export default function List(props: Props) {
             <Button type='submit'>Rechercher</Button>
           </form>
         </div>
-      </div>
+      </div> */}
       <div className={vstack()}>
           <form
             onSubmit={submit}
@@ -103,3 +110,5 @@ export default function List(props: Props) {
     </>
   );
 }
+
+List.layout = page => <Layout children={page} />

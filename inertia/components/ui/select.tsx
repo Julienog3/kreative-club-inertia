@@ -9,9 +9,10 @@ interface Props {
   value: Item[]
   onChange: (valueChanged: Item[]) => void
   placeholder?: string
+  multiple?: boolean
 }
 
-type Item = { label: string; value: unknown; disabled?: boolean }
+type Item = { label: string; value: string; disabled?: boolean }
 
 const selectRecipe = sva({
   slots: ['root', 'trigger', 'content', 'itemGroup', 'item'],
@@ -54,12 +55,17 @@ export function Select(props: Props) {
 
   const classes = selectRecipe()
 
+  const defaultValue = props.value.map(({ value }) => `${value}`)
+  console.log({ defaultValue })
+
   return (
     <ArkSelect.Root
       name={name} 
       className={classes.root} 
       items={items}
       onValueChange={(e) => onChange(e.items)}
+      multiple={props.multiple}
+      defaultValue={defaultValue}
     >
       <ArkSelect.Label>{label}</ArkSelect.Label>
       <ArkSelect.Control>

@@ -1,39 +1,33 @@
-import { router, usePage } from "@inertiajs/react";
+import { usePage } from "@inertiajs/react";
 import React, { useMemo } from "react";
 import { PortfolioList } from "~/components/portfolio/portfolio-list";
 import { css } from "~/styled-system/css";
 import { vstack } from "~/styled-system/patterns";
 import { User } from "~/types";
 import CreativeLayout from "../../components/layout/creative-layout";
+import { Layout } from "~/components/layout/layout";
+import { PortfolioFolder, PortfolioImage } from "~/types/portfolio";
 
 interface Props {
   creative: User,
+  portfolioImages: PortfolioImage[],
+  portfolioFolders: PortfolioFolder[]
 }
 
-export default function CreativePortfolio(props: Props) {
-  const { creative } = props
+export default function Portfolio(props: Props) {
+  const { creative, portfolioImages, portfolioFolders } = props
   const { props: { user } } = usePage()
-
-  async function createOrder(): Promise<void> {
-    await router.post('/orders', {
-      sellerId: creative.id,
-      customerId: (user as User).id,
-      step: 'not-started'
-    })
-  }
 
   const portfolioElements = useMemo(
     () =>
-      creative.portfolioImages && creative.portfolioFolders
-        ? [...creative.portfolioImages, ...creative.portfolioFolders].sort(
+      portfolioImages && portfolioFolders
+        ? [...portfolioImages, ...portfolioFolders].sort(
             (a, b) =>
               new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf(),
           )
         : [],
-    [creative.portfolioImages, creative.portfolioFolders],
+    [portfolioImages, portfolioFolders],
   );
-
-  console.log({ portfolioElements })
 
   return (
     <>
@@ -49,4 +43,6 @@ export default function CreativePortfolio(props: Props) {
     </>
   );
 }
+
+Portfolio.layout = page => <Layout children={page} />
 

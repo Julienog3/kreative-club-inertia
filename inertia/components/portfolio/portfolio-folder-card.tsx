@@ -40,7 +40,7 @@ export const PortfolioFolderCard = (props: Props) => {
           flexDirection: "column",
           alignItems: "center",
           gap: "1rem",
-          zIndex: 3,
+          zIndex: 5,
         }}
       >
         {portfolioFolder.portfolioImages!.length > 0 ? (

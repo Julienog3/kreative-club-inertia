@@ -1,78 +1,103 @@
-import { router, useForm, usePage } from "@inertiajs/react";
-import { z } from "zod";
-import { grid, gridItem, hstack, vstack } from "~/styled-system/patterns";
-import Input from "../ui/input";
+import { router, usePage } from "@inertiajs/react";
+import { hstack, vstack } from "~/styled-system/patterns";
 import { Button } from "../ui/button";
-import { FormEventHandler } from "react";
 import { useSnackbarStore } from "../ui/snackbar/snackbar.store";
 import { TextArea } from "../ui/textarea";
 import { Category } from "~/types/category";
-import { Switch } from "../ui/switch";
-import { css } from "~/styled-system/css";
-import { Combobox } from "../ui/combobox";
-
-const profileSchema = z.object({
-  description: z.string().optional(),
-  categories: z.number().array().optional(),
-  portfolioEnabled: z.boolean()
-});
-
-type ProfileInputs = z.infer<typeof profileSchema>
+import { useForm } from "@tanstack/react-form";
+import { zodValidator } from "@tanstack/zod-form-adapter";
+import { Select } from "../ui/select";
+import { User } from "~/types";
 
 interface Props {
+  creative: User,
   categories: Category[]
 }
 
 export function CreativeProfileForm(props: Props) {
-  const { props: { user }} = usePage()
-  const { categories } = props
-  const { data, setData, errors, processing, reset, put } = useForm<ProfileInputs>(user as ProfileInputs);
-  const { addItem } = useSnackbarStore(store => store)
+  const { categories, creative } = props
+  const { addItem } = useSnackbarStore(store => store)  
 
-  const submit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault()
-    put('/preferences/profile/edit',{
+  const form = useForm({
+    validatorAdapter: zodValidator(),
+    defaultValues: {
+      description: creative.description,
+      categories: creative.categories
+    },
+    onSubmit: async ({ value }) => {
+      await saveChanges(value)
+    }
+  })
+
+  async function saveChanges(value: any) {
+    await router.put(`/users/${creative.id}`, {
+      ...value,
+      categories: value.categories.map(({ value }) => value)
+    }, 
+    {
       onSuccess: () => {
         addItem({ type: "success", message: "Votre profil a été correctement modifié."})
         router.reload({ only: ['user'] })
       },
       onError: () => {
-        addItem({ type: "danger", message: "Une erreur est survene lors de la modification de votre profil."})
-      },
-      forceFormData: true,
-    })
+        addItem({ type: "danger", message: "Votre profil n'a pas été modifié." })
+      }
+    })    
+  }
+
+  function formatCategories(c: Category[]) {
+    return c.map(category => ({
+      label: category.title,
+      value: category.id?.toString() 
+    }))
   }
 
   return (
-      <form
-        onSubmit={submit}
-        className={vstack({ alignItems: 'left' })}
-      >
-        <div>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        form.handleSubmit()
+      }}
+      className={vstack({ alignItems: "start", w: "100%" })}
+    >
+      <form.Field 
+        name="description"
+        children={(field) => (
           <TextArea 
             type="text"
+            name={field.name}
             label="Description"
-            value={data.description}
-            onChange={e => setData('description', e.target.value)}
-            errorMessage={errors.description} 
+            value={field.state.value}
+            onChange={e => field.handleChange(e.target.value)}
+            errorMessage={field.state.meta.errors.join(', ')} 
             placeholder="10 mots minimum..."
           />
-        </div>
-        <div>
-          {/* <Input label="Catégories"  list="categories" placeholder="ouais"/>
-          {categories && <datalist id="categories">
-            {categories.map(({ id, title }) => <option key={id} value={title}/>)}
-          </datalist>} */}
-          {categories && <Combobox label="Catégories" name="categories" value={data.categories} onValueChange={(details => setData('categories', details))}/>}
-        </div>
-        <div>
-          <p className={css({ textStyle: "body" })}>Activer le portfolio</p>
-          <Switch checked={data.portfolioEnabled} onCheckedChange={() => setData('portfolioEnabled', !data.portfolioEnabled)} />
-        </div>
-        <div className={hstack()}>
-          <Button type="submit" disabled={processing}>Enregistrer</Button>
-          <Button onClick={(): void => reset()}>Annuler</Button>
-        </div>
-      </form>
+        )}
+      />
+      <form.Field 
+        name="categories"
+        children={(field) => (
+          <Select 
+            multiple
+            name={field.name} 
+            label="Catégorie du besoin" 
+            items={formatCategories(categories)}
+            value={formatCategories(field.state.value || []) }
+            onChange={(value) => field.handleChange(value)} 
+            placeholder="Sélectionner une catégorie" 
+          />
+        )}
+      />
+      <form.Subscribe
+        selector={(state) => [state.isDirty]}
+        children={([isDirty]) => (
+          <div className={hstack()}>
+            <Button type="submit" disabled={!isDirty}>Enregistrer</Button>
+            <Button onClick={(): void => form.reset()}>Annuler</Button>
+          </div>
+        )}
+      />
+    </form>
   );
 };

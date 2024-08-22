@@ -1,14 +1,12 @@
 import { Head } from "@inertiajs/react"
-import { CreativeCard } from "~/components/creatives/creative-card"
 import { css } from "~/styled-system/css"
-import { grid, hstack, vstack } from "~/styled-system/patterns"
+import { hstack, vstack } from "~/styled-system/patterns"
 import { User } from "~/types"
-import { Select } from "~/components/ui/select"
 import { Breadcrumb } from "~/components/ui/breadcrumb"
-import { Button } from "~/components/ui/button"
 import { PageHeader } from "~/components/layout/page-header"
 import { BookmarksFilterForm } from "~/components/bookmarks/bookmarks-filter-form"
 import { BookmarksList } from "~/components/bookmarks/bookmarks-list"
+import { Layout } from "~/components/layout/layout"
 
 interface Props {
   bookmarks: User[]
@@ -49,3 +47,5 @@ export default function Bookmarks(props: Props) {
     </>  
   )
 }
+
+Bookmarks.layout = page => <Layout children={page} />

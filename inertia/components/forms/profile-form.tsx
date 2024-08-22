@@ -31,7 +31,7 @@ export const ProfileForm = (props: Props) => {
       await router.put(`/users/${(user as User).id}`, value , {
         onSuccess: () => {
           addItem({ type: "success", message: "Votre profil a été correctement modifié."})
-          router.reload({ only: ['user'] })
+          router.reload({ only: ['user'], preserveScroll: true })
         },
         onError: (err) => {
           addItem({ type: "danger", message: "Une erreur est survene lors de la modification de votre profil."})

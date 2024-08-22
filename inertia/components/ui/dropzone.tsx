@@ -14,20 +14,8 @@ interface Props {
   required?: boolean
 }
 
-// const dropzone = cva({
-//   base: {
-//     textStyle: "body",
-//     w: "0.1px",
-//     h: "0.1px",
-//     opacity: 0,
-//     overflow: "hidden",
-//     position: "absolute",
-//     zIndex: -1,
-//   },
-// });
-
 const dropzoneRecipe = sva({
-  slots: ['root', 'label', 'dropzone', 'item'],
+  slots: ['root', 'label', 'dropzone', 'item', 'itemPreviewImage'],
   base: {
     root: {
       display: 'flex',
@@ -58,6 +46,12 @@ const dropzoneRecipe = sva({
       h: "5rem",
       border: "2px solid black",
       borderRadius: "5px",
+      overflow: "hidden"
+    },
+    itemPreviewImage: {
+      w: "100%",
+      h: "100%",
+      objectFit: "cover"
     }
   }
 })
@@ -77,13 +71,13 @@ export const Dropzone = (props: Props) => {
             acceptedFiles.map((file) => (
               <ArkFileUpload.Item className={classes.item} key={file.name} file={file}>
                 <ArkFileUpload.ItemPreview type="image/*">
-                  <ArkFileUpload.ItemPreviewImage />
+                  <ArkFileUpload.ItemPreviewImage className={classes.itemPreviewImage}/>
                 </ArkFileUpload.ItemPreview>
-                <ArkFileUpload.ItemPreview type=".*">
+                {/* <ArkFileUpload.ItemPreview type=".*">
                 </ArkFileUpload.ItemPreview>
                 <ArkFileUpload.ItemName />
-                <ArkFileUpload.ItemSizeText />
-                <ArkFileUpload.ItemDeleteTrigger>supprimer</ArkFileUpload.ItemDeleteTrigger>
+                <ArkFileUpload.ItemSizeText /> */}
+                {/* <ArkFileUpload.ItemDeleteTrigger>supprimer</ArkFileUpload.ItemDeleteTrigger> */}
               </ArkFileUpload.Item>
             ))
           }

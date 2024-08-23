@@ -15,6 +15,7 @@ import Group from '~/assets/icons/group.svg?react'
 import BookmarkOutline from '~/assets/icons/bookmark-outline.svg?react'
 import { Menu } from '../ui/menu'
 import Chip from '../ui/chip'
+import RectangleGroup from '~/assets/icons/rectangle-group.svg?react'
 
 interface Props {
   user?: User
@@ -34,9 +35,9 @@ export function Header({ user }: Props) {
       link: "/preferences/profile",
     },
     {
-      label: "Admin",
-      icon: <SettingsIcon />,
-      link: "/admin",
+      label: "Dashboard",
+      icon: <RectangleGroup />,
+      link: "/dashboard",
 
     },
     {

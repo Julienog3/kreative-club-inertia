@@ -2,9 +2,10 @@ import { PropsWithChildren } from "react";
 import { sva } from "~/styled-system/css";
 
 type Color = 'purple' | 'blue' | 'yellow' | 'green' | 'red' | 'lightblue'
-
+type Size = 'normal' | 'large'
 interface Props extends PropsWithChildren {
   color?: Color
+  size?: Size
 }
 
 const pageHeaderRecipe = sva({
@@ -24,12 +25,23 @@ const pageHeaderRecipe = sva({
       flexDirection: 'column',
       alignItems: "start",
       width: "100%",
-      maxWidth: "breakpoint-xl",
-      margin: "0 auto",
       p: "1rem",
     }
   },
   variants: {
+    size: {
+      normal: {
+        container: {
+          maxWidth: "breakpoint-xl",
+          margin: "0 auto",
+        }
+      },
+      large: {
+        container: {
+          width: "100%"
+        }
+      }
+    },
     color: {
       purple: {
         root: {
@@ -64,13 +76,14 @@ const pageHeaderRecipe = sva({
     }
   },
   defaultVariants: {
-    color: 'purple'
+    color: "purple",
+    size: "normal"
   }
 })
 
 export function PageHeader(props: Props) {
-  const { children, color } = props 
-  const classes = pageHeaderRecipe({ color })
+  const { children, color, size } = props 
+  const classes = pageHeaderRecipe({ color, size })
 
   return (
     <section className={classes.root}>

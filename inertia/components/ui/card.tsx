@@ -9,7 +9,7 @@ const card = cva({
     position: "relative",
     overflow: "hidden",
     backgroundColor: "white",
-    zIndex: 1,
+    // zIndex: 1,
     transition: "all .5s",
 
   },

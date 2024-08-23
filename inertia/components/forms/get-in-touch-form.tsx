@@ -71,9 +71,11 @@ export function GetInTouchForm(props: Props) {
   const categoriesFormatted = useMemo(() => categories.map((category) => {
     return {
       label: category.title,
-      value: category.id
+      value: category.id.toString()
     }
   }), [categories]) 
+
+  console.log({ categoriesFormatted })
 
   return (
     <form 

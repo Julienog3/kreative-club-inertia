@@ -27,6 +27,7 @@ export interface User extends BaseModel {
   description?: string
   role: Role,
   isBookmarked?: boolean
+  sales?: Order[]
 }
 
 interface Bookmark {
@@ -38,6 +39,7 @@ interface Bookmark {
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Serialize } from '@tuyau/utils/types';
 import AdminController from "../../app/controllers/admin_controller"
+import { Order } from "./order";
 
 type InferPageProps<Controller, Method extends keyof Controller> = Controller[Method] extends (
   ...args: any[]

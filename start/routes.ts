@@ -22,6 +22,7 @@ import InboxController from '#controllers/inbox_controller'
 import ChatsController from '#controllers/chats_controller'
 import OrdersController from '#controllers/orders_controller'
 import SecurityController from '#controllers/preferences/security_controller'
+import DashboardController from '#controllers/dashboard_controller'
 
 const PATH_TRAVERSAL_REGEX = /(?:^|[\\/])\.\.(?:[\\/]|$)/
 
@@ -102,6 +103,12 @@ router.group(async () => {
 .use(middleware.auth())
 
 router.post('/messages', [ChatsController, 'store']).use(middleware.auth())
+
+router.group(async () => {
+  router.get('/', [DashboardController, 'index'])
+})
+.prefix('dashboard')
+.use(middleware.auth())
 
 router.get('/uploads/*', ({ request, response }) => {
   const filePath = request.param('*').join(sep)

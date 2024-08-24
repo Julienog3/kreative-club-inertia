@@ -1,5 +1,4 @@
-import { Head, usePage } from "@inertiajs/react";
-import { User } from "~/types";
+import { Head } from "@inertiajs/react";
 import { MessagesLayout } from "~/components/layout/messages-layout";
 import { Order } from "~/types/order";
 import { Chat } from "~/components/chat/chat";

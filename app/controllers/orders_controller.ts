@@ -19,6 +19,8 @@ export default class OrdersController {
     const orderRequest = await OrderRequest.create({ ...requestPayload, orderId: order.id })
     orderRequest.related('categories').attach(categories)
 
+    order.related('steps').create({ name: "pending" })
+
     return response.redirect().toRoute('inbox.show', { orderId: order.id })
   }
 }

@@ -21,6 +21,7 @@ export default class InboxController {
       .preload('messages', (messagesQuery) => {
         messagesQuery.preload('user')
       })
+      .preload('steps')
       .firstOrFail()
 
     const orderRequest = await OrderRequest.query().where('orderId', order.id).preload('categories').firstOrFail()

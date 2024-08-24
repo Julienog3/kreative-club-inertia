@@ -1,9 +1,10 @@
 import { DateTime } from 'luxon'
 import { BaseModel, beforeCreate, belongsTo, column } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
-import Order from '#/models/order'
 import { randomUUID } from 'crypto'
+import Order from '#models/order'
 
+export type Step =  'pending' | 'quote-created' | 'quote-validated' | 'not-started' | 'in-progress' | 'done'
 export default class OrderStep extends BaseModel {
   @column({ isPrimary: true })
   declare id: string
@@ -17,7 +18,7 @@ export default class OrderStep extends BaseModel {
   declare order: BelongsTo<typeof Order>
 
   @column()
-  declare name: string
+  declare name: Step
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

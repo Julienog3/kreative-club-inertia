@@ -33,5 +33,11 @@ export const createOrderProductValidator = vine.compile(
       })
     )
   })
-  
 )
+
+export const createOrderStepValidator = vine.compile(
+  vine.object({
+    name: vine.enum(['pending', 'quote-created','quote-validated', 'not-started', 'done', 'in-progress']),
+  })
+)
+

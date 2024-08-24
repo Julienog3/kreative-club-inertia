@@ -6,8 +6,10 @@ import Chip from "../ui/chip";
 import { Button } from "../ui/button";
 import { OrderRequestModal } from "../orders/order-modal";
 import { useMemo, useState } from "react";
-import { Link, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 import { User } from "~/types";
+import { OrderTimeline } from "../orders/order-timeline";
+import { useSnackbarStore } from "../ui/snackbar/snackbar.store";
 
 interface Props {
   order: Order;
@@ -18,9 +20,39 @@ export function ChatAside(props: Props) {
   const { order, orderRequest } = props 
   const { user } = usePage().props
 
+  const { addItem } = useSnackbarStore(state => state)
+
+  const currentStep = order.steps?.reduce((acc, curr) => {
+    return new Date(curr.createdAt) > new Date(acc.createdAt) ? curr : acc;
+  }, order.steps[0]);
+
   const isSeller = useMemo(() => {
     return (user as User).id === order.sellerId
   }, [user, order])
+
+  const isCustomer = useMemo(() => {
+    return (user as User).id === order.customerId
+  }, [user, order])
+
+  async function validateQuote() {
+    await router.post(`/orders/${order.id}/steps`, {
+      name: 'quote-validated'
+    }, {
+      onSuccess: () => {
+        addItem({
+          type: 'success',
+          message: 'Le devis a bien été validé !'
+        })
+      },
+      only: ['order'],
+      preserveScroll: true
+    })
+  }
+
+  
+
+  const displayCreateQuoteAction = isSeller && currentStep?.name === 'pending'
+  const displayValidateQuoteAction = isCustomer && currentStep?.name === 'quote-created'
 
   const [open, setOpen] = useState<boolean>(false)
 
@@ -32,7 +64,7 @@ export function ChatAside(props: Props) {
         onCancel={() => setOpen(false)} 
         onConfirm={() => setOpen(false)} 
       />
-      <aside className={vstack({ borderLeft: "solid 2px black", h: "35rem", w: "1/3", p: "1rem" })}>
+      <aside className={vstack({ borderLeft: "solid 2px black", h: "35rem", w: "1/3", minWidth: "25rem", p: "1rem" })}>
         <Card css={{ w: "100%" }}>
           <header
             className={hstack({
@@ -49,7 +81,7 @@ export function ChatAside(props: Props) {
             <ul className={vstack({ alignItems: "start", w: "100%" })}>
               <li className={hstack({ justifyContent: "space-between", w: "100%" })}>
                 <p>Status</p>
-                <Chip>{order.step}</Chip>
+                <Chip>{currentStep?.name}</Chip>
               </li>
               <li className={hstack({ justifyContent: "space-between", w: "100%" })}>
                 <p>Créé le</p>
@@ -58,12 +90,17 @@ export function ChatAside(props: Props) {
             </ul>
             <div>
               <h3 className={css({ textStyle: "h3" })}>Timeline</h3>
+              <OrderTimeline order={order} />
             </div>
             <div className={hstack()}>
               <Button onClick={() => setOpen(true)}>Voir la demande</Button>
-              {isSeller && <Link href={`/quote/${order.id}`}>
+              <Button onClick={() => {}}>Voir les détails</Button>
+              {displayCreateQuoteAction && <Link href={`/quote/${order.id}`}>
                 <Button variant="success" onClick={() => {}}>Créer le devis</Button>
               </Link>}
+              {displayValidateQuoteAction && <Button variant="success" onClick={validateQuote}>
+                Valider le devis
+              </Button>}
             </div>
           </div>
         </Card>

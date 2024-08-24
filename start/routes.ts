@@ -25,6 +25,7 @@ import SecurityController from '#controllers/preferences/security_controller'
 import DashboardController from '#controllers/dashboard_controller'
 import QuotesController from '#controllers/quotes_controller'
 import OrderProductsController from '#controllers/order_products_controller'
+import OrderStepsController from '#controllers/order_steps_controller'
 
 const PATH_TRAVERSAL_REGEX = /(?:^|[\\/])\.\.(?:[\\/]|$)/
 
@@ -94,6 +95,7 @@ router.group(async () => {
 router.group(async () => {
   router.post('/', [OrdersController, 'store']).as('orders.store')
   router.post(':orderId/products', [OrderProductsController, 'store'])
+  router.post(':orderId/steps', [OrderStepsController, 'store'])
 })
 .prefix('orders')
 .use(middleware.auth())

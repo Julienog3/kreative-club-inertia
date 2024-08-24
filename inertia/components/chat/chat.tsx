@@ -12,6 +12,7 @@ import { OrderRole } from "../layout/messages-layout";
 import { ChatMessage } from "./chat-message";
 import { ChatAside } from "./chat-aside";
 import OrderRequest from "#models/order_request";
+import Chip from "~/components/ui/chip";
 
 interface Props {
   order: Order
@@ -95,6 +96,7 @@ export function Chat(props: Props) {
               <h2 className={css({ textStyle: "h3" })}>{recipient.firstName} {recipient.lastName}</h2>
               <p className={css({ textStyle: "body", color: "purple" })}>@{recipient.username}</p>
             </div>
+            <Chip>{getOrderRole(order)}</Chip>
           </div>
         </header>
         <div className={hstack({ gap: "0", alignItems: "start" })}>

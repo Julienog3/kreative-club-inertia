@@ -4,6 +4,7 @@ import { randomUUID } from 'crypto'
 import User from '#models/user'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Message from '#models/message'
+import OrderProduct from './order_product.js'
 
 export type Step =  'not-started' | 'in-progress' | 'done'
 
@@ -34,6 +35,9 @@ export default class Order extends BaseModel {
 
   @column.dateTime()
   declare paidAt?: DateTime
+
+  @hasMany(() => OrderProduct)
+  declare products: HasMany<typeof OrderProduct>
 
   @hasMany(() => Message)
   declare messages: HasMany<typeof Message>

@@ -23,6 +23,8 @@ import ChatsController from '#controllers/chats_controller'
 import OrdersController from '#controllers/orders_controller'
 import SecurityController from '#controllers/preferences/security_controller'
 import DashboardController from '#controllers/dashboard_controller'
+import QuotesController from '#controllers/quotes_controller'
+import OrderProductsController from '#controllers/order_products_controller'
 
 const PATH_TRAVERSAL_REGEX = /(?:^|[\\/])\.\.(?:[\\/]|$)/
 
@@ -91,6 +93,7 @@ router.group(async () => {
 
 router.group(async () => {
   router.post('/', [OrdersController, 'store']).as('orders.store')
+  router.post(':orderId/products', [OrderProductsController, 'store'])
 })
 .prefix('orders')
 .use(middleware.auth())
@@ -109,6 +112,8 @@ router.group(async () => {
 })
 .prefix('dashboard')
 .use(middleware.auth())
+
+router.get('/quote/:orderId', [QuotesController, 'render']).use(middleware.auth())
 
 router.get('/uploads/*', ({ request, response }) => {
   const filePath = request.param('*').join(sep)

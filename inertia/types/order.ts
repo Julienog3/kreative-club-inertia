@@ -1,5 +1,5 @@
-import OrderRequest from "#models/order_request";
 import { BaseModel, User } from ".";
+import { Category } from "./category";
 
 export interface Order extends BaseModel {
   customerId: string
@@ -12,5 +12,10 @@ export interface Order extends BaseModel {
 }
 
 export interface OrderRequest extends BaseModel {
-  
+  orderId: string;
+  order: Order;
+  type: string;
+  categories: Category[]
+  description: string
+  delay: string
 }

@@ -20,3 +20,18 @@ export const createOrderRequestValidator = vine.compile(
     categories: vine.array(vine.number())
   })
 )
+
+export const createOrderProductValidator = vine.compile(
+  vine.object({
+    products: vine.array(
+      vine.object({
+        name: vine.string(),
+        price: vine.number(),
+        quantity: vine.number(),
+        duration: vine.number(),
+        details: vine.string(),
+      })
+    )
+  })
+  
+)

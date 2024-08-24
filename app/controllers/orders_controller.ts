@@ -1,5 +1,4 @@
 import OrderRequest from '#models/order_request'
-import User from '#models/user'
 import OrderService from '#services/order_service'
 import { createOrderRequestValidator, createOrderValidator } from '#validators/order'
 import { inject } from '@adonisjs/core'

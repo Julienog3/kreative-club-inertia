@@ -57,7 +57,7 @@ export function Header({ user }: Props) {
         link: "/dashboard",
       }])
     }
-  }, [user])
+  }, [])
 
   return (
     <header

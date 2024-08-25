@@ -11,6 +11,7 @@ export interface Order extends BaseModel {
   paidAt: string
   messages: any[]
   steps?: OrderStep[]
+  products?: OrderProduct[]
 }
 
 export interface OrderRequest extends BaseModel {
@@ -22,7 +23,15 @@ export interface OrderRequest extends BaseModel {
   delay: string
 }
 
-export interface OrderProduct extends BaseModel {}
+export interface OrderProduct extends BaseModel {
+  orderId: string;
+  order: Order;
+  name: Step;
+  price: number;
+  quantity: number;
+  duration: number;
+  details: string;
+}
 
 export interface OrderStep extends Omit<BaseModel, 'updatedAt'> {
   orderId: string;

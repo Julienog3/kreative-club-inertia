@@ -11,7 +11,7 @@ export function DashboardDetailsCard(props: Props) {
   const { user } = props
 
   return (
-    <Card css={{ p: "1rem" }} withShadow>
+    <Card css={{ p: "1rem", w: "100%" }} withShadow>
       <div className={vstack({ gap: "1rem" })}>
         {user.avatar && <img
           className={css({

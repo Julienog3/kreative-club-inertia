@@ -51,9 +51,9 @@ export function OrderTimeline(props: Props) {
   }
 
   return (
-    <ul className={vstack({ alignItems: "start" })}>
+    <ul className={vstack({ alignItems: "start", gap: "1rem" })}>
       {Object.entries(steps).map(([key, value]) => (
-        <li key={key} className={hstack()}>
+        <li key={key} className={hstack({ alignItems: "center" })}>
           {isDone(key) 
             ? <span className={circle({ border: "solid 2px black", backgroundColor: "green", w: "2rem", h: "2rem" })}>✓</span>
             : <span className={circle({ border: "dashed 2px black", backgroundColor: "gray", w: "2rem", h: "2rem" })}>?</span>

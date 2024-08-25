@@ -111,6 +111,7 @@ router.post('/messages', [ChatsController, 'store']).use(middleware.auth())
 
 router.group(async () => {
   router.get('/', [DashboardController, 'index'])
+  router.get('/:orderId', [DashboardController, 'show'])
 })
 .prefix('dashboard')
 .use(middleware.auth())

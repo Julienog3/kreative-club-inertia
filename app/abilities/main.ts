@@ -19,3 +19,8 @@ export const createQuote = Bouncer.ability(async (user: User, orderId: string) =
   const order = await Order.query().where('id', orderId).preload('seller').firstOrFail()
   return user.id === order.seller.id
 }) 
+
+export const showOrderAsSeller = Bouncer.ability(async (user: User, orderId: string) => {
+  const order = await Order.query().where('id', orderId).preload('seller').firstOrFail()
+  return user.id === order.seller.id
+})

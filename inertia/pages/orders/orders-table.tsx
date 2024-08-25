@@ -8,10 +8,13 @@ import {
 import { Button } from "~/components/ui/button";
 import { css } from "~/styled-system/css";
 import { hstack } from "~/styled-system/patterns";
-import { Order } from "~/types/order";
+import { Order, OrderStep } from "~/types/order";
 import ChatBubblesIcon from "~/assets/icons/chat-bubbles.svg?react"
+import DocumentTextIcon from "~/assets/icons/document-text.svg?react"
 import { Link } from "@inertiajs/react";
 import Chip from "~/components/ui/chip";
+import { Step } from "#models/order_step";
+import { Tooltip } from "~/components/ui/tooltip";
 
 interface OrdersTableProps {
   data: Order[];
@@ -29,14 +32,18 @@ export const RowActions = ({ row }: RowActionsProps) => {
           <ChatBubblesIcon />
         </Button>
       </Link>
-      <Link href={`/inbox/${row.original.id}`}>
+      <Link href={`dashboard/${row.original.id}`}>
         <Button variant="ghost">
-          <ChatBubblesIcon />
+          <DocumentTextIcon />
         </Button>
       </Link>
     </div>
   );
 };
+
+const getCurrentStep = (steps: OrderStep[]) => steps.reduce((acc, curr) => {
+  return new Date(curr.createdAt) > new Date(acc.createdAt) ? curr : acc;
+}, steps[0]);
 
 const columnHelper = createColumnHelper<Order>();
 const columns = [
@@ -60,9 +67,9 @@ const columns = [
       <p className={css({ textStyle: "body" })}>{info.getValue().firstName} {info.getValue().lastName}</p>
     </div>,
   }),
-  columnHelper.accessor("step", {
+  columnHelper.accessor("steps", {
     header: () => "Status",
-    cell: (info) => <Chip>{info.getValue()}</Chip>,
+    cell: (info) => <Chip>{getCurrentStep(info.getValue() as OrderStep[]).name}</Chip>,
   }),
   columnHelper.accessor("createdAt", {
     header: () => "Date de création",

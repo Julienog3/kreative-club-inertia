@@ -6,8 +6,6 @@ import { css } from "~/styled-system/css";
 import { Breadcrumb } from "../ui/breadcrumb";
 import ChevronRight from '~/assets/icons/chevron-right.svg?react'
 
-import { ConfirmContextProvider } from "./confirm-context";
-
 interface PreferencesLayoutProps {
   children: React.ReactNode;
 }

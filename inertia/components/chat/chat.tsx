@@ -11,13 +11,16 @@ import { Order } from "~/types/order";
 import { OrderRole } from "../layout/messages-layout";
 import { ChatMessage } from "./chat-message";
 import { ChatAside } from "./chat-aside";
+import OrderRequest from "#models/order_request";
+import Chip from "~/components/ui/chip";
 
 interface Props {
   order: Order
+  orderRequest: OrderRequest
 }
 
 export function Chat(props: Props) {
-  const { order } = props
+  const { order, orderRequest } = props
   const { user } = usePage().props
 
   const [messages, setMessages] = useState<{ message: string, username: string, sendAt: number }[]>([]) 
@@ -93,6 +96,7 @@ export function Chat(props: Props) {
               <h2 className={css({ textStyle: "h3" })}>{recipient.firstName} {recipient.lastName}</h2>
               <p className={css({ textStyle: "body", color: "purple" })}>@{recipient.username}</p>
             </div>
+            <Chip>{getOrderRole(order)}</Chip>
           </div>
         </header>
         <div className={hstack({ gap: "0", alignItems: "start" })}>
@@ -103,7 +107,7 @@ export function Chat(props: Props) {
               </ul>}
             </div>
           </div>
-          <ChatAside order={order} />
+          <ChatAside order={order} orderRequest={orderRequest} />
         </div>
         <footer className={hstack({ p: ".75rem", borderTop: '2px solid black', background: "white" })}>
           <Input type="text" value={value} onChange={e => setValue(e.target.value)} placeholder="Ecrivez votre message"/>

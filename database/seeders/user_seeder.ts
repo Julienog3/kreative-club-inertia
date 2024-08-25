@@ -15,6 +15,16 @@ export default class extends BaseSeeder {
       portfolioEnabled: true
     })
 
+    await User.create({
+      username: "jauger2",
+      email: 'jauger@mail.com',
+      password: "user",
+      firstName: "Paul",
+      lastName: "Auger",
+      role: Role.Admin,
+      portfolioEnabled: false
+    })
+
     const categories = await Category.all()
     const users = await UserFactory.createMany(10)
 

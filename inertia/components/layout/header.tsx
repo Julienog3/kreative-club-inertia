@@ -16,6 +16,7 @@ import BookmarkOutline from '~/assets/icons/bookmark-outline.svg?react'
 import { Menu } from '../ui/menu'
 import Chip from '../ui/chip'
 import RectangleGroup from '~/assets/icons/rectangle-group.svg?react'
+import { useEffect, useState } from 'react'
 
 interface Props {
   user?: User
@@ -28,17 +29,11 @@ export function Header({ user }: Props) {
     router.post('/auth/logout', {}, { onSuccess: () => router.reload({ only: ['user'] })})
   } 
   
-  let dropdownItems = [
+  let defaultdropdownItems = [
     {
       label: "Paramètres",
       icon: <SettingsIcon />,
       link: "/preferences/profile",
-    },
-    {
-      label: "Dashboard",
-      icon: <RectangleGroup />,
-      link: "/dashboard",
-
     },
     {
       label: "Support",
@@ -51,6 +46,18 @@ export function Header({ user }: Props) {
       onClick: () => onLogout(),
     },
   ];
+
+  const [dropdownItems, setDropdownItems] = useState<any[]>(defaultdropdownItems)
+
+  useEffect(() => {
+    if (user?.portfolioEnabled) {
+      setDropdownItems([...dropdownItems, {
+        label: "Dashboard",
+        icon: <RectangleGroup />,
+        link: "/dashboard",
+      }])
+    }
+  }, [])
 
   return (
     <header

@@ -1,4 +1,5 @@
 import Order from '#models/order'
+import OrderRequest from '#models/order_request'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class InboxController {
@@ -20,7 +21,10 @@ export default class InboxController {
       .preload('messages', (messagesQuery) => {
         messagesQuery.preload('user')
       })
+      .preload('steps')
       .firstOrFail()
+
+    const orderRequest = await OrderRequest.query().where('orderId', order.id).preload('categories').firstOrFail()
 
     const purchases = await user.related('purchases')
       .query()
@@ -32,6 +36,6 @@ export default class InboxController {
       .preload('customer')
       .preload('seller')
 
-    return await inertia.render('messages/single', { purchases, sales, order })
+    return await inertia.render('messages/single', { purchases, sales, order, orderRequest })
   }
 }

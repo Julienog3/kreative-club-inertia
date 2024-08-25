@@ -1,11 +1,13 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, belongsTo, column, hasMany, hasOne } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
 import { randomUUID } from 'crypto'
 import User from '#models/user'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Message from '#models/message'
+import OrderProduct from '#models/order_product'
+import OrderStep from '#models/order_step'
 
-export type Step =  'not-started' | 'in-progress' | 'done'
+export type Step =  'pending' | 'not-started' | 'in-progress' | 'done'
 
 export default class Order extends BaseModel {
   public static selfAssignPrimaryKey = true
@@ -34,6 +36,12 @@ export default class Order extends BaseModel {
 
   @column.dateTime()
   declare paidAt?: DateTime
+
+  @hasMany(() => OrderProduct)
+  declare products: HasMany<typeof OrderProduct>
+
+  @hasMany(() => OrderStep)
+  declare steps: HasMany<typeof OrderStep>
 
   @hasMany(() => Message)
   declare messages: HasMany<typeof Message>

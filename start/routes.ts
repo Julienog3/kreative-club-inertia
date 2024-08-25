@@ -26,6 +26,7 @@ import DashboardController from '#controllers/dashboard_controller'
 import QuotesController from '#controllers/quotes_controller'
 import OrderProductsController from '#controllers/order_products_controller'
 import OrderStepsController from '#controllers/order_steps_controller'
+import HistoryController from '#controllers/history_controller'
 
 const PATH_TRAVERSAL_REGEX = /(?:^|[\\/])\.\.(?:[\\/]|$)/
 
@@ -111,10 +112,19 @@ router.post('/messages', [ChatsController, 'store']).use(middleware.auth())
 
 router.group(async () => {
   router.get('/', [DashboardController, 'index'])
-  router.get('/:orderId', [DashboardController, 'show'])
+  router.get('/history', [DashboardController, 'list'])
+  router.get('/history/:orderId', [DashboardController, 'show'])
 })
 .prefix('dashboard')
 .use(middleware.auth())
+
+router.group(async () => {
+  router.get('/', [HistoryController, 'index'])
+  router.get('/:orderId', [HistoryController, 'show'])
+})
+.prefix('history')
+.use(middleware.auth())
+
 
 router.get('/quote/:orderId', [QuotesController, 'render']).use(middleware.auth())
 

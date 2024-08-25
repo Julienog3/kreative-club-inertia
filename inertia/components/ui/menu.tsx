@@ -4,7 +4,7 @@ import { PropsWithChildren } from 'react'
 import { sva } from '~/styled-system/css'
 import { hstack } from '~/styled-system/patterns';
 
-const menuStyle = sva({
+const menuRecipe = sva({
   slots: ['content', 'item'],
   base: {
     content: {
@@ -39,15 +39,15 @@ interface Props extends PropsWithChildren {
 
 export const Menu = (props: Props) => {
   const { children, items } = props
-  const styles = menuStyle()
+  const classes = menuRecipe()
 
   return (
     <ArkMenu.Root>
       <ArkMenu.Trigger>{children}</ArkMenu.Trigger>
       <ArkMenu.Positioner>
-        <ArkMenu.Content className={styles.content}>
+        <ArkMenu.Content className={classes.content}>
           {items.map(({ label, link, icon, onClick }) => (
-            <ArkMenu.Item key={label} className={styles.item} id={label} value="">
+            <ArkMenu.Item key={label} className={classes.item} id={label} value="">
               {link ? (
                 <Link
                   className={hstack({

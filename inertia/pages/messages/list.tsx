@@ -15,12 +15,14 @@ export default function Inbox(props: Props) {
   const { purchases, sales } = props
   const orders = [...purchases, ...sales]
 
+  console.log({ orders })
+
   return (
     <>
       <Head title="Messagerie" />
       <MessagesLayout orders={orders}>
-        <Card withShadow>
-          <div className={vstack({ p: "1rem", alignItems: "start" })}>
+        <Card css={{ height: "35rem" }} withShadow>
+          <div className={vstack({ p: "1rem", alignItems: "start", borderBottom: '2px solid black' })}>
             <h2 className={css({ textStyle: "subtitle" })}>Messagerie</h2>
           </div>
         </Card>

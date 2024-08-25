@@ -16,6 +16,8 @@ export default function Inbox(props: Props) {
   const { purchases, sales, order, orderRequest } = props
   const orders = [...purchases, ...sales]
 
+  
+
   return (
     <>
       <Head title="Messagerie" />

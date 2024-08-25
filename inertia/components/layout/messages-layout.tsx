@@ -49,20 +49,26 @@ export function MessagesLayout(props: Props) {
                     href={`/inbox/${order.id}`}
                     key={order.id}
                   >
-                    <div className={hstack()}>
-                      <img
-                        className={css({
-                          borderRadius: "10px",
-                          w: "2.75rem",
-                          h: "2.75rem",
-                          objectFit: "cover",
-                          border: "solid 2px black",
-                        })}
-                        src={order[getOrderRole(order)]?.avatar ?? ''}
-                        alt="avatar"
-                        loading="lazy"
-                      />
-                      <p className={css({ textStyle: "body" })}>{order[getOrderRole(order)].firstName} {order[getOrderRole(order)].lastName}</p>
+                    <div className={hstack({ width: "100%", justifyContent: "space-between" })}>
+                      <div className={hstack()}>
+                        <img
+                          className={css({
+                            borderRadius: "10px",
+                            w: "2.75rem",
+                            h: "2.75rem",
+                            objectFit: "cover",
+                            border: "solid 2px black",
+                          })}
+                          src={order[getOrderRole(order)]?.avatar ?? ''}
+                          alt="avatar"
+                          loading="lazy"
+                        />
+                        <div className={vstack({ alignItems: "start", gap:"0" })}>
+                          <p className={css({ textStyle: "body" })}>{order[getOrderRole(order)].firstName} {order[getOrderRole(order)].lastName}</p>
+                          <p className={css({ color: "grayText" })}>{order.latestMessage.content}</p>
+                        </div>
+                      </div>
+                      <span className={css({ marginTop: "auto", fontSize: "small", width: "fit-content" })}>{new Date(order.latestMessage.createdAt).toLocaleString()}</span>
                     </div>
                   </Link>
                 </List.Item>

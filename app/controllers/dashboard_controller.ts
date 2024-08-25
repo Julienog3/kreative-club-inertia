@@ -12,10 +12,22 @@ export default class DashboardController {
         salesQuery
           .preload('customer')
           .preload('steps')
+          .preload('messages')
       }
       ).firstOrFail()
 
     return await inertia.render('dashboard/index', { creative })    
+  }
+  async list({ auth, inertia }: HttpContext) {
+    const user = await auth.getUserOrFail()
+    const orders = await user.related('sales')
+      .query()
+      .preload('messages')
+      .preload('customer')
+      .preload('steps')
+      .preload('products')
+
+    return inertia.render('dashboard/list', { orders })
   }
   async show({ inertia, params, bouncer }: HttpContext) {
     const { orderId } = params
@@ -27,6 +39,7 @@ export default class DashboardController {
         .preload('products')
         .preload('steps')
         .preload('customer')
+        .preload('messages')
         .firstOrFail()
       return await inertia.render('dashboard/single', { order })    
     }

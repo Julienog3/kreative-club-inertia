@@ -17,36 +17,41 @@ import { Menu } from '../ui/menu'
 import Chip from '../ui/chip'
 import RectangleGroup from '~/assets/icons/rectangle-group.svg?react'
 import { useEffect, useState } from 'react'
+import ListBulletIcon from '~/assets/icons/list-bullet.svg?react'
 
 interface Props {
   user?: User
 }
 
+function onLogout() {
+  router.post('/auth/logout', {}, { onSuccess: () => router.reload({ only: ['user'] })})
+} 
+
+let defaultdropdownItems = [
+  {
+    label: "Paramètres",
+    icon: <SettingsIcon />,
+    link: "/preferences/profile",
+  },
+  {
+    label: "Support",
+    icon: <HelpIcon />,
+    link: "/profile",
+  },
+  {
+    label: "Historique",
+    icon: <ListBulletIcon />,
+    link: "/history",
+  },
+  {
+    label: "Se déconnecter",
+    icon: <DisconnectIcon />,
+    onClick: () => onLogout(),
+  },
+];
+
 export function Header({ user }: Props) {
   const openModal = useStoreAuthModal((store) => store.openModal)
-
-  function onLogout() {
-    router.post('/auth/logout', {}, { onSuccess: () => router.reload({ only: ['user'] })})
-  } 
-  
-  let defaultdropdownItems = [
-    {
-      label: "Paramètres",
-      icon: <SettingsIcon />,
-      link: "/preferences/profile",
-    },
-    {
-      label: "Support",
-      icon: <HelpIcon />,
-      link: "/profile",
-    },
-    {
-      label: "Se déconnecter",
-      icon: <DisconnectIcon />,
-      onClick: () => onLogout(),
-    },
-  ];
-
   const [dropdownItems, setDropdownItems] = useState<any[]>(defaultdropdownItems)
 
   useEffect(() => {

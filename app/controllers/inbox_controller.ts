@@ -5,8 +5,16 @@ import type { HttpContext } from '@adonisjs/core/http'
 export default class InboxController {
   public async index({ auth, inertia }: HttpContext) {
     const user = await auth.getUserOrFail()
-    const purchases = await user.related('purchases').query().preload('customer').preload('seller')
-    const sales = await user.related('sales').query().preload('customer').preload('seller')
+    const purchases = await user.related('purchases')
+      .query()
+      .preload('customer')
+      .preload('seller')
+      .preload('messages')
+    const sales = await user.related('sales')
+      .query()
+      .preload('customer')
+      .preload('seller')
+      .preload('messages')
 
     return await inertia.render('messages/list', { purchases, sales })
   }
@@ -30,11 +38,13 @@ export default class InboxController {
       .query()
       .preload('customer')
       .preload('seller')
+      .preload('messages')
 
     const sales = await user.related('sales')
       .query()
       .preload('customer')
       .preload('seller')
+      .preload('messages')
 
     return await inertia.render('messages/single', { purchases, sales, order, orderRequest })
   }

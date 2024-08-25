@@ -12,6 +12,7 @@ export interface Order extends BaseModel {
   messages: any[]
   steps?: OrderStep[]
   products?: OrderProduct[]
+  latestMessage: any
 }
 
 export interface OrderRequest extends BaseModel {

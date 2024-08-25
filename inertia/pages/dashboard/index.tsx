@@ -5,7 +5,7 @@ import { Breadcrumb } from '~/components/ui/breadcrumb'
 import { css } from '~/styled-system/css'
 import { hstack, vstack } from '~/styled-system/patterns'
 import { User } from '~/types'
-import { OrdersTable } from '../orders/orders-table'
+import { OrdersTable } from '../../components/orders/orders-table'
 import { DashboardDetailsCard } from '~/components/dashboard/dashboard-details-card'
 import Card from '~/components/ui/card'
 import ChevronRight from '~/assets/icons/chevron-right.svg?react'
@@ -43,7 +43,7 @@ export default function Index(props: Props) {
         <div className={vstack({ w: "100%", h: "100%", alignItems:"start", gap: "0", mt: "1rem" })}>
           <h3 className={css({ textStyle: "h3"})}>Mes dernières commandes</h3>
           <p className={css({ textStyle: "body", mb: "1rem" })}>Retrouvez l'historique complet de vos commandes effectués</p>
-          {creative.sales ? <OrdersTable data={creative.sales}/> : 'Aucunes'}
+          {creative.sales ? <OrdersTable type="customer" data={creative.sales}/> : 'Aucunes'}
         </div>
         <div className={vstack({pos: "relative", top: "-7rem", w: "1/3", alignItems: "start", gap: "1rem", minWidth: "25rem" })}>
           <DashboardDetailsCard user={creative} />

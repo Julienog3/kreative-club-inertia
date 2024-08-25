@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, belongsTo, column, computed, hasMany } from '@adonisjs/lucid/orm'
 import { randomUUID } from 'crypto'
 import User from '#models/user'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
@@ -45,6 +45,13 @@ export default class Order extends BaseModel {
 
   @hasMany(() => Message)
   declare messages: HasMany<typeof Message>
+
+  @computed()
+  get latestMessage() {
+    return this.messages.reduce((acc, curr) => {
+      return curr.createdAt > acc.createdAt ? curr : acc;
+    }, this.messages[0])
+  }
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

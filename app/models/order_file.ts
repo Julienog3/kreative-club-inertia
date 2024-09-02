@@ -1,13 +1,15 @@
 import { DateTime } from 'luxon'
 import { BaseModel, beforeCreate, belongsTo, column } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import { randomUUID } from 'crypto'
 import Order from '#models/order'
+import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 
-export type Step =  'pending' | 'quote-created' | 'quote-validated' | 'payment-done' | 'files-sended' | 'done'
-export default class OrderStep extends BaseModel {
+export default class OrderFile extends BaseModel {
   @column({ isPrimary: true })
   declare id: string
+
+  @column()
+  declare file: string
 
   @column()
   declare orderId: string
@@ -17,14 +19,14 @@ export default class OrderStep extends BaseModel {
   })
   declare order: BelongsTo<typeof Order>
 
-  @column()
-  declare name: Step
-
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime
+
   @beforeCreate()
-  public static async createUUID(orderStep: OrderStep) {
-    orderStep.id = randomUUID()
+  public static async createUUID(orderFile: OrderFile) {
+    orderFile.id = randomUUID()
   }
 }

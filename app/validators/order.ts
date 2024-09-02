@@ -1,14 +1,10 @@
 import { OrderDelay } from '#models/order_request'
 import vine from '@vinejs/vine'
 
-// step: vine.enum(['not-started', 'in-progress', 'done']).optional(),
-
 export const createOrderValidator = vine.compile(
   vine.object({
     sellerId: vine.string().uuid({ version: [4] }),
     customerId: vine.string().uuid({ version: [4] }),    
-    // step: vine.enum(['not-started', 'in-progress', 'done']).optional(),
-    // paidAt: vine.any().optional()
   })
 )
 
@@ -37,7 +33,13 @@ export const createOrderProductValidator = vine.compile(
 
 export const createOrderStepValidator = vine.compile(
   vine.object({
-    name: vine.enum(['pending', 'quote-created','quote-validated', 'not-started', 'done', 'in-progress']),
+    name: vine.enum(['pending', 'quote-created','quote-validated', 'payment-done', 'done', 'in-progress']),
+  })
+)
+
+export const createOrderFileValidator = vine.compile(
+  vine.object({
+    files: vine.array(vine.file({ size: '2mb', extnames: ['jpg', 'png'] }))
   })
 )
 

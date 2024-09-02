@@ -1,10 +1,8 @@
 import { router } from "@inertiajs/react";
-import { z } from "zod";
 import { grid, gridItem, hstack, vstack } from "~/styled-system/patterns";
 import { User } from "~/types";
 import Input from "../ui/input";
 import { Button } from "../ui/button";
-import { FormEventHandler } from "react";
 import { Dropzone } from "../ui/dropzone";
 import { useSnackbarStore } from "../ui/snackbar/snackbar.store";
 import { useForm } from "@tanstack/react-form";

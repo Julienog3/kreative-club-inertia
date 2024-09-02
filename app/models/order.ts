@@ -6,8 +6,7 @@ import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Message from '#models/message'
 import OrderProduct from '#models/order_product'
 import OrderStep from '#models/order_step'
-
-export type Step =  'pending' | 'not-started' | 'in-progress' | 'done'
+import OrderFile from '#models/order_file'
 
 export default class Order extends BaseModel {
   public static selfAssignPrimaryKey = true
@@ -32,7 +31,7 @@ export default class Order extends BaseModel {
   declare seller: BelongsTo<typeof User>
 
   @column()
-  declare step: Step
+  declare step: string
 
   @column.dateTime()
   declare paidAt?: DateTime
@@ -46,8 +45,13 @@ export default class Order extends BaseModel {
   @hasMany(() => Message)
   declare messages: HasMany<typeof Message>
 
+  @hasMany(() => OrderFile)
+  declare files: HasMany<typeof OrderFile>
+
   @computed()
   get latestMessage() {
+    if (!this.messages) return ""
+
     return this.messages.reduce((acc, curr) => {
       return curr.createdAt > acc.createdAt ? curr : acc;
     }, this.messages[0])

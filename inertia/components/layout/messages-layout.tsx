@@ -65,10 +65,10 @@ export function MessagesLayout(props: Props) {
                         />
                         <div className={vstack({ alignItems: "start", gap:"0" })}>
                           <p className={css({ textStyle: "body" })}>{order[getOrderRole(order)].firstName} {order[getOrderRole(order)].lastName}</p>
-                          <p className={css({ color: "grayText" })}>{order.latestMessage.content}</p>
+                          {order.latestMessage ? <p className={css({ color: "grayText" })}>{order.latestMessage.content}</p> : ''}
                         </div>
                       </div>
-                      <span className={css({ marginTop: "auto", fontSize: "small", width: "fit-content" })}>{new Date(order.latestMessage.createdAt).toLocaleString()}</span>
+                      {order.latestMessage ? <span className={css({ marginTop: "auto", fontSize: "small", width: "fit-content" })}>{new Date(order.latestMessage.createdAt).toLocaleString()}</span> : ''}
                     </div>
                   </Link>
                 </List.Item>

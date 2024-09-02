@@ -12,6 +12,7 @@ export interface Order extends BaseModel {
   messages: any[]
   steps?: OrderStep[]
   products?: OrderProduct[]
+  files?: OrderFile[]
   latestMessage: any
 }
 
@@ -32,6 +33,12 @@ export interface OrderProduct extends BaseModel {
   quantity: number;
   duration: number;
   details: string;
+}
+
+export interface OrderFile extends BaseModel {
+  orderId: string;
+  order: Order;
+  file: string
 }
 
 export interface OrderStep extends Omit<BaseModel, 'updatedAt'> {

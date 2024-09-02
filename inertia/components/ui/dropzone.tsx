@@ -15,7 +15,7 @@ interface Props {
 }
 
 const dropzoneRecipe = sva({
-  slots: ['root', 'label', 'dropzone', 'item', 'itemPreviewImage'],
+  slots: ['root', 'label', 'dropzone', 'itemGroup', 'item', 'itemPreviewImage'],
   base: {
     root: {
       display: 'flex',
@@ -52,6 +52,10 @@ const dropzoneRecipe = sva({
       w: "100%",
       h: "100%",
       objectFit: "cover"
+    },
+    itemGroup: {
+      display: "flex",
+      gap: "1rem"
     }
   }
 })
@@ -65,7 +69,7 @@ export const Dropzone = (props: Props) => {
     <ArkFileUpload.Root name={name} onChange={onChange} required={required} className={classes.root} maxFiles={maxFiles}>
       <ArkFileUpload.Label className={classes.label}>{label}</ArkFileUpload.Label>
       <ArkFileUpload.Dropzone className={classes.dropzone}>Faites glisser et déposez vos fichiers ici ou</ArkFileUpload.Dropzone>
-       <ArkFileUpload.ItemGroup>
+       <ArkFileUpload.ItemGroup className={classes.itemGroup}>
         <ArkFileUpload.Context>
           {({ acceptedFiles }) =>
             acceptedFiles.map((file) => (
@@ -77,7 +81,7 @@ export const Dropzone = (props: Props) => {
                 </ArkFileUpload.ItemPreview>
                 <ArkFileUpload.ItemName />
                 <ArkFileUpload.ItemSizeText /> */}
-                {/* <ArkFileUpload.ItemDeleteTrigger>supprimer</ArkFileUpload.ItemDeleteTrigger> */}
+                <ArkFileUpload.ItemDeleteTrigger>supprimer</ArkFileUpload.ItemDeleteTrigger>
               </ArkFileUpload.Item>
             ))
           }

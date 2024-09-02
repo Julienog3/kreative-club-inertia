@@ -22,18 +22,18 @@ const steps: Record<Step, {
     awaiting: 'Validation du devis en attente',
     done: 'Devis validé le'
   },
-  'in-progress': {
-    awaiting: '',
-    done: ''
+  'payment-done': {
+    awaiting: 'Paiement en attente',
+    done: 'Paiement effectué le'
+  },
+  'files-sended': {
+    awaiting: 'Envoi des fichiers en attente',
+    done: 'Fichiers envoyés le'
   },
   'done': {
     awaiting: '',
     done: ''
   },
-  'not-started': {
-    awaiting: '',
-    done: ''
-  }
 }
 
 export function OrderTimeline(props: Props) {
@@ -61,11 +61,6 @@ export function OrderTimeline(props: Props) {
           {isDone(key) ? `${value.done} ${dateWhenDone(key)}` : value.awaiting} 
         </li>
       ))}
-      {/* {order.steps?.map((step) => (
-        <li key={step.id}>
-          <span className={circle({ border: "solid 2px black", backgroundColor: "green", w: "2rem", h: "2rem" })}>✓</span>
-        </li>
-      ))} */}
     </ul>
   )
 }

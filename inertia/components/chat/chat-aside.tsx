@@ -52,6 +52,21 @@ export function ChatAside(props: Props) {
     })
   }
 
+  async function validateOrder() {
+    await router.post(`/orders/${order.id}/steps`, {
+      name: 'order-validated'
+    }, {
+      onSuccess: () => {
+        addItem({
+          type: 'success',
+          message: 'Le devis a bien été validé.'
+        })
+      },
+      only: ['order'],
+      preserveScroll: true
+    })
+  }
+
   async function payOrder() {
     await router.post(`/orders/${order.id}/steps`, {
       name: 'payment-done'

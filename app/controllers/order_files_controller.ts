@@ -3,12 +3,20 @@ import { createOrderFileValidator } from '#validators/order'
 import { cuid } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
-import { normalize } from 'path'
+import { createReadStream } from 'fs'
 
 export default class OrderFilesController {
   public async download({ request, response, params }: HttpContext) {
     const { orderId } = params
     const order = await Order.query().where('id', orderId).preload('files').firstOrFail()
+
+    const filePath = app.makePath(`uploads/orders/${orderId}/order.zip`)
+
+
+    // order.files.forEach(async ({ file }) => {
+    //   const orderFile = await fetch(file).then(r => r.blob())
+    //   zip.file(file, orderFile)
+    // })
 
     // const normalizedPath = normalize(filePath)
   
@@ -20,7 +28,7 @@ export default class OrderFilesController {
     // TODO: Add ability
     const { orderId } = params
     const order = await Order.findOrFail(orderId) 
-    
+
     const { files } = await request.validateUsing(createOrderFileValidator)
 
     files.forEach(async (file) => {
@@ -32,7 +40,6 @@ export default class OrderFilesController {
     })
 
     await order.related('steps').create({ name: "files-sended" })    
-
     return response.redirect().back()
   }
 }

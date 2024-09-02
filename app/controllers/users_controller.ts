@@ -49,23 +49,27 @@ export default class UsersController {
     return inertia.render('creatives/single', { creative })
   }
 
-  public async portfolio({ inertia, params }: HttpContext) {
+  public async portfolio({ inertia, params, auth }: HttpContext) {
     const creative = await this.userService.findCreativeBySlug(params.slug)
+    const isBookmarked = await auth.user?.related('bookmarks').query().where('creativeId', creative.id).first()
 
     const portfolioFolders = await PortfolioFolder.query().where('userId', creative.id).preload('portfolioImages')
     const portfolioImages = await PortfolioImage.query().where((query) => {
       query.where('userId', creative.id).whereNull('portfolioFolderId')
     })
 
-    return inertia.render('creatives/portfolio', { creative, portfolioFolders, portfolioImages })
+    return inertia.render('creatives/portfolio', { creative, portfolioFolders, portfolioImages, isBookmarked: !!isBookmarked })
   }
 
-  public async reviews({ inertia, params }: HttpContext) {
+  public async reviews({ inertia, params, auth }: HttpContext) {
     const creative = await this.userService.findCreativeBySlug(params.slug)
-    return inertia.render('creatives/reviews', { creative })
+    const isBookmarked = await auth.user?.related('bookmarks').query().where('creativeId', creative.id).first()
+
+    return inertia.render('creatives/reviews', { creative, isBookmarked: !!isBookmarked })
   }
 
   public async getInTouch({ inertia, params }: HttpContext) {
+    
     const creative = await this.userService.findCreativeBySlug(params.slug)
     const categories = await this.categoryService.getAllCategories()
 

@@ -11,6 +11,7 @@ import { PageHeader } from "./page-header";
 
 interface Props extends PropsWithChildren {
   creative: User,
+  isBookmarked: boolean
 }
 
 const tabs = [
@@ -25,7 +26,7 @@ const tabs = [
 ]
 
 export default function CreativeLayout(props: Props) {
-  const { creative, children } = props
+  const { creative, isBookmarked, children } = props
 
   const breadcumbItems = [
     {
@@ -72,7 +73,7 @@ export default function CreativeLayout(props: Props) {
             </section>
           </div>
           <div className={css({ pos: "relative", top: "-8rem", w: "1/2" })}>
-            <CreativeDetailsCard creative={creative}/>
+            <CreativeDetailsCard creative={creative} isBookmarked={isBookmarked}/>
           </div>
         </div>
       </div>

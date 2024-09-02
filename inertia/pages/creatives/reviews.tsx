@@ -15,15 +15,16 @@ import { Layout } from "~/components/layout/layout";
 
 interface Props {
   creative: User,
+  isBookmarked: boolean
 }
 
 export default function Reviews(props: Props) {
-  const { creative } = props
+  const { creative, isBookmarked } = props
   const { props: { user } } = usePage()
 
   return (
     <>
-      <CreativeLayout creative={creative}>
+      <CreativeLayout creative={creative} isBookmarked={isBookmarked}>
         <div>
           <h2 className={css({ textStyle: "subtitle", mb: ".25rem" })}>
             Avis
@@ -35,5 +36,5 @@ export default function Reviews(props: Props) {
   );
 }
 
-Reviews.layout = page => <Layout children={page} />
+Reviews.layout = (page: React.ReactNode) => <Layout children={page} />
 

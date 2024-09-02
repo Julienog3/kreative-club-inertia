@@ -6,13 +6,13 @@ export default class AuthController {
   async login({ auth, request, response }: HttpContext) {
     const { email, password } = request.only(['email', 'password'])
     const user = await User.verifyCredentials(email, password)
-    
+
     if (!user) {
       return response.status(401)
     }
 
-    await auth.use('web').login(user)
-    return response.redirect().back()
+      await auth.use('web').login(user)
+      return response.redirect().back()
   }
 
   async logout({ auth, response }: HttpContext) {

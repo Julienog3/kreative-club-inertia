@@ -10,12 +10,13 @@ import { PortfolioFolder, PortfolioImage } from "~/types/portfolio";
 
 interface Props {
   creative: User,
+  isBookmarked: boolean
   portfolioImages: PortfolioImage[],
   portfolioFolders: PortfolioFolder[]
 }
 
 export default function Portfolio(props: Props) {
-  const { creative, portfolioImages, portfolioFolders } = props
+  const { creative, isBookmarked, portfolioImages, portfolioFolders } = props
   const { props: { user } } = usePage()
 
   const portfolioElements = useMemo(
@@ -31,7 +32,7 @@ export default function Portfolio(props: Props) {
 
   return (
     <>
-      <CreativeLayout creative={creative}>
+      <CreativeLayout creative={creative} isBookmarked={isBookmarked}>
         <div className={vstack({ alignItems: 'start', mb: "1.25rem", gap: ".25rem" })}>
           <h2 className={css({ textStyle: "subtitle" })}>
             Portfolio
@@ -44,5 +45,5 @@ export default function Portfolio(props: Props) {
   );
 }
 
-Portfolio.layout = page => <Layout children={page} />
+Portfolio.layout = (page: React.ReactNode) => <Layout children={page} />
 

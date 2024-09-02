@@ -4,14 +4,40 @@ import { hstack, vstack } from "~/styled-system/patterns";
 import { css } from "~/styled-system/css";
 import Chip from "../ui/chip";
 import { Button } from "../ui/button";
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
+import { useSnackbarStore } from "../ui/snackbar/snackbar.store";
+import BookmarkFilled from "~/assets/icons/bookmark-filled.svg?react"
+import BookmarkOutline from "~/assets/icons/bookmark-outline.svg?react"
+import { useEffect } from "react";
 
 interface Props {
   creative: User
+  isBookmarked: boolean
 }
 
 export function CreativeDetailsCard(props: Props) {
-  const { creative } = props
+  const { creative, isBookmarked } = props
+
+  const { addItem } = useSnackbarStore(store => store)
+
+  const { user } = usePage().props
+
+  function handleAddBookmark(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    event.stopPropagation();
+    console.log('what ?')
+    router.post(`/bookmarks/${creative.id}`, {}, {
+      onSuccess: () => {
+        addItem({ type: "success", message: "Ajouté au signet" })
+      },
+      preserveScroll: true,
+      only: ['bookmarks', 'creative', 'isBookmarked']
+    })
+  };
+
+  useEffect(() => {
+    console.log({ isBookmarked })
+  }, [isBookmarked])
 
   function getInTouchCreative() {
     router.visit(`/creatives/${creative.username}/get-in-touch`)
@@ -61,14 +87,14 @@ export function CreativeDetailsCard(props: Props) {
           </>
         )}
       </section>
-      <footer className={hstack({ mt: "1rem" })}>
-        {/* <Button onClick={() => handleBookmark()}>
-          Bookmark
-        </Button> */}
+      {user ? <footer className={hstack({ mt: "1rem" })}>
+        <Button onClick={(e) => handleAddBookmark(e)}>
+          {isBookmarked ? <BookmarkFilled />: <BookmarkOutline />} Ajouter aux signets
+        </Button>
         <Button onClick={() => getInTouchCreative()} variant="success">
           Commander
         </Button>
-      </footer>
+      </footer> : ''}
     </Card>
   )
 }

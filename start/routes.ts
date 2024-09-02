@@ -41,7 +41,7 @@ router.group(() => {
   })
   router.get(':slug/portfolio', [UsersController, 'portfolio']).as('creatives.portfolio')
   router.get(':slug/reviews', [UsersController, 'reviews'])
-  router.get(':slug/get-in-touch', [UsersController, 'getInTouch'])
+  router.get(':slug/get-in-touch', [UsersController, 'getInTouch']).use(middleware.auth())
   router.post('/thumbnail/:id', [UsersController, 'setPortfolioImageAsThumbnail']).use(middleware.auth())
 }).prefix('creatives')
 

@@ -7,6 +7,7 @@ import Message from '#models/message'
 import OrderProduct from '#models/order_product'
 import OrderStep from '#models/order_step'
 import OrderFile from '#models/order_file'
+import Review from '#models/review'
 
 export default class Order extends BaseModel {
   public static selfAssignPrimaryKey = true
@@ -47,6 +48,9 @@ export default class Order extends BaseModel {
 
   @hasMany(() => OrderFile)
   declare files: HasMany<typeof OrderFile>
+
+  @hasMany(() => Review)
+  declare reviews: HasMany<typeof Review> 
 
   @computed()
   get latestMessage() {

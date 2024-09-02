@@ -18,6 +18,9 @@ const selectRecipe = sva({
   slots: ['root', 'trigger', 'content', 'itemGroup', 'item'],
   base: {
     root: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '.5rem',
       textStyle: 'body'
     },
     trigger: {
@@ -26,7 +29,7 @@ const selectRecipe = sva({
       gap: '.5rem',
       borderRadius: '5px',
       border: 'solid 2px black',
-      p: '.5rem',
+      p: '.65rem',
       bgColor: 'white',
       cursor: 'pointer'
     },
@@ -34,7 +37,7 @@ const selectRecipe = sva({
       textStyle: 'body',
       borderRadius: '5px',
       border: 'solid 2px black',
-      p: '.5rem',
+      p: '.65rem',
       bgColor: 'white',
       cursor: 'pointer'
     },
@@ -56,7 +59,6 @@ export function Select(props: Props) {
   const classes = selectRecipe()
 
   const defaultValue = props.value.map(({ value }) => `${value}`)
-  console.log({ defaultValue })
 
   return (
     <ArkSelect.Root

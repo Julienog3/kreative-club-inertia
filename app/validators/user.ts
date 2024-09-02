@@ -17,3 +17,9 @@ export const enablePortfolioValidator = vine.compile(
     isEnabled: vine.boolean(),
   })
 )
+
+export const listCreativesValidator = vine.compile(
+  vine.object({
+    categories: vine.array(vine.number()).optional()
+  })
+)

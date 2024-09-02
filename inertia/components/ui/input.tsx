@@ -18,7 +18,7 @@ const inputRecipe = sva({
   slots: ['root', 'control', 'label'],
   base: {
     root: { display: 'flex', flexDir: 'column', gap: '.5rem', textStyle: 'body' },
-    control: { padding: '.65rem', border: '#000 solid 2px', rounded: '.5rem' },
+    control: { padding: '.65rem', border: '#000 solid 2px', borderRadius: '5px' },
     label: {}
   }
 })

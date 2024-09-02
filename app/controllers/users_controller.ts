@@ -1,12 +1,14 @@
 import { deleteUser, editPortfolioImage, updateUser } from '#abilities/main'
+import Category from '#models/category'
 import PortfolioFolder from '#models/portfolio_folder'
 import PortfolioImage from '#models/portfolio_image'
 import User from '#models/user'
 import CategoryService from '#services/category_service'
 import UserService from '#services/user_service'
-import { updateUserValidator } from '#validators/user'
+import { listCreativesValidator, updateUserValidator } from '#validators/user'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
+import logger from '@adonisjs/core/services/logger'
 
 @inject()
 export default class UsersController {
@@ -15,25 +17,46 @@ export default class UsersController {
   public async index({ inertia, request, auth }: HttpContext) {
     await auth.check()
 
-    let creatives = await this.userService.allCreatives()
-    const { username } = request.qs()
+    const allCategories = await this.categoryService.getAllCategories()
+    // let creatives = await this.userService.allCreatives()
+
+    // const { categories } = await request.validateUsing(listCreativesValidator)
+
+    const { sort, order, username } = request.qs()
     
+    let query = User.query()
+      .preload('categories')
+      .preload('portfolioImages')
+      .preload('portfolioImageAsThumbnail')
+      .where('portfolioEnabled', true)
+
     if (username) {
-      creatives = await User.query()
+      query
         .where('portfolioEnabled', true)
         .andWhereLike('username', `%${username}%`)
-        .preload('categories')
-        .preload('portfolioImages')
-        .preload('portfolioImageAsThumbnail')
-
-      creatives = creatives.map((creative) => creative.serialize())
     }
+
+    // if (categories) {
+    //   categories.forEach((category) => {
+    //     query
+    //       .whereHas('categories', (categoriesQuery) => {
+    //         categoriesQuery.where('id', category.id)
+    //       })
+    //   })
+    // }
+
+    if (sort && order) {
+      query.orderBy(sort, order)
+    }
+    
+    const creatives = await query
+    let creativesToJSON = creatives.map((creative) => creative.serialize())
 
     if (auth.isAuthenticated) {
       const user = await auth.getUserOrFail()
       await user.load('bookmarks')
       
-      creatives = creatives.map((creative) => {
+      creativesToJSON = creativesToJSON.map((creative) => {
         return ({
           isBookmarked: !!(user!.bookmarks.find(({ id }) => id === creative.id)),
           ...creative
@@ -41,7 +64,7 @@ export default class UsersController {
       })
     }
 
-    return inertia.render('creatives/list', { creatives })
+    return inertia.render('creatives/list', { creatives, categories: allCategories })
   }
 
   public async show({ inertia, params }: HttpContext) {
@@ -69,7 +92,6 @@ export default class UsersController {
   }
 
   public async getInTouch({ inertia, params }: HttpContext) {
-    
     const creative = await this.userService.findCreativeBySlug(params.slug)
     const categories = await this.categoryService.getAllCategories()
 

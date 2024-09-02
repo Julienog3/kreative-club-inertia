@@ -88,7 +88,6 @@ export function CreativeCard(props: Props) {
                 w: "100%",
                 h: "14rem",
                 objectFit: "cover",
-                zIndex: "2",
               })}/>
             }
           </div>

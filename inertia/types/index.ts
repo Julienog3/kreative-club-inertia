@@ -13,8 +13,8 @@ type Role = 'user' | 'admin'
 
 export interface User extends BaseModel {
   username: string
-  firstName: string
-  lastName: string
+  firstName: string | null
+  lastName: string | null
   email: string
   phoneNumber: string
   avatar: string | null

@@ -87,9 +87,14 @@ export default class UsersController {
     const creative = await this.userService.findCreativeBySlug(params.slug)
     const isBookmarked = await auth.user?.related('bookmarks').query().where('creativeId', creative.id).first()
 
-    const reviews = await creative.related('sales').query().preload('reviews')
+    const sales = await creative.related('sales').query().preload('review', (reviewQuery) => {
+      reviewQuery.preload('order', (orderQuery) => {
+        orderQuery.preload('customer')
+      })
+    })
+    const reviews = sales.map((sale) => sale.review)
 
-    return inertia.render('creatives/reviews', { creative, isBookmarked: !!isBookmarked })
+    return inertia.render('creatives/reviews', { creative, isBookmarked: !!isBookmarked, reviews })
   }
 
   public async getInTouch({ inertia, params }: HttpContext) {

@@ -78,6 +78,7 @@
     "@tanstack/react-table": "^8.15.3",
     "@tanstack/zod-form-adapter": "^0.27.0",
     "@vinejs/vine": "^1.8.0",
+    "dayjs": "^1.11.13",
     "edge.js": "^6.0.2",
     "jszip": "^3.10.1",
     "luxon": "^3.4.4",

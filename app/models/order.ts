@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, belongsTo, column, computed, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeCreate, belongsTo, column, computed, hasMany, hasOne } from '@adonisjs/lucid/orm'
 import { randomUUID } from 'crypto'
 import User from '#models/user'
-import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
+import type { BelongsTo, HasMany, HasOne } from '@adonisjs/lucid/types/relations'
 import Message from '#models/message'
 import OrderProduct from '#models/order_product'
 import OrderStep from '#models/order_step'
@@ -49,8 +49,8 @@ export default class Order extends BaseModel {
   @hasMany(() => OrderFile)
   declare files: HasMany<typeof OrderFile>
 
-  @hasMany(() => Review)
-  declare reviews: HasMany<typeof Review> 
+  @hasOne(() => Review)
+  declare review: HasOne<typeof Review> 
 
   @computed()
   get latestMessage() {

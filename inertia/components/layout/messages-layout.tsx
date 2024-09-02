@@ -6,12 +6,19 @@ import { Link, usePage } from "@inertiajs/react"
 import List from "~/components/ui/list"
 import { Order } from "~/types/order"
 import { User } from "~/types"
+import dayjs from 'dayjs'
+import relativeTime  from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/fr' 
 
 interface Props extends PropsWithChildren {
   orders: Order[]
 }
 
 export type OrderRole = 'seller' | 'customer'
+
+dayjs.extend(relativeTime);
+dayjs.locale('fr')
+
 
 export function MessagesLayout(props: Props) {
   const { orders, children } = props
@@ -68,7 +75,7 @@ export function MessagesLayout(props: Props) {
                           {order.latestMessage ? <p className={css({ color: "grayText" })}>{order.latestMessage.content}</p> : ''}
                         </div>
                       </div>
-                      {order.latestMessage ? <span className={css({ marginTop: "auto", fontSize: "small", width: "fit-content" })}>{new Date(order.latestMessage.createdAt).toLocaleString()}</span> : ''}
+                      {order.latestMessage ? <span className={css({ marginTop: "auto", fontSize: "small", width: "fit-content" })}>{dayjs().to(dayjs(order.latestMessage.createdAt))}</span> : ''}
                     </div>
                   </Link>
                 </List.Item>

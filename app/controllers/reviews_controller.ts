@@ -11,7 +11,7 @@ export default class ReviewsController {
 
     if (await bouncer.allows(createReview, orderId)) {
       const payload = await request.validateUsing(createReviewValidator)
-      await order.related('reviews').create(payload)
+      await order.related('review').create(payload)
       await order.related('steps').create({ name: 'review-submitted' })
     }
 

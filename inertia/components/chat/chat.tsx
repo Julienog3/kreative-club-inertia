@@ -110,7 +110,7 @@ export function Chat(props: Props) {
           <ChatAside order={order} orderRequest={orderRequest} />
         </div>
         <footer className={hstack({ p: ".75rem", borderTop: '2px solid black', background: "white" })}>
-          <Input type="text" value={value} onChange={e => setValue(e.target.value)} placeholder="Ecrivez votre message"/>
+          <Input rootProps={{ w: "100%" }} controlProps={{ w: "100%" }} type="text" value={value} onChange={e => setValue(e.target.value)} placeholder="Ecrivez votre message"/>
           <Button onClick={() => sendMessage()}>Envoyer</Button>
         </footer>
       </Card>

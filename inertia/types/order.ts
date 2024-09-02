@@ -46,3 +46,11 @@ export interface OrderStep extends Omit<BaseModel, 'updatedAt'> {
   order: Order;
   name: Step;
 }
+
+
+export interface Review extends BaseModel {
+  orderId: string;
+  order: Order;
+  score: number;
+  description: string;
+}

@@ -1,4 +1,5 @@
 import { Head } from '@inertiajs/react'
+import React from 'react'
 import { Layout } from '~/components/layout/layout'
 import { css } from '~/styled-system/css'
 import { hstack, vstack } from '~/styled-system/patterns'
@@ -6,7 +7,7 @@ import { hstack, vstack } from '~/styled-system/patterns'
 export default function Home() {
   return (
     <>
-      <Head title="Homepage" />
+      <Head title="Accueil" />
       <div
         className={vstack({
           width: '100%',
@@ -48,4 +49,4 @@ export default function Home() {
   )
 }
 
-Home.layout = page => <Layout children={page} />
+Home.layout = (page: React.ReactNode) => <Layout children={page} />

@@ -25,6 +25,7 @@ export interface User extends BaseModel {
   bookmarks: Bookmark[]
   portfolioEnabled?: boolean
   description?: string
+  descriptionExcerpt: string
   role: Role,
   isBookmarked?: boolean
   sales?: Order[]

@@ -23,7 +23,7 @@ export function MessagesLayout(props: Props) {
   }
   
   return (
-    <section className={vstack({ alignItems: "start", w: "100%", h: "screen", p: "2rem" })}>
+    <section className={vstack({ alignItems: "start", w: "100%", minH: "screen", p: "2rem" })}>
       <Breadcrumb />
       <div className={grid({ columns: 5, gap: "1rem", w: "100%" })}>
         <div

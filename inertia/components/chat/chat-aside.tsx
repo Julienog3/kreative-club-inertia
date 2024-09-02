@@ -12,7 +12,7 @@ import { OrderTimeline } from "../orders/order-timeline";
 import { useSnackbarStore } from "../ui/snackbar/snackbar.store";
 import { OrderSubmitModal } from "../orders/order-submit-modal";
 import JSZip from "jszip"
-import { z } from "zod";
+import { ReviewModal } from "../orders/review-modal";
 
 interface Props {
   order: Order;
@@ -37,6 +37,8 @@ export function ChatAside(props: Props) {
     return (user as User).id === order.customerId
   }, [user, order])
 
+  const orderDetailsLink = isSeller ? `/dashboard/history/${order.id}` : `/history/${order.id}`
+
   async function validateQuote() {
     await router.post(`/orders/${order.id}/steps`, {
       name: 'quote-validated'
@@ -59,7 +61,7 @@ export function ChatAside(props: Props) {
       onSuccess: () => {
         addItem({
           type: 'success',
-          message: 'Le devis a bien été validé.'
+          message: 'La commande a bien été validé.'
         })
       },
       only: ['order'],
@@ -105,10 +107,13 @@ export function ChatAside(props: Props) {
   const displayCreateQuoteAction = isSeller && currentStep?.name === 'pending'
   const displayValidateQuoteAction = isCustomer && currentStep?.name === 'quote-created'
   const displayPaymentAction = isCustomer && currentStep?.name === 'quote-validated'
-  const displaySubmitProject = isSeller && currentStep?.name === 'payment-done'
+  const displaySubmitProjectAction = isSeller && currentStep?.name === 'payment-done'
+  const displayValidateOrderAction = isCustomer && currentStep?.name === 'files-sended'
+  const displaySubmitReviewAction = isCustomer && currentStep?.name === 'order-validated'
 
   const [orderRequestModalOpen, setOrderRequestModalOpen] = useState<boolean>(false)
   const [orderSubmitModalOpen, setOrderSubmitModalOpen] = useState<boolean>(false)
+  const [reviewModalOpen, setReviewModalOpen] = useState<boolean>(false)
 
   return (
     <>
@@ -124,6 +129,12 @@ export function ChatAside(props: Props) {
         onCancel={() => setOrderSubmitModalOpen(false)} 
         onConfirm={() => setOrderSubmitModalOpen(false)} 
       />
+      <ReviewModal 
+        order={order} 
+        open={reviewModalOpen} 
+        onCancel={() => setReviewModalOpen(false)} 
+        onConfirm={() => setReviewModalOpen(false)} 
+      />
       <aside className={vstack({ borderLeft: "solid 2px black", w: "1/3", minWidth: "25rem", p: "1rem", overflowY: "scroll" })}>
         <Card css={{ w: "100%" }}>
           <header
@@ -135,7 +146,7 @@ export function ChatAside(props: Props) {
               height: "fit-content",
             })}
           >
-            Commande #000
+            Commande {order.id}
           </header>
           <div className={vstack({ p: ".75rem", alignItems: "start", textStyle: "body", w: "100%" })}>
             <ul className={vstack({ alignItems: "start", w: "100%" })}>
@@ -157,7 +168,9 @@ export function ChatAside(props: Props) {
         </Card>
         <div className={hstack()}>
           <Button onClick={() => setOrderRequestModalOpen(true)}>Voir la demande</Button>
-          <Button onClick={() => {}}>Voir les détails</Button>
+          <Link href={orderDetailsLink}>
+            <Button>Voir les détails</Button>
+          </Link>
           {displayCreateQuoteAction && <Link href={`/quote/${order.id}`}>
             <Button variant="success" onClick={() => {}}>Créer le devis</Button>
           </Link>}
@@ -167,12 +180,18 @@ export function ChatAside(props: Props) {
           {displayPaymentAction && <Button variant="success" onClick={payOrder}>
             Procéder au paiement
           </Button>}
-          {displaySubmitProject && <Button variant="success" onClick={() => setOrderSubmitModalOpen(true)}>
+          {displaySubmitProjectAction && <Button variant="success" onClick={() => setOrderSubmitModalOpen(true)}>
             Envoyer les fichiers
           </Button>}
-          <Button variant="success" onClick={() => generateZipDownload()}>
+          {displayValidateOrderAction && <Button variant="success" onClick={validateOrder}>
+            Valider la commande
+          </Button>}
+          {displaySubmitReviewAction && <Button variant="success" onClick={() => setReviewModalOpen(true)}>
+            Envoyer un commentaire
+          </Button>}
+          {/* <Button variant="success" onClick={() => generateZipDownload()}>
             generate zip
-          </Button>
+          </Button> */}
         </div>
       </aside>
     </>

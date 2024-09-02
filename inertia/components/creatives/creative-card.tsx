@@ -48,7 +48,6 @@ export function CreativeCard(props: Props) {
         css={{ p: "1rem" }}
         onMouseEnter={() => setIsCardHovered(true)}
         onMouseLeave={() => setIsCardHovered(false)}
-
       >
         <div className={vstack({ alignItems: "start" })}>
           <div className={css({ position: "relative", width: "100%" })}>
@@ -100,7 +99,7 @@ export function CreativeCard(props: Props) {
               </div>
             )}
             <p className={css({ textStyle: "body" })}>
-              {props.description}
+              {props.descriptionExcerpt}
             </p>
             <span
               className={css({ w: "100%", h: "2px", background: "black" })}

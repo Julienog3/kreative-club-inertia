@@ -29,3 +29,12 @@ export const showOrderAsCustomer = Bouncer.ability(async (user: User, orderId: s
   const order = await Order.query().where('id', orderId).preload('customer').firstOrFail()
   return user.id === order.customer.id
 })
+
+export const createReview = Bouncer.ability(async (user: User, orderId: string) => {
+  const order = await Order.query().where('id', orderId).preload('customer').preload('steps').firstOrFail()
+  const currentStep = await order.steps?.reduce((acc, curr) => {
+    return curr.createdAt > acc.createdAt ? curr : acc;
+  }, order.steps[0]);
+  
+  return user.id === order.customer.id && currentStep.name === 'order-validated'
+})

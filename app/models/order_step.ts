@@ -4,7 +4,7 @@ import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import { randomUUID } from 'crypto'
 import Order from '#models/order'
 
-export type Step =  'pending' | 'quote-created' | 'quote-validated' | 'payment-done' | 'files-sended' | 'done'
+export type Step =  'pending' | 'quote-created' | 'quote-validated' | 'payment-done' | 'files-sended' | 'order-validated' | 'review-submitted'
 export default class OrderStep extends BaseModel {
   @column({ isPrimary: true })
   declare id: string

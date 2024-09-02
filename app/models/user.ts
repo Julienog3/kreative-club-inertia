@@ -7,10 +7,11 @@ import { withAuthFinder } from '@adonisjs/auth'
 import {  DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
 import Category from '#models/category'
 import PortfolioImage from '#models/portfolio_image'
-import type { HasMany, HasOne, ManyToMany } from '@adonisjs/lucid/types/relations'
+import type { HasMany, ManyToMany } from '@adonisjs/lucid/types/relations'
 import PortfolioFolder from '#models/portfolio_folder'
 import Order from '#models/order'
 import Message from '#models/message'
+import string from '@adonisjs/core/helpers/string'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -57,6 +58,11 @@ export default class User extends compose(BaseModel, AuthFinder) {
   
   @column()
   declare description: string | null
+
+  @computed()
+  get descriptionExcerpt() {
+    return this.description ? string.truncate(this.description, 100) : ''
+  }
 
   @hasMany(() => Order, {
     foreignKey: 'customerId'

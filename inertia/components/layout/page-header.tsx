@@ -18,7 +18,9 @@ const pageHeaderRecipe = sva({
       alignItems: "start", 
       borderBottom: "2px solid black",
       bgImage: 'url(/images/grid.png)',
-      bgPosition: 'center'
+      bgPosition: 'center',
+      overflow: 'hidden',
+      position: 'relative'
     },
     container: {
       display: 'flex',

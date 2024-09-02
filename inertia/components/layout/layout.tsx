@@ -6,7 +6,7 @@ import { Footer } from './footer'
 import { AuthModal } from './../../components/modals/auth-modal/auth-modal'
 import { Snackbar } from '../ui/snackbar/snackbar'
 import { css } from '~/styled-system/css'
-import { usePage } from '@inertiajs/react'
+import { Head, usePage } from '@inertiajs/react'
 import { User } from '~/types'
 
 export function Layout({ children }: PropsWithChildren) {

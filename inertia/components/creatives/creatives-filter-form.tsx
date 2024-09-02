@@ -64,18 +64,8 @@ export function CreativesFilterForm(props: Props) {
         e.stopPropagation();
         form.handleSubmit();
       }}
-      className={hstack({ alignItems: 'end' })}
+      className={hstack({ alignItems: 'end', justifyContent: "space-between", w: "100%" })}
     >
-      <form.Field name="sortBy" children={(field) => (
-        <Select 
-          name={field.name} 
-          items={sortTypes}
-          value={field.state.value}
-          onChange={(value) => field.handleChange(value)} 
-          label="Trier par" 
-          placeholder="Choisir l'ordre de tri" 
-        />
-      )} />
       <form.Field 
         name="categories"
         children={(field) => (
@@ -90,19 +80,32 @@ export function CreativesFilterForm(props: Props) {
           />
         )}
       />
-      <form.Field 
-        name="username"
-        children={(field) => (
-          <Input 
-            name={field.name}
+      <div className={hstack({ alignItems: "end" })}>
+        <form.Field name="sortBy" children={(field) => (
+          <Select 
+            name={field.name} 
+            items={sortTypes}
             value={field.state.value}
-            label="Rechercher un créatif"
-            onChange={(e) => field.handleChange(e.target.value)}
-            placeholder="ex: john.doe48"
+            onChange={(value) => field.handleChange(value)} 
+            label="Trier par" 
+            placeholder="Choisir l'ordre de tri" 
           />
-        )}
-      />
-      <Button type="submit">Trier</Button>
+        )} />
+        
+        <form.Field 
+          name="username"
+          children={(field) => (
+            <Input 
+              name={field.name}
+              value={field.state.value}
+              label="Rechercher un créatif"
+              onChange={(e) => field.handleChange(e.target.value)}
+              placeholder="ex: john.doe48"
+            />
+          )}
+        />
+        <Button type="submit">Trier</Button>
+      </div>
     </form>
   )
 }

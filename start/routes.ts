@@ -28,10 +28,12 @@ import OrderProductsController from '#controllers/order_products_controller'
 import OrderStepsController from '#controllers/order_steps_controller'
 import HistoryController from '#controllers/history_controller'
 import OrderFilesController from '#controllers/order_files_controller'
+import HomeController from '#controllers/home_controller'
+import ReviewsController from '#controllers/reviews_controller'
 
 const PATH_TRAVERSAL_REGEX = /(?:^|[\\/])\.\.(?:[\\/]|$)/
 
-router.get('/', ({ inertia }) => inertia.render('home')).as('home')
+router.get('/', [HomeController, 'render']).as('home')
 
 // router.on('/').renderInertia('home', { version: 6 })
 router.group(() => {
@@ -53,7 +55,6 @@ router.group(() => {
 
 router.group(() => {
   router.get('/profile', [PreferencesController, 'renderProfile']).as('preferences.profile')
-  // router.put('/profile/edit', [PreferencesController, 'editProfile'])
   router.get('/creative-profile', [PreferencesController, 'renderCreativeProfile'])
   router.get('/notifications', [PreferencesController, 'renderNotifications'])
   router.get('/security', [SecurityController, 'render'])
@@ -99,6 +100,7 @@ router.group(async () => {
   router.post(':orderId/products', [OrderProductsController, 'store'])
   router.post(':orderId/steps', [OrderStepsController, 'store'])
   router.post(':orderId/files', [OrderFilesController, 'store'])
+  router.post(':orderId/reviews', [ReviewsController, 'store'])
 })
 .prefix('orders')
 .use(middleware.auth())

@@ -5,10 +5,9 @@ import PortfolioImage from '#models/portfolio_image'
 import User from '#models/user'
 import CategoryService from '#services/category_service'
 import UserService from '#services/user_service'
-import { listCreativesValidator, updateUserValidator } from '#validators/user'
+import { updateUserValidator } from '#validators/user'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
-import logger from '@adonisjs/core/services/logger'
 
 @inject()
 export default class UsersController {
@@ -87,6 +86,8 @@ export default class UsersController {
   public async reviews({ inertia, params, auth }: HttpContext) {
     const creative = await this.userService.findCreativeBySlug(params.slug)
     const isBookmarked = await auth.user?.related('bookmarks').query().where('creativeId', creative.id).first()
+
+    const reviews = await creative.related('sales').query().preload('reviews')
 
     return inertia.render('creatives/reviews', { creative, isBookmarked: !!isBookmarked })
   }

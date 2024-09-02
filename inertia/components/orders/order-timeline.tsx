@@ -30,10 +30,14 @@ const steps: Record<Step, {
     awaiting: 'Envoi des fichiers en attente',
     done: 'Fichiers envoyés le'
   },
-  'done': {
-    awaiting: '',
-    done: ''
+  'order-validated': {
+    awaiting: 'Validation de la commande en attente',
+    done: 'Commande validé le'
   },
+  'review-submitted': {
+    awaiting: 'Commentaire en attente',
+    done: 'Commentaire envoyé le'
+  }
 }
 
 export function OrderTimeline(props: Props) {

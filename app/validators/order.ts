@@ -33,7 +33,7 @@ export const createOrderProductValidator = vine.compile(
 
 export const createOrderStepValidator = vine.compile(
   vine.object({
-    name: vine.enum(['pending', 'quote-created','quote-validated', 'payment-done', 'done', 'in-progress']),
+    name: vine.enum(['pending', 'quote-created','quote-validated', 'payment-done', 'order-validated', 'review-submitted']),
   })
 )
 
@@ -43,3 +43,9 @@ export const createOrderFileValidator = vine.compile(
   })
 )
 
+export const createReviewValidator = vine.compile(
+  vine.object({
+    score: vine.number().range([1, 5]),
+    description: vine.string().minLength(60)
+  })
+)

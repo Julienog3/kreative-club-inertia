@@ -13,6 +13,7 @@ import { useSnackbarStore } from "../ui/snackbar/snackbar.store";
 import { OrderSubmitModal } from "../orders/order-submit-modal";
 import JSZip from "jszip"
 import { ReviewModal } from "../orders/review-modal";
+import { OrderFilesModal } from "../orders/order-files-modal";
 
 interface Props {
   order: Order;
@@ -113,6 +114,7 @@ export function ChatAside(props: Props) {
 
   const [orderRequestModalOpen, setOrderRequestModalOpen] = useState<boolean>(false)
   const [orderSubmitModalOpen, setOrderSubmitModalOpen] = useState<boolean>(false)
+  const [orderFilesModalOpen, setOrderFilesModalOpen] = useState<boolean>(false)
   const [reviewModalOpen, setReviewModalOpen] = useState<boolean>(false)
 
   return (
@@ -122,6 +124,12 @@ export function ChatAside(props: Props) {
         open={orderRequestModalOpen} 
         onCancel={() => setOrderRequestModalOpen(false)} 
         onConfirm={() => setOrderRequestModalOpen(false)} 
+      />
+      <OrderFilesModal 
+        order={order} 
+        open={orderFilesModalOpen} 
+        onCancel={() => setOrderFilesModalOpen(false)} 
+        onConfirm={() => setOrderFilesModalOpen(false)} 
       />
       <OrderSubmitModal 
         order={order} 
@@ -166,11 +174,17 @@ export function ChatAside(props: Props) {
             {/* <a href={order.files[0].file} download="ouaip">download</a> */}
           </div>
         </Card>
-        <div className={hstack()}>
-          <Button onClick={() => setOrderRequestModalOpen(true)}>Voir la demande</Button>
-          <Link href={orderDetailsLink}>
-            <Button>Voir les détails</Button>
-          </Link>
+        <div className={vstack( { alignItems: "start", width: "100%" })}>
+          <div className={hstack()}>
+            <Button onClick={() => setOrderRequestModalOpen(true)}>Voir la demande</Button>
+            {order.files && order.files.length >= 1 
+              ? <Button onClick={() => setOrderFilesModalOpen(true)}>Voir les réalisations</Button> 
+              : ''
+            }
+            <Link href={orderDetailsLink}>
+              <Button>Voir les détails</Button>
+            </Link>
+          </div>
           {displayCreateQuoteAction && <Link href={`/quote/${order.id}`}>
             <Button variant="success" onClick={() => {}}>Créer le devis</Button>
           </Link>}

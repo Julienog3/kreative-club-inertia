@@ -7,10 +7,11 @@ import { OrderTimeline } from "./order-timeline";
 
 interface Props {
   order: Order
+  userType: 'customer' | 'seller'
 }
 
 export function OrderDetailsCard(props: Props) {
-  const { order } = props
+  const { order, userType } = props
 
   const currentStep = order.steps?.reduce((acc, curr) => {
     return new Date(curr.createdAt) > new Date(acc.createdAt) ? curr : acc;
@@ -39,10 +40,10 @@ export function OrderDetailsCard(props: Props) {
                   objectFit: "cover",
                   border: "solid 2px black",
                 })}
-                src={'http://localhost:3333' + order.customer?.avatar}
+                src={'http://localhost:3333' + order[userType]?.avatar}
                 alt="avatar"
               />
-              <p>{order.customer.firstName} {order.customer.lastName}</p>
+              <p>{order[userType].firstName} {order[userType].lastName}</p>
             </div>
           </li>
           <li className={hstack({ justifyContent: "space-between", w: "100%" })}>

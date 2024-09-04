@@ -19,6 +19,7 @@ const chip = cva({
     transition: "background",
     rounded: "999px",
     color: "black",
+    w: "fit-content",
     whiteSpace: "nowrap",
     background: 'white'
   },

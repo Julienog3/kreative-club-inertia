@@ -1,5 +1,6 @@
 import { showOrderAsCustomer } from '#abilities/main'
 import type { HttpContext } from '@adonisjs/core/http'
+import logger from '@adonisjs/core/services/logger'
 
 export default class HistoryController {
   public async index({ inertia, auth }: HttpContext) {
@@ -19,7 +20,7 @@ export default class HistoryController {
     const { orderId } = params
     
     if (await bouncer.allows(showOrderAsCustomer, orderId)) {
-      const order = user.related('purchases')
+      const order = await user.related('purchases')
         .query()
         .where('id', orderId)
         .preload('messages')
@@ -27,6 +28,8 @@ export default class HistoryController {
         .preload('steps')
         .preload('products')
         .firstOrFail()
+
+      logger.info('order', order)
         
       return await inertia.render('history/single', { order })    
     }

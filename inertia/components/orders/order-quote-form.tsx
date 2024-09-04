@@ -1,6 +1,6 @@
 import { useForm } from "@tanstack/react-form";
 import { css } from "~/styled-system/css";
-import { vstack } from "~/styled-system/patterns";
+import { center, hstack, vstack } from "~/styled-system/patterns";
 import Card from "~/components/ui/card";
 import { Button } from "../ui/button";
 import Input from "../ui/input";
@@ -9,6 +9,8 @@ import { TextArea } from "../ui/textarea";
 import { router } from "@inertiajs/react";
 import { Order } from "~/types/order";
 import { useConfirm } from "../layout/confirm-context";
+import BinIcon from "~/assets/icons/bin.svg?react"
+
 
 type OrderProduct = {
   id?: string;
@@ -28,8 +30,8 @@ interface Props {
 }
 
 const confirmValues = {
-  title: 'title',
-  description: 'desc'
+  title: 'Confirmation de la création du devis',
+  description: 'Êtes-vous sûr de vouloir soumettre le devis actuel au client ?'
 }
 
 export function OrderQuoteForm(props: Props) {
@@ -48,6 +50,7 @@ export function OrderQuoteForm(props: Props) {
       }]
     },
     onSubmit: async ({ value }) => {
+      console.log({value})
       await createQuote(value) 
     }
   }) 
@@ -79,11 +82,14 @@ export function OrderQuoteForm(props: Props) {
               {field.state.value.map((_, i) => (
                 <li
                   id={`product-${i}`}
-                  className={css({ w: "100%" })} 
+                  className={vstack({ alignItems: "start", w: "100%" })} 
                   key={i}
                 >
-                  <Card css={{ w: "100%", p: "1rem" }} withShadow>
+                  <div className={hstack({ justifyContent: "space-between", w: "100%" })}>
                     <h3 className={css({ textStyle: "h3" })}>Produit n°{i + 1}</h3>
+                    <Button variant="danger" onClick={() => field.removeValue(i)}><BinIcon /> Supprimer</Button>
+                  </div>
+                  <Card css={{ w: "100%", p: "1rem" }} withShadow>
                     <form.Field 
                       name={`products[${i}].name`}
                       children={(subfield) => (
@@ -110,15 +116,11 @@ export function OrderQuoteForm(props: Props) {
                       name={`products[${i}].price`}
                       children={(subfield) => (
                         <NumberInput 
-                          label="Prix unité"
-                          // formatOptions={{
-                          //   style: "currency",
-                          //   currency: "EUR"
-                          // }}
+                          label="Prix unité (en €)"
+                          formatOptions={{ minimumFractionDigits: 2, maximumFractionDigits: 3 }}
                           name={subfield.name}
                           value={subfield.state.value}
                           onChange={(details) => {
-                            console.log('details.valueAsNumber', details.valueAsNumber)
                             subfield.handleChange(details.valueAsNumber)
                           }}
                         />
@@ -148,14 +150,12 @@ export function OrderQuoteForm(props: Props) {
                         />
                       )}
                     />
-                    <Button variant="danger" onClick={() => field.removeValue(i)}>Supprimer</Button>
                   </Card>
                 </li>
               ))}
             </ul>
-            <Button 
-              variant="success" 
-              type="button" 
+            <span 
+              className={center({ w: "100%", mt: "1rem", cursor: "pointer", backgroundColor: "white", textStyle: "body", border: "dashed 2px black", borderRadius: "10px", h: "5rem", transition: "ease-in-out", _hover: { backgroundColor: "gray"}})}
               onClick={() => {
                 const element = document.getElementById(`product-${form.state.values.products.length - 1}`);
                 field.pushValue({
@@ -172,14 +172,14 @@ export function OrderQuoteForm(props: Props) {
               }}
             >
               + Ajouter un produit
-            </Button>
+            </span>
           </>
         )}
       />
       <form.Subscribe 
         selector={(state) => [state.canSubmit]}
         children={([canSubmit]) => (
-          <Button type="submit" disabled={!canSubmit}>Créer</Button>
+          <Button size="large" type="submit" disabled={!canSubmit}>+ Créer</Button>
         )}
       />    
     </form>

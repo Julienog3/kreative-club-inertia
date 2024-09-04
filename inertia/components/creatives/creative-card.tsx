@@ -42,7 +42,7 @@ export function CreativeCard(props: Props) {
   return (
     <Link
       href={`/creatives/${username}`}
-      className={css({ borderRadius: "13px" })}
+      className={css({ borderRadius: "10px" })}
     >
       <Card 
         css={{ p: "1rem" }}
@@ -68,7 +68,7 @@ export function CreativeCard(props: Props) {
               ? <img
                 className={css({
                   position: "relative",
-                  borderRadius: "15px",
+                  borderRadius: "8px",
                   border: "solid 2px #000",
                   w: "100%",
                   h: "14rem",
@@ -82,7 +82,7 @@ export function CreativeCard(props: Props) {
                 display: "block",
                 position: "relative",
                 background: "gray",
-                borderRadius: "15px",
+                borderRadius: "8px",
                 border: "solid 2px #000",
                 w: "100%",
                 h: "14rem",
@@ -109,7 +109,7 @@ export function CreativeCard(props: Props) {
                 alignItems: "center",
               })}
             >
-              {avatar && <img
+              {avatar ? <img
                 className={css({
                   border: "solid 2px #000",
                   borderRadius: "12px",
@@ -118,7 +118,16 @@ export function CreativeCard(props: Props) {
                 })}
                 src={avatar}
                 alt=""
-              />}
+              />
+              : <span className={css({
+                display: "block",
+                position: "relative",
+                background: "gray",
+                width: "3rem",
+                height: "3rem",
+                border: "solid 2px #000",
+                borderRadius: "12px",
+                })}/>}
               <div className={vstack({ gap: "0", alignItems: "start" })}>
                 <h2
                   className={css({

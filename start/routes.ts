@@ -118,6 +118,7 @@ router.group(async () => {
   router.get('/', [DashboardController, 'index'])
   router.get('/history', [DashboardController, 'list'])
   router.get('/history/:orderId', [DashboardController, 'show'])
+  router.get('/reviews', [DashboardController, 'reviews'])
 })
 .prefix('dashboard')
 .use(middleware.auth())

@@ -32,6 +32,7 @@ export default function Quote(props: Props) {
           maxWidth: "breakpoint-xl",
           margin: "0 auto",
           p: "1rem",
+          mt: "1rem"
         })}
       >
         <OrderQuoteForm order={order}/> 

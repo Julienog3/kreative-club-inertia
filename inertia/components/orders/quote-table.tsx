@@ -28,11 +28,11 @@ const columns = [
   }),
   columnHelper.accessor("duration", {
     header: () => "Durée",
-    cell: (info) => info.getValue(),
+    cell: (info) => <span>{info.getValue()} jours</span>,
   }),
   columnHelper.accessor("price", {
     header: () => "Prix",
-    cell: (info) => info.getValue(),
+    cell: (info) => <span>{info.getValue()} €</span>,
   }),
 ];
 

@@ -11,7 +11,6 @@ import Card from '~/components/ui/card'
 import ChevronRight from '~/assets/icons/chevron-right.svg?react'
 import React from 'react'
 
-
 interface Props {
   creative: User
 }
@@ -54,7 +53,7 @@ export default function Index(props: Props) {
                 <ChevronRight />
               </li>
               <li className={hstack({ borderBottom: "solid 2px black", w: "100%", p: "1rem" })}>
-                <Link className={css({ w: "100%", h: "100%", display: "block" })} href='/dashboard/comments'>Avis reçus</Link>
+                <Link className={css({ w: "100%", h: "100%", display: "block" })} href='/dashboard/reviews'>Avis reçus</Link>
                 <ChevronRight />
               </li>
             </ul>

@@ -4,6 +4,8 @@ import { Modal, modalTransitionConfig } from "./../../ui/modal/modal";
 import { useStoreAuthModal } from "./auth-modal.store";
 import { useTransition } from "@react-spring/web";
 import SignUpForm from "./forms/signup-form";
+import { vstack } from "~/styled-system/patterns";
+import { css } from "~/styled-system/css";
 
 export enum AuthModalType {
   LOGIN = 0,
@@ -22,11 +24,11 @@ export function AuthModal() {
       <>
         {modalTransition((style, isOpened) => (
           <>
-            {isOpened && <Modal onClose={closeModal} style={{ ...style }} title="Connexion">
-              <LoginForm />
-              <Button onClick={(): void => changeModalType(AuthModalType.SIGNUP)}>
-                Sign up
-              </Button>
+            {isOpened && <Modal onClose={closeModal} style={{ ...style }} title="Connexion" description="Bon retour parmi nous !">
+              <div className={vstack({ justifyItems: "center", width: "100%" })}>
+                <LoginForm />
+                <p className={css({ textStyle: "body", textAlign: "center" })}>Vous n'avez pas de compte ? <span className={css({ color: "purple", cursor: "pointer" })} onClick={(): void => changeModalType(AuthModalType.SIGNUP)}>Créez en un</span></p>
+              </div>
             </Modal>}
           </>
         ))}
@@ -38,11 +40,16 @@ export function AuthModal() {
     return (<>
       {modalTransition((style, isOpened) => (
         <> 
-          {isOpened && <Modal onClose={closeModal} style={{ ...style }} title="Inscription">
-            <SignUpForm />
-            <Button onClick={(): void => changeModalType(AuthModalType.LOGIN)}>
-              Login
-            </Button>
+          {isOpened && <Modal 
+            onClose={closeModal} 
+            style={{ ...style }} 
+            title="Inscription" 
+            description="Bienvenue dans le club !"
+          >
+            <div className={vstack({ justifyItems: "center", width: "100%" })}>
+              <SignUpForm />
+              <p className={css({ textStyle: "body", textAlign: "center" })}>Vous avez déjà un compte ? <span className={css({ color: "purple", cursor: "pointer" })} onClick={(): void => changeModalType(AuthModalType.LOGIN)}>Connectez vous</span></p>
+            </div>
           </Modal>}
         </>
         ))}

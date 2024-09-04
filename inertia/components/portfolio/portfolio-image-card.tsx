@@ -90,7 +90,7 @@ export function PortfolioImageCard({
           w: "100%",
           h: "18rem"
         })}
-        src={'http://localhost:3333' + portfolioImage?.image}
+        src={portfolioImage?.image}
         alt={portfolioImage.title}
       />
     </Card>

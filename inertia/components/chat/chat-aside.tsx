@@ -163,7 +163,7 @@ export function ChatAside(props: Props) {
               <h3 className={css({ textStyle: "h3", mb: "1rem" })}>Timeline</h3>
               <OrderTimeline order={order} />
             </div>
-            <a href={order.files[0].file} download="ouaip">download</a>
+            {/* <a href={order.files[0].file} download="ouaip">download</a> */}
           </div>
         </Card>
         <div className={hstack()}>

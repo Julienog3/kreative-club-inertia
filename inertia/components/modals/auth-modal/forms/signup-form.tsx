@@ -50,39 +50,46 @@ const SignUpForm = () => {
       onSubmit={submit}
       className={vstack({ w: "100%", gap: 4, alignItems: "left" })}
     >
-      <Input
-        type="text"
-        label="Nom d'utilisateur"
-        required
-        value={data.username}
-        onChange={e => setData('username', e.target.value)}
-        errorMessage={errors.username}
-      />
-      <Input
-        type="email"
-        label="Adresse mail"
-        required
-        value={data.email}
-        onChange={e => setData('email', e.target.value)}
-        errorMessage={errors.email}
-      />
-      <Input
-        type="password"
-        label="Mot de passe"
-        required
-        value={data.password}
-        onChange={e => setData('password', e.target.value)}
-        errorMessage={errors.password}
-      />
-      <Input
-        type="password"
-        label="Confirmation du mot de passe"
-        required
-        value={data.password_confirmation}
-        onChange={e => setData('password_confirmation', e.target.value)}
-        errorMessage={errors.password_confirmation}
-      />
-      <Button type="submit" disabled={processing}>S&apos;inscrire</Button>
+      <div className={vstack({ w: "100%", gap: 4, alignItems: "left", mb: "1rem" })}>
+        <Input
+          type="text"
+          label="Nom d'utilisateur"
+          required
+          value={data.username}
+          placeholder="Entrez votre nom d'utilisateur"
+          onChange={e => setData('username', e.target.value)}
+          errorMessage={errors.username}
+        />
+        <Input
+          type="email"
+          label="Adresse mail"
+          required
+          placeholder="Entrez votre email"
+          value={data.email}
+          onChange={e => setData('email', e.target.value)}
+          errorMessage={errors.email}
+        />
+        <Input
+          type="password"
+          label="Mot de passe"
+          required
+          placeholder="Entrez votre mot de passe"
+          value={data.password}
+          onChange={e => setData('password', e.target.value)}
+          errorMessage={errors.password}
+        />
+        <Input
+          type="password"
+          label="Confirmation du mot de passe"
+          placeholder="Entrez votre mot de passe"
+          required
+          value={data.password_confirmation}
+          onChange={e => setData('password_confirmation', e.target.value)}
+          errorMessage={errors.password_confirmation}
+        />
+      </div>
+      
+      <Button size="large" type="submit" disabled={processing}>S&apos;inscrire</Button>
     </form>
   );
 };

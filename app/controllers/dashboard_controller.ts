@@ -13,6 +13,7 @@ export default class DashboardController {
           .preload('customer')
           .preload('steps')
           .preload('messages')
+          .preload('review')
       }
       ).firstOrFail()
 
@@ -43,5 +44,15 @@ export default class DashboardController {
         .firstOrFail()
       return await inertia.render('dashboard/single', { order })    
     }
+  }
+  async reviews({ auth, inertia }: HttpContext) {
+    const user = await auth.getUserOrFail()
+    const sales = await user.related('sales')
+      .query()
+      .preload('review')
+
+    const reviews = sales.map((sale) => sale.review)
+
+    return inertia.render('dashboard/reviews', { reviews })
   }
 }

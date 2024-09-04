@@ -2,9 +2,11 @@ import React, { ReactNode } from 'react'
 import { cva } from '~/styled-system/css'
 
 export type State = 'danger' | 'success' | 'warning' | 'ghost'
+type Size = 'small' | 'medium' | 'large'
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: State
+  size?: Size
   children: ReactNode
 }
 
@@ -16,6 +18,7 @@ const button = cva({
     textStyle: 'body',
     padding: '.65rem',
     transition: 'background',
+    justifyContent: 'center',
     rounded: '5px',
     color: 'black',
     alignItems: 'center',
@@ -61,11 +64,13 @@ const button = cva({
   },
 })
 
-export function Button({ type = 'button', disabled = false, variant, onClick, children }: Props) {
-  return (
+export function Button(props: Props) {
+  const { type = 'button', disabled = false, variant, onClick, children, size } = props
+
+   return (
     <button
       role="button"
-      className={button({ color: variant, disabled })}
+      className={button({ color: variant, size,  disabled })}
       type={type}
       disabled={disabled}
       aria-disabled={disabled}

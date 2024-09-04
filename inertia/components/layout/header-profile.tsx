@@ -13,19 +13,32 @@ export function HeaderProfile({ user }: Props) {
       className={hstack({ cursor: "pointer" })}
     >
       <ArrowDown />
-      <img
-        className={css({
-          borderRadius: "10px",
-          w: "2.75rem",
-          h: "2.75rem",
-          objectFit: "cover",
-          border: "solid 2px black",
+      {user.avatar 
+        ? <img
+          className={css({
+            borderRadius: "10px",
+            w: "2.75rem",
+            h: "2.75rem",
+            objectFit: "cover",
+            border: "solid 2px black",
 
-        })}
-        src={user?.avatar ?? ''}
-        alt="avatar"
-        loading="lazy"
-      />
+          })}
+          src={user?.avatar ?? ''}
+          alt="avatar"
+          loading="lazy"
+        />
+        : <span 
+          className={css({
+            display: "block",
+            position: "relative",
+            background: "gray",
+            w: "2.75rem",
+            h: "2.75rem",
+            border: "solid 2px #000",
+            borderRadius: "10px",
+          })}
+        />
+      }
     </div>
   );
 }

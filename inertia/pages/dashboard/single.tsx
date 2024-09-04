@@ -8,26 +8,34 @@ import { css } from '~/styled-system/css'
 import { hstack, vstack } from '~/styled-system/patterns'
 import { Order } from '~/types/order'
 import RectangleGroupIcon from '~/assets/icons/rectangle-group.svg?react'
+import ListBulletIcon from '~/assets/icons/list-bullet.svg?react'
+
 
 interface Props {
   order: Order
 }
 
+const breadcrumbElements = [
+  {
+    label: "Dashboard", 
+    to: "/dashboard", 
+    icon: <RectangleGroupIcon />
+  },
+  {
+    label: 'Historique',
+    to: '/history',
+    icon: <ListBulletIcon />
+  }
+] 
+
 export default function Index(props: Props) {
   const { order } = props
-
-
-  console.log({ order })
 
   return (
     <>
       <Head title="Détails de commande" />
       <PageHeader color="green">
-        <Breadcrumb elements={[{
-          label: "Dashboard", 
-          to: "/dashboard", 
-          icon: <RectangleGroupIcon />
-        }]} />
+        <Breadcrumb elements={breadcrumbElements} />
         <h2 className={css({ textStyle: "title" })}>
           Détails de commande
         </h2>
@@ -46,10 +54,10 @@ export default function Index(props: Props) {
       >
         <div className={vstack({ w: "100%", h: "100%", alignItems:"start", gap: "0", mt: "1rem" })}>
           <h3 className={css({ textStyle: "h3",mb: "1rem" })}>Commande {order.id}</h3>
-          {order.products && <QuoteTable data={order.products} />}
+          {order.products && order.products.length >= 1 ? <QuoteTable data={order.products} /> : <span className={css({ textStyle: "body" })}>Le devis n'a pas encore été crée.</span>}
         </div>
         <div className={vstack({ pos: "relative", top: "-7rem", w: "1/3", alignItems: "start", gap: "1rem", minWidth: "25rem" })}>
-          <OrderDetailsCard order={order} />
+          <OrderDetailsCard userType='customer' order={order} />
         </div>
       </section>
     </>

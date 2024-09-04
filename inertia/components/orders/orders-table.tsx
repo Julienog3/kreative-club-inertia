@@ -25,7 +25,7 @@ interface RowActionsProps {
 }
 
 export const RowActions = ({ row, type }: RowActionsProps) => {
-  // const page = type === 'customer' ? 'history' : 'history'
+  const page = type === 'customer' ? 'dashboard/history' : 'history'
   
   return (
     <div className={hstack()}>
@@ -34,7 +34,7 @@ export const RowActions = ({ row, type }: RowActionsProps) => {
           <ChatBubblesIcon />
         </Button>
       </Link>
-      <Link href={`/history/${row.original.id}`}>
+      <Link href={`/${page}/${row.original.id}`}>
         <Button variant="ghost">
           <DocumentTextIcon />
         </Button>
